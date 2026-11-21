@@ -37,7 +37,7 @@
 			},
 			"Lihat Detail Undang-Undang": {
 				"Tampilkan Metadata UU": {},
-				"Tampilkan Banner Status Keberlakuan": {},
+				"Tampilkan Status Keberlakuan": {},
 				"Unduh PDF Asli": {}
 			},
 			"Baca Teks Undang-Undang": {
@@ -103,7 +103,7 @@
 			},
 			"Daftarkan Amandemen": {
 				"Tautkan UU Pengubah": {},
-				"Identifikasi Ketentuan yang Berubah": {
+				"Identifikasi Ketentuan Baru": {
 					"Hitung Selisih Teks": {
 						"$ref": "SIPAKA/Pelacak Dokumen Hukum/Lacak Amandemen/Tampilkan Sidebar Detail Perubahan/Bandingkan Versi Pasal/Hitung Selisih Teks"
 					}
@@ -119,7 +119,7 @@
 				"$ref": "SIPAKA/Kelola Akun & Akses/Otorisasi Akses"
 			},
 			"Jelajahi Diskusi": {
-				"Saring berdasarkan Kategori Hukum": {},
+				"Saring Berdasarkan Kategori Hukum": {},
 				"Tampilkan Daftar Diskusi": {}
 			},
 			"Buat Thread Diskusi": {
@@ -137,7 +137,7 @@
 			},
 			"Lihat Thread Diskusi": {
 				"Tampilkan Isi Thread": {},
-				"Urutkan Komentar berdasarkan Upvote": {},
+				"Urutkan Komentar": {},
 				"Tampilkan Lencana Verifikasi": {},
 				"Deteksi Istilah Latin": {
 					"$ref": "SIPAKA/Glosarium Latin/Deteksi Istilah Latin"
@@ -172,7 +172,7 @@
 				"Hapus Konten": {}
 			}
 		},
-		"Kelola Profil & Repositori": {
+		"Kelola Profil": {
 			"Otorisasi Akses": {
 				"$ref": "SIPAKA/Kelola Akun & Akses/Otorisasi Akses"
 			},
@@ -194,23 +194,26 @@
 					}
 				}
 			},
-			"Kelola Repositori": {
-				"Tambah Entri Repositori": {
-					"Buat Entri Studi Kasus": {},
-					"Lampirkan Catatan Pasal": {
-						"Tampilkan Anotasi Pasal": {
-							"$ref": "SIPAKA/Pelacak Dokumen Hukum/Anotasi Teks Undang-Undang/Tampilkan Anotasi Pasal"
-						}
-					},
-					"Lampirkan Analisis Hukum": {}
+		},
+		"Kelola Repositori": {
+			"Otorisasi Akses": {
+				"$ref": "SIPAKA/Kelola Akun & Akses/Otorisasi Akses"
+			},
+			"Tambah Entri Repositori": {
+				"Buat Entri Studi Kasus": {},
+				"Lampirkan Catatan Pasal": {
+					"Tampilkan Anotasi Pasal": {
+						"$ref": "SIPAKA/Pelacak Dokumen Hukum/Anotasi Teks Undang-Undang/Tampilkan Anotasi Pasal"
+					}
 				},
-				"Jelajahi Repositori": {
-					"Saring Entri Repositori": {}
-				},
-				"Ubah Entri Repositori": {},
-				"Hapus Entri Repositori": {},
-				"Atur Visibilitas Entri": {}
-			}
+				"Lampirkan Analisis Hukum": {}
+			},
+			"Jelajahi Repositori": {
+				"Saring Entri Repositori": {}
+			},
+			"Ubah Entri Repositori": {},
+			"Hapus Entri Repositori": {},
+			"Atur Visibilitas Entri": {}
 		},
 		"Glosarium Latin": {
 			"Otorisasi Akses": {
@@ -255,7 +258,7 @@
 					"$ref": "SIPAKA/Asisten Riset AI/Tangani Permintaan AI"
 				},
 				"Tambah Entri Repositori": {
-					"$ref": "SIPAKA/Kelola Profil & Repositori/Kelola Repositori/Tambah Entri Repositori"
+					"$ref": "SIPAKA/Kelola Repositori/Tambah Entri Repositori"
 				}
 			},
 			"Cari dengan AI": {
@@ -276,7 +279,7 @@
 					"$ref": "SIPAKA/Asisten Riset AI/Tangani Permintaan AI"
 				},
 				"Tambah Entri Repositori": {
-					"$ref": "SIPAKA/Kelola Profil & Repositori/Kelola Repositori/Tambah Entri Repositori"
+					"$ref": "SIPAKA/Kelola Repositori/Tambah Entri Repositori"
 				}
 			},
 			"Laporkan Jawaban AI Keliru": {
