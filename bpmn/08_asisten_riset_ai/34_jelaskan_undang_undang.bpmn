@@ -6,6 +6,7 @@
   <bpmn:message id="Message_Penjelasan_AI" name="Penjelasan AI" />
   <bpmn:message id="Message_Permintaan_simpan_ke_repositori" name="Permintaan simpan ke repositori" />
   <bpmn:message id="Message_Selesai_membaca" name="Selesai membaca" />
+  <bpmn:dataStore id="d_uu-store" name="Undang-Undang" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Jelaskan Undang-Undang" processRef="jelaskan_undang_undang" />
     <bpmn:participant id="user" name="Pengguna" />
@@ -26,7 +27,19 @@
       <bpmn:messageEventDefinition id="tolak-def" messageRef="Message_Akses_ditolak" />
     </bpmn:endEvent>
     <bpmn:exclusiveGateway id="jenis" name="Jenis penjelasan?" default="f-jenis-ringkas" />
-    <bpmn:serviceTask id="makna" name="Jelaskan Makna Pasal" />
+    <bpmn:serviceTask id="makna" name="Jelaskan Makna Pasal">
+      <bpmn:ioSpecification id="makna-io">
+        <bpmn:dataInput id="makna-in-1" name="Undang-Undang" />
+        <bpmn:inputSet id="makna-inputs">
+          <bpmn:dataInputRefs>makna-in-1</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="makna-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="makna-dia-1">
+        <bpmn:sourceRef>d_uu</bpmn:sourceRef>
+        <bpmn:targetRef>makna-in-1</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
     <bpmn:subProcess id="ringkas" name="Ringkas Linimasa Amandemen">
       <bpmn:startEvent id="r1" name="Mulai meringkas linimasa" />
       <bpmn:callActivity id="r2" name="Kelompokkan Amandemen per Tahun" calledElement="lacak_amandemen">
@@ -81,14 +94,15 @@
     <bpmn:sequenceFlow id="f-simpan-repo" sourceRef="simpan" targetRef="repo" />
     <bpmn:sequenceFlow id="f-repo-tersimpan" sourceRef="repo" targetRef="tersimpan" />
     <bpmn:sequenceFlow id="f-tutup-selesai" sourceRef="tutup" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_uu" name="Undang-Undang" dataStoreRef="d_uu-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="1940" height="340" />
+        <dc:Bounds x="0" y="0" width="1940" height="440" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="user_di" bpmnElement="user" isHorizontal="true">
-        <dc:Bounds x="0" y="380" width="1940" height="70" />
+        <dc:Bounds x="0" y="480" width="1940" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -189,52 +203,62 @@
       <bpmndi:BPMNShape id="selesai_di" bpmnElement="selesai">
         <dc:Bounds x="1754" y="217" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1727" y="258" width="90" height="23" />
+          <dc:Bounds x="1707" y="258" width="130" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_uu_di" bpmnElement="d_uu">
+        <dc:Bounds x="716" y="360" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="704" y="415" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
-        <di:waypoint x="78" y="380" />
+        <di:waypoint x="78" y="480" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="82" y="222" width="108" height="23" />
+          <dc:Bounds x="82" y="272" width="108" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-user_di" bpmnElement="m-tolak-user">
         <di:waypoint x="421" y="253" />
-        <di:waypoint x="421" y="380" />
+        <di:waypoint x="421" y="480" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="426" y="311" width="74" height="11" />
+          <dc:Bounds x="426" y="355" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-gagal-user_di" bpmnElement="m-gagal-user">
         <di:waypoint x="1436" y="253" />
-        <di:waypoint x="1436" y="380" />
+        <di:waypoint x="1436" y="480" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1341" y="352" width="90" height="23" />
+          <dc:Bounds x="1341" y="452" width="90" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-hasil-user_di" bpmnElement="m-hasil-user">
         <di:waypoint x="1486" y="78" />
         <di:waypoint x="1512" y="78" />
-        <di:waypoint x="1512" y="380" />
+        <di:waypoint x="1512" y="480" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1517" y="364" width="74" height="11" />
+          <dc:Bounds x="1517" y="464" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-user-simpan_di" bpmnElement="m-user-simpan">
-        <di:waypoint x="1692" y="380" />
+        <di:waypoint x="1692" y="480" />
         <di:waypoint x="1692" y="78" />
         <di:waypoint x="1670" y="78" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1697" y="352" width="96" height="23" />
+          <dc:Bounds x="1697" y="452" width="96" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-user-tutup_di" bpmnElement="m-user-tutup">
-        <di:waypoint x="1654" y="380" />
+        <di:waypoint x="1654" y="480" />
         <di:waypoint x="1654" y="253" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1609" y="305" width="40" height="23" />
+          <dc:Bounds x="1609" y="355" width="40" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="makna-dia-1_di" bpmnElement="makna-dia-1">
+        <di:waypoint x="741" y="360" />
+        <di:waypoint x="741" y="110" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-r1-r2_di" bpmnElement="f-r1-r2">
         <di:waypoint x="562" y="240" />

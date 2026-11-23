@@ -1,6 +1,8 @@
 tok 1.0 "Kelola Peran Pengguna (Kelola Akun & Akses)"
 
 pool p "Kelola Peran Pengguna" process=kelola_peran_pengguna
+  store d_peran "Peran Pengguna"
+  store d_sesi "Sesi"
   start mulai "Permintaan ubah peran diterima" message="Permintaan ubah peran"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -22,6 +24,10 @@ flow aksi -> cabut "cabut" default
 flow tetapkan -> gabung
 flow cabut -> gabung
 flow gabung -> sinkron -> selesai
+
+writes tetapkan d_peran
+writes cabut d_peran
+writes sinkron d_sesi
 
 message admin -> mulai "Permintaan ubah peran"
 message tolak -> admin "Akses ditolak"

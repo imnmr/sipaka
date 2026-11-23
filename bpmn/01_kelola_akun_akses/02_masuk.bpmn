@@ -5,6 +5,8 @@
   <bpmn:message id="Message_Pesan_kredensial_salah" name="Pesan kredensial salah" />
   <bpmn:message id="Message_Kredensial_ulang" name="Kredensial ulang" />
   <bpmn:message id="Message_Akun_dikunci_sementara" name="Akun dikunci sementara" />
+  <bpmn:dataStore id="d_akun-store" name="Akun Pengguna" />
+  <bpmn:dataStore id="d_sesi-store" name="Sesi" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Masuk" processRef="masuk" />
     <bpmn:participant id="user" name="Pengguna" />
@@ -18,9 +20,33 @@
     <bpmn:startEvent id="mulai" name="Kredensial diterima">
       <bpmn:messageEventDefinition id="mulai-def" messageRef="Message_Kredensial_login" />
     </bpmn:startEvent>
-    <bpmn:serviceTask id="verif" name="Verifikasi Kredensial" />
+    <bpmn:serviceTask id="verif" name="Verifikasi Kredensial">
+      <bpmn:ioSpecification id="verif-io">
+        <bpmn:dataInput id="verif-in-1" name="Akun Pengguna" />
+        <bpmn:inputSet id="verif-inputs">
+          <bpmn:dataInputRefs>verif-in-1</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="verif-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="verif-dia-1">
+        <bpmn:sourceRef>d_akun</bpmn:sourceRef>
+        <bpmn:targetRef>verif-in-1</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="benar" name="Kredensial benar?" default="f-benar-gagal" />
-    <bpmn:serviceTask id="sesi" name="Buat Sesi" />
+    <bpmn:serviceTask id="sesi" name="Buat Sesi">
+      <bpmn:ioSpecification id="sesi-io">
+        <bpmn:dataOutput id="sesi-out-2" name="Sesi" />
+        <bpmn:inputSet id="sesi-inputs" />
+        <bpmn:outputSet id="sesi-outputs">
+          <bpmn:dataOutputRefs>sesi-out-2</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="sesi-doa-2">
+        <bpmn:sourceRef>sesi-out-2</bpmn:sourceRef>
+        <bpmn:targetRef>d_sesi</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:endEvent id="sukses" name="Pengguna masuk ke beranda">
       <bpmn:messageEventDefinition id="sukses-def" messageRef="Message_Sesi_dan_beranda" />
     </bpmn:endEvent>
@@ -43,14 +69,16 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="f-batas-kunci" name="tidak" sourceRef="batas" targetRef="kunci" />
     <bpmn:sequenceFlow id="f-ulang-verif" sourceRef="ulang" targetRef="verif" />
+    <bpmn:dataStoreReference id="d_akun" name="Akun Pengguna" dataStoreRef="d_akun-store" />
+    <bpmn:dataStoreReference id="d_sesi" name="Sesi" dataStoreRef="d_sesi-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="780" height="360" />
+        <dc:Bounds x="0" y="0" width="780" height="370" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="user_di" bpmnElement="user" isHorizontal="true">
-        <dc:Bounds x="0" y="400" width="780" height="70" />
+        <dc:Bounds x="0" y="410" width="780" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -82,54 +110,75 @@
       <bpmndi:BPMNShape id="batas_di" bpmnElement="batas" isMarkerVisible="true">
         <dc:Bounds x="546" y="175" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="498" y="228" width="68" height="35" />
+          <dc:Bounds x="498" y="138" width="68" height="35" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ulang_di" bpmnElement="ulang">
         <dc:Bounds x="646" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="kunci_di" bpmnElement="kunci">
-        <dc:Bounds x="678" y="290" width="36" height="36" />
+        <dc:Bounds x="678" y="297" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="617" y="329" width="74" height="23" />
+          <dc:Bounds x="617" y="336" width="74" height="23" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_akun_di" bpmnElement="d_akun">
+        <dc:Bounds x="171" y="175" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="230" width="74" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_sesi_di" bpmnElement="d_sesi">
+        <dc:Bounds x="421" y="290" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="434" y="345" width="24" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
-        <di:waypoint x="78" y="400" />
+        <di:waypoint x="78" y="410" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="232" width="90" height="11" />
+          <dc:Bounds x="83" y="394" width="90" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-sukses-user_di" bpmnElement="m-sukses-user">
         <di:waypoint x="587" y="78" />
         <di:waypoint x="603" y="78" />
-        <di:waypoint x="603" y="400" />
+        <di:waypoint x="603" y="410" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="600" y="66" width="90" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-gagal-user_di" bpmnElement="m-gagal-user">
-        <di:waypoint x="446" y="240" />
-        <di:waypoint x="446" y="400" />
+        <di:waypoint x="496" y="208" />
+        <di:waypoint x="516" y="208" />
+        <di:waypoint x="516" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="451" y="308" width="90" height="23" />
+          <dc:Bounds x="421" y="382" width="90" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-user-ulang_di" bpmnElement="m-user-ulang">
-        <di:waypoint x="766" y="400" />
+        <di:waypoint x="766" y="410" />
         <di:waypoint x="766" y="208" />
         <di:waypoint x="746" y="208" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="705" y="372" width="56" height="23" />
+          <dc:Bounds x="705" y="382" width="56" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-kunci-user_di" bpmnElement="m-kunci-user">
-        <di:waypoint x="696" y="326" />
-        <di:waypoint x="696" y="400" />
+        <di:waypoint x="696" y="333" />
+        <di:waypoint x="696" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="623" y="372" width="68" height="23" />
+          <dc:Bounds x="623" y="382" width="68" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="verif-dia-1_di" bpmnElement="verif-dia-1">
+        <di:waypoint x="196" y="175" />
+        <di:waypoint x="196" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sesi-doa-2_di" bpmnElement="sesi-doa-2">
+        <di:waypoint x="446" y="110" />
+        <di:waypoint x="446" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-verif_di" bpmnElement="f-mulai-verif">
         <di:waypoint x="96" y="70" />
@@ -171,10 +220,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-batas-kunci_di" bpmnElement="f-batas-kunci">
         <di:waypoint x="571" y="225" />
-        <di:waypoint x="571" y="308" />
-        <di:waypoint x="678" y="308" />
+        <di:waypoint x="571" y="315" />
+        <di:waypoint x="678" y="315" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="537" y="292" width="28" height="11" />
+          <dc:Bounds x="537" y="265" width="28" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-ulang-verif_di" bpmnElement="f-ulang-verif">

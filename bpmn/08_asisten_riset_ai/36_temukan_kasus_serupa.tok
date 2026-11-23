@@ -1,6 +1,7 @@
 tok 1.0 "Temukan Kasus Serupa (Asisten Riset AI)"
 
 pool p "Temukan Kasus Serupa" process=temukan_kasus_serupa
+  store d_thread "Thread Diskusi"
   start mulai "Deskripsi kasus diterima" message="Deskripsi kasus"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -31,6 +32,8 @@ flow tunggu -> simpan
 flow tunggu -> tutup
 flow simpan -> repo -> tersimpan
 flow tutup -> selesai
+
+reads paralel d_thread
 
 message user -> mulai "Deskripsi kasus"
 message tolak -> user "Akses ditolak"

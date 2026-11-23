@@ -5,6 +5,9 @@
   <bpmn:message id="Message_Konten_dilaporkan_untuk_ditinjau" name="Konten dilaporkan untuk ditinjau" />
   <bpmn:message id="Message_Keputusan_moderator" name="Keputusan moderator" />
   <bpmn:message id="Message_Hasil_tindak_lanjut_laporan" name="Hasil tindak lanjut laporan" />
+  <bpmn:dataStore id="d_lapkon-store" name="Laporan Konten" />
+  <bpmn:dataStore id="d_thread-store" name="Thread Diskusi" />
+  <bpmn:dataStore id="d_komen-store" name="Komentar" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Moderasi Konten" processRef="moderasi_konten" />
     <bpmn:participant id="user" name="Pengguna" />
@@ -24,13 +27,67 @@
     <bpmn:endEvent id="tolak" name="Akses ditolak">
       <bpmn:messageEventDefinition id="tolak-def" messageRef="Message_Akses_ditolak" />
     </bpmn:endEvent>
-    <bpmn:serviceTask id="lapor" name="Laporkan Konten" />
-    <bpmn:sendTask id="tinjau" name="Tinjau Konten Dilaporkan" messageRef="Message_Konten_dilaporkan_untuk_ditinjau" />
+    <bpmn:serviceTask id="lapor" name="Laporkan Konten">
+      <bpmn:ioSpecification id="lapor-io">
+        <bpmn:dataOutput id="lapor-out-1" name="Laporan Konten" />
+        <bpmn:inputSet id="lapor-inputs" />
+        <bpmn:outputSet id="lapor-outputs">
+          <bpmn:dataOutputRefs>lapor-out-1</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="lapor-doa-1">
+        <bpmn:sourceRef>lapor-out-1</bpmn:sourceRef>
+        <bpmn:targetRef>d_lapkon</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:sendTask id="tinjau" name="Tinjau Konten Dilaporkan" messageRef="Message_Konten_dilaporkan_untuk_ditinjau">
+      <bpmn:ioSpecification id="tinjau-io">
+        <bpmn:dataInput id="tinjau-in-2" name="Laporan Konten" />
+        <bpmn:inputSet id="tinjau-inputs">
+          <bpmn:dataInputRefs>tinjau-in-2</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="tinjau-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="tinjau-dia-2">
+        <bpmn:sourceRef>d_lapkon</bpmn:sourceRef>
+        <bpmn:targetRef>tinjau-in-2</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:sendTask>
     <bpmn:receiveTask id="keputusan" name="Terima keputusan moderator" messageRef="Message_Keputusan_moderator" />
     <bpmn:callActivity id="auth2" name="Otorisasi Akses" calledElement="otorisasi_akses" />
     <bpmn:exclusiveGateway id="melanggar" name="Konten melanggar aturan?" default="f-melanggar-abaikan" />
-    <bpmn:serviceTask id="hapus" name="Hapus Konten" />
-    <bpmn:serviceTask id="abaikan" name="Tutup laporan tanpa tindakan" />
+    <bpmn:serviceTask id="hapus" name="Hapus Konten">
+      <bpmn:ioSpecification id="hapus-io">
+        <bpmn:dataOutput id="hapus-out-3" name="Thread Diskusi" />
+        <bpmn:dataOutput id="hapus-out-4" name="Komentar" />
+        <bpmn:inputSet id="hapus-inputs" />
+        <bpmn:outputSet id="hapus-outputs">
+          <bpmn:dataOutputRefs>hapus-out-3</bpmn:dataOutputRefs>
+          <bpmn:dataOutputRefs>hapus-out-4</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="hapus-doa-3">
+        <bpmn:sourceRef>hapus-out-3</bpmn:sourceRef>
+        <bpmn:targetRef>d_thread</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+      <bpmn:dataOutputAssociation id="hapus-doa-4">
+        <bpmn:sourceRef>hapus-out-4</bpmn:sourceRef>
+        <bpmn:targetRef>d_komen</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="abaikan" name="Tutup laporan tanpa tindakan">
+      <bpmn:ioSpecification id="abaikan-io">
+        <bpmn:dataOutput id="abaikan-out-5" name="Laporan Konten" />
+        <bpmn:inputSet id="abaikan-inputs" />
+        <bpmn:outputSet id="abaikan-outputs">
+          <bpmn:dataOutputRefs>abaikan-out-5</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="abaikan-doa-5">
+        <bpmn:sourceRef>abaikan-out-5</bpmn:sourceRef>
+        <bpmn:targetRef>d_lapkon</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="gabung" />
     <bpmn:endEvent id="selesai" name="Laporan telah ditindaklanjuti">
       <bpmn:messageEventDefinition id="selesai-def" messageRef="Message_Hasil_tindak_lanjut_laporan" />
@@ -52,17 +109,20 @@
     <bpmn:sequenceFlow id="f-hapus-gabung" sourceRef="hapus" targetRef="gabung" />
     <bpmn:sequenceFlow id="f-abaikan-gabung" sourceRef="abaikan" targetRef="gabung" />
     <bpmn:sequenceFlow id="f-gabung-selesai" sourceRef="gabung" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_lapkon" name="Laporan Konten" dataStoreRef="d_lapkon-store" />
+    <bpmn:dataStoreReference id="d_thread" name="Thread Diskusi" dataStoreRef="d_thread-store" />
+    <bpmn:dataStoreReference id="d_komen" name="Komentar" dataStoreRef="d_komen-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="1420" height="270" />
+        <dc:Bounds x="0" y="0" width="1420" height="470" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="user_di" bpmnElement="user" isHorizontal="true">
-        <dc:Bounds x="0" y="310" width="1420" height="70" />
+        <dc:Bounds x="0" y="510" width="1420" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="admin_di" bpmnElement="admin" isHorizontal="true">
-        <dc:Bounds x="0" y="420" width="1420" height="70" />
+        <dc:Bounds x="0" y="620" width="1420" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -118,40 +178,79 @@
           <dc:Bounds x="1322" y="26" width="84" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_lapkon_di" bpmnElement="d_lapkon">
+        <dc:Bounds x="571" y="175" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="556" y="230" width="80" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_thread_di" bpmnElement="d_thread">
+        <dc:Bounds x="1121" y="290" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1062" y="343" width="80" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_komen_di" bpmnElement="d_komen">
+        <dc:Bounds x="1121" y="390" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1123" y="445" width="46" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
-        <di:waypoint x="78" y="310" />
+        <di:waypoint x="78" y="510" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="187" width="80" height="23" />
+          <dc:Bounds x="83" y="287" width="80" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-user_di" bpmnElement="m-tolak-user">
         <di:waypoint x="446" y="218" />
-        <di:waypoint x="446" y="310" />
+        <di:waypoint x="446" y="510" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="451" y="252" width="74" height="11" />
+          <dc:Bounds x="451" y="352" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tinjau-admin_di" bpmnElement="m-tinjau-admin">
-        <di:waypoint x="596" y="110" />
-        <di:waypoint x="596" y="420" />
+        <di:waypoint x="646" y="78" />
+        <di:waypoint x="660" y="78" />
+        <di:waypoint x="660" y="620" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="495" y="116" width="96" height="23" />
+          <dc:Bounds x="559" y="592" width="96" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-admin-keputusan_di" bpmnElement="m-admin-keputusan">
-        <di:waypoint x="746" y="420" />
+        <di:waypoint x="746" y="620" />
         <di:waypoint x="746" y="110" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="750" y="253" width="108" height="11" />
+          <dc:Bounds x="750" y="353" width="108" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-selesai-user_di" bpmnElement="m-selesai-user">
         <di:waypoint x="1364" y="88" />
-        <di:waypoint x="1364" y="310" />
+        <di:waypoint x="1364" y="510" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1252" y="282" width="108" height="23" />
+          <dc:Bounds x="1252" y="482" width="108" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="lapor-doa-1_di" bpmnElement="lapor-doa-1">
+        <di:waypoint x="492" y="110" />
+        <di:waypoint x="571" y="178" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="tinjau-dia-2_di" bpmnElement="tinjau-dia-2">
+        <di:waypoint x="596" y="175" />
+        <di:waypoint x="596" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hapus-doa-3_di" bpmnElement="hapus-doa-3">
+        <di:waypoint x="1146" y="110" />
+        <di:waypoint x="1146" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hapus-doa-4_di" bpmnElement="hapus-doa-4">
+        <di:waypoint x="1146" y="110" />
+        <di:waypoint x="1146" y="390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="abaikan-doa-5_di" bpmnElement="abaikan-doa-5">
+        <di:waypoint x="1096" y="200" />
+        <di:waypoint x="621" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
         <di:waypoint x="96" y="70" />

@@ -1,6 +1,7 @@
 tok 1.0 "Tambah Entri Repositori (Kelola Repositori)"
 
 pool p "Tambah Entri Repositori" process=tambah_entri_repositori
+  store d_entri "Entri Repositori"
   start mulai "Data entri diterima" message="Data entri repositori"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -30,6 +31,8 @@ flow analisis -> lampira "ya" when="lampirkanAnalisis"
 flow analisis -> m2 "tidak" default
 flow lampira -> m2
 flow m2 -> simpan -> selesai
+
+writes simpan d_entri
 
 message user -> mulai "Data entri repositori"
 message tolak -> user "Akses ditolak"

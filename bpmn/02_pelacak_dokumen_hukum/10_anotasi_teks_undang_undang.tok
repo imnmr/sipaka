@@ -1,6 +1,7 @@
 tok 1.0 "Anotasi Teks Undang-Undang (Pelacak Dokumen Hukum)"
 
 pool p "Anotasi Teks Undang-Undang" process=anotasi_teks_undang_undang
+  store d_anot "Anotasi"
   start mulai "Permintaan anotasi diterima" message="Pasal dan aksi anotasi"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -41,6 +42,12 @@ flow tidak -> batal
 flow tampil -> gabung
 flow tanda -> gabung
 flow gabung -> selesai
+
+writes buat d_anot
+writes ubah d_anot
+writes hapus d_anot
+reads tampil d_anot
+writes tanda d_anot
 
 message user -> mulai "Pasal dan aksi anotasi"
 message tolak -> user "Akses ditolak"

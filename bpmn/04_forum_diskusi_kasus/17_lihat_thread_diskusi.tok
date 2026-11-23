@@ -1,6 +1,8 @@
 tok 1.0 "Lihat Thread Diskusi (Forum Diskusi Kasus)"
 
 pool p "Lihat Thread Diskusi" process=lihat_thread_diskusi
+  store d_thread "Thread Diskusi"
+  store d_komen "Komentar"
   start mulai "Permintaan buka thread diterima" message="Permintaan buka thread"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -32,6 +34,10 @@ flow tunggu -> istilah
 flow tunggu -> tutup
 flow istilah -> popup -> loop
 flow tutup -> selesai
+
+reads isi d_thread
+reads urut d_komen
+reads lencana d_komen
 
 message user -> mulai "Permintaan buka thread"
 message tolak -> user "Akses ditolak"

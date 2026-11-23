@@ -1,6 +1,7 @@
 tok 1.0 "Jelaskan Undang-Undang (Asisten Riset AI)"
 
 pool p "Jelaskan Undang-Undang" process=jelaskan_undang_undang
+  store d_uu "Undang-Undang"
   start mulai "Permintaan penjelasan diterima" message="Pasal atau linimasa yang dijelaskan"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -42,6 +43,8 @@ flow tunggu -> simpan
 flow tunggu -> tutup
 flow simpan -> repo -> tersimpan
 flow tutup -> selesai
+
+reads makna d_uu
 
 message user -> mulai "Pasal atau linimasa yang dijelaskan"
 message tolak -> user "Akses ditolak"

@@ -1,6 +1,7 @@
 tok 1.0 "Kirim Komentar (Forum Diskusi Kasus)"
 
 pool p "Kirim Komentar" process=kirim_komentar
+  store d_komen "Komentar"
   start mulai "Komentar diterima" message="Isi komentar"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -23,6 +24,8 @@ flow ok -> simpan "ya" when="komentarValid"
 flow ok -> pesan "tidak" default
 flow pesan -> perbaiki -> valid
 flow simpan -> poin -> selesai
+
+writes simpan d_komen
 
 message user -> mulai "Isi komentar"
 message tolak -> user "Akses ditolak"

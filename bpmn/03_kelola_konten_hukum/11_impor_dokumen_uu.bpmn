@@ -8,6 +8,7 @@
   <bpmn:message id="Message_Daftar_kesalahan_metadata" name="Daftar kesalahan metadata" />
   <bpmn:message id="Message_Metadata_diperbaiki" name="Metadata diperbaiki" />
   <bpmn:message id="Message_Konfirmasi_publikasi_UU" name="Konfirmasi publikasi UU" />
+  <bpmn:dataStore id="d_uu-store" name="Undang-Undang" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Impor Dokumen UU" processRef="impor_dokumen_uu" />
     <bpmn:participant id="admin" name="Admin" />
@@ -41,11 +42,35 @@
     </bpmn:intermediateCatchEvent>
     <bpmn:endEvent id="dibatalkan" name="Impor dibatalkan" />
     <bpmn:serviceTask id="struktur" name="Ekstrak Struktur Dokumen" />
-    <bpmn:serviceTask id="valid" name="Validasi Metadata UU" />
+    <bpmn:serviceTask id="valid" name="Validasi Metadata UU">
+      <bpmn:ioSpecification id="valid-io">
+        <bpmn:dataInput id="valid-in-1" name="Undang-Undang" />
+        <bpmn:inputSet id="valid-inputs">
+          <bpmn:dataInputRefs>valid-in-1</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="valid-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="valid-dia-1">
+        <bpmn:sourceRef>d_uu</bpmn:sourceRef>
+        <bpmn:targetRef>valid-in-1</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="metaok" name="Metadata valid dan lengkap?" default="f-metaok-salah" />
     <bpmn:sendTask id="salah" name="Kirim daftar kesalahan metadata" messageRef="Message_Daftar_kesalahan_metadata" />
     <bpmn:receiveTask id="koreksi" name="Terima metadata yang diperbaiki" messageRef="Message_Metadata_diperbaiki" />
-    <bpmn:serviceTask id="terbit" name="Terbitkan Dokumen UU" />
+    <bpmn:serviceTask id="terbit" name="Terbitkan Dokumen UU">
+      <bpmn:ioSpecification id="terbit-io">
+        <bpmn:dataOutput id="terbit-out-2" name="Undang-Undang" />
+        <bpmn:inputSet id="terbit-inputs" />
+        <bpmn:outputSet id="terbit-outputs">
+          <bpmn:dataOutputRefs>terbit-out-2</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="terbit-doa-2">
+        <bpmn:sourceRef>terbit-out-2</bpmn:sourceRef>
+        <bpmn:targetRef>d_uu</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:endEvent id="selesai" name="Dokumen UU tersedia bagi pengguna">
       <bpmn:messageEventDefinition id="selesai-def" messageRef="Message_Konfirmasi_publikasi_UU" />
     </bpmn:endEvent>
@@ -74,14 +99,15 @@
     <bpmn:sequenceFlow id="f-salah-koreksi" sourceRef="salah" targetRef="koreksi" />
     <bpmn:sequenceFlow id="f-koreksi-valid" sourceRef="koreksi" targetRef="valid" />
     <bpmn:sequenceFlow id="f-terbit-selesai" sourceRef="terbit" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_uu" name="Undang-Undang" dataStoreRef="d_uu-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="1330" height="360" />
+        <dc:Bounds x="0" y="0" width="1330" height="370" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="admin_di" bpmnElement="admin" isHorizontal="true">
-        <dc:Bounds x="0" y="400" width="1330" height="70" />
+        <dc:Bounds x="0" y="410" width="1330" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -126,15 +152,15 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="batal_di" bpmnElement="batal">
-        <dc:Bounds x="953" y="290" width="36" height="36" />
+        <dc:Bounds x="953" y="297" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="870" y="329" width="96" height="23" />
+          <dc:Bounds x="904" y="336" width="62" height="35" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="dibatalkan_di" bpmnElement="dibatalkan">
-        <dc:Bounds x="1078" y="290" width="36" height="36" />
+        <dc:Bounds x="1078" y="297" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1051" y="331" width="90" height="11" />
+          <dc:Bounds x="1051" y="338" width="90" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="struktur_di" bpmnElement="struktur">
@@ -164,64 +190,78 @@
           <dc:Bounds x="1218" y="2" width="56" height="47" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_uu_di" bpmnElement="d_uu">
+        <dc:Bounds x="821" y="290" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="809" y="345" width="74" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-admin-mulai_di" bpmnElement="m-admin-mulai">
-        <di:waypoint x="78" y="400" />
+        <di:waypoint x="78" y="410" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="232" width="74" height="11" />
+          <dc:Bounds x="83" y="237" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-admin_di" bpmnElement="m-tolak-admin">
         <di:waypoint x="446" y="218" />
-        <di:waypoint x="446" y="400" />
+        <di:waypoint x="446" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="451" y="297" width="74" height="11" />
+          <dc:Bounds x="451" y="302" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-gagalbaca-admin_di" bpmnElement="m-gagalbaca-admin">
         <di:waypoint x="696" y="240" />
-        <di:waypoint x="696" y="400" />
+        <di:waypoint x="696" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="701" y="308" width="84" height="23" />
+          <dc:Bounds x="701" y="313" width="84" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-admin-ulang_di" bpmnElement="m-admin-ulang">
-        <di:waypoint x="1009" y="400" />
+        <di:waypoint x="1009" y="410" />
         <di:waypoint x="1009" y="208" />
         <di:waypoint x="987" y="208" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1014" y="384" width="102" height="11" />
+          <dc:Bounds x="1014" y="394" width="102" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-admin-batal_di" bpmnElement="m-admin-batal">
-        <di:waypoint x="971" y="400" />
-        <di:waypoint x="971" y="326" />
+        <di:waypoint x="971" y="410" />
+        <di:waypoint x="971" y="333" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="904" y="384" width="62" height="11" />
+          <dc:Bounds x="904" y="394" width="62" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-salah-admin_di" bpmnElement="m-salah-admin">
         <di:waypoint x="1146" y="208" />
         <di:waypoint x="1172" y="208" />
-        <di:waypoint x="1172" y="400" />
+        <di:waypoint x="1172" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1177" y="360" width="52" height="35" />
+          <dc:Bounds x="1177" y="370" width="52" height="35" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-admin-koreksi_di" bpmnElement="m-admin-koreksi">
-        <di:waypoint x="1246" y="400" />
+        <di:waypoint x="1246" y="410" />
         <di:waypoint x="1246" y="240" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1185" y="309" width="56" height="23" />
+          <dc:Bounds x="1185" y="314" width="56" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-selesai-admin_di" bpmnElement="m-selesai-admin">
         <di:waypoint x="1262" y="78" />
         <di:waypoint x="1296" y="78" />
-        <di:waypoint x="1296" y="400" />
+        <di:waypoint x="1296" y="410" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1270" y="82" width="56" height="35" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="valid-dia-1_di" bpmnElement="valid-dia-1">
+        <di:waypoint x="846" y="290" />
+        <di:waypoint x="846" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="terbit-doa-2_di" bpmnElement="terbit-doa-2">
+        <di:waypoint x="1055" y="110" />
+        <di:waypoint x="871" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
         <di:waypoint x="96" y="70" />
@@ -274,9 +314,10 @@
         <di:waypoint x="953" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-tunggu1-batal_di" bpmnElement="f-tunggu1-batal">
-        <di:waypoint x="846" y="225" />
-        <di:waypoint x="846" y="308" />
-        <di:waypoint x="953" y="308" />
+        <di:waypoint x="871" y="200" />
+        <di:waypoint x="928" y="200" />
+        <di:waypoint x="928" y="315" />
+        <di:waypoint x="953" y="315" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-ulang-urai_di" bpmnElement="f-ulang-urai">
         <di:waypoint x="971" y="182" />
@@ -285,8 +326,8 @@
         <di:waypoint x="446" y="110" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-batal-dibatalkan_di" bpmnElement="f-batal-dibatalkan">
-        <di:waypoint x="989" y="308" />
-        <di:waypoint x="1078" y="308" />
+        <di:waypoint x="989" y="315" />
+        <di:waypoint x="1078" y="315" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-struktur-valid_di" bpmnElement="f-struktur-valid">
         <di:waypoint x="746" y="70" />
@@ -318,8 +359,8 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-koreksi-valid_di" bpmnElement="f-koreksi-valid">
         <di:waypoint x="1246" y="160" />
-        <di:waypoint x="1246" y="122" />
-        <di:waypoint x="846" y="122" />
+        <di:waypoint x="1246" y="130" />
+        <di:waypoint x="846" y="130" />
         <di:waypoint x="846" y="110" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-terbit-selesai_di" bpmnElement="f-terbit-selesai">

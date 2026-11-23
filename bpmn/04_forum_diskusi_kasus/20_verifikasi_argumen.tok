@@ -1,6 +1,7 @@
 tok 1.0 "Verifikasi Argumen (Forum Diskusi Kasus)"
 
 pool p "Verifikasi Argumen" process=verifikasi_argumen
+  store d_komen "Komentar"
   start mulai "Permintaan verifikasi diterima" message="Argumen yang dipilih"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan (peran dosen/ahli)?"
@@ -23,6 +24,9 @@ flow tinjau -> hasil -> sesuai
 flow sesuai -> tandai "ya" when="argumenSesuai"
 flow sesuai -> ditolak "tidak" default
 flow tandai -> lencana -> poin -> selesai
+
+writes tandai d_komen
+writes lencana d_komen
 
 message dosen -> mulai "Argumen yang dipilih"
 message tolak -> dosen "Akses ditolak"

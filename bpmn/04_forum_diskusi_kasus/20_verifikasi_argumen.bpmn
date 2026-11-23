@@ -6,6 +6,7 @@
   <bpmn:message id="Message_Keputusan_verifikasi" name="Keputusan verifikasi" />
   <bpmn:message id="Message_Konfirmasi_verifikasi" name="Konfirmasi verifikasi" />
   <bpmn:message id="Message_Argumen_tidak_diverifikasi" name="Argumen tidak diverifikasi" />
+  <bpmn:dataStore id="d_komen-store" name="Komentar" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Verifikasi Argumen" processRef="verifikasi_argumen" />
     <bpmn:participant id="dosen" name="Dosen/Ahli" />
@@ -28,8 +29,32 @@
     <bpmn:sendTask id="tinjau" name="Tinjau Argumen Hukum" messageRef="Message_Argumen_untuk_ditinjau" />
     <bpmn:receiveTask id="hasil" name="Terima keputusan verifikasi" messageRef="Message_Keputusan_verifikasi" />
     <bpmn:exclusiveGateway id="sesuai" name="Argumen sesuai hukum?" default="f-sesuai-ditolak" />
-    <bpmn:serviceTask id="tandai" name="Tandai Argumen Terverifikasi" />
-    <bpmn:serviceTask id="lencana" name="Lampirkan Lencana Verifikasi" />
+    <bpmn:serviceTask id="tandai" name="Tandai Argumen Terverifikasi">
+      <bpmn:ioSpecification id="tandai-io">
+        <bpmn:dataOutput id="tandai-out-1" name="Komentar" />
+        <bpmn:inputSet id="tandai-inputs" />
+        <bpmn:outputSet id="tandai-outputs">
+          <bpmn:dataOutputRefs>tandai-out-1</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="tandai-doa-1">
+        <bpmn:sourceRef>tandai-out-1</bpmn:sourceRef>
+        <bpmn:targetRef>d_komen</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="lencana" name="Lampirkan Lencana Verifikasi">
+      <bpmn:ioSpecification id="lencana-io">
+        <bpmn:dataOutput id="lencana-out-2" name="Komentar" />
+        <bpmn:inputSet id="lencana-inputs" />
+        <bpmn:outputSet id="lencana-outputs">
+          <bpmn:dataOutputRefs>lencana-out-2</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="lencana-doa-2">
+        <bpmn:sourceRef>lencana-out-2</bpmn:sourceRef>
+        <bpmn:targetRef>d_komen</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:callActivity id="poin" name="Beri Poin Reputasi" calledElement="kelola_reputasi">
       <bpmn:documentation>Langkah 'Beri Poin Reputasi' pada proses Kelola Reputasi (untuk penulis argumen)</bpmn:documentation>
     </bpmn:callActivity>
@@ -54,14 +79,15 @@
     <bpmn:sequenceFlow id="f-tandai-lencana" sourceRef="tandai" targetRef="lencana" />
     <bpmn:sequenceFlow id="f-lencana-poin" sourceRef="lencana" targetRef="poin" />
     <bpmn:sequenceFlow id="f-poin-selesai" sourceRef="poin" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_komen" name="Komentar" dataStoreRef="d_komen-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="1320" height="230" />
+        <dc:Bounds x="0" y="0" width="1320" height="240" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="dosen_di" bpmnElement="dosen" isHorizontal="true">
-        <dc:Bounds x="0" y="270" width="1320" height="70" />
+        <dc:Bounds x="0" y="280" width="1320" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -79,9 +105,9 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="tolak_di" bpmnElement="tolak">
-        <dc:Bounds x="428" y="160" width="36" height="36" />
+        <dc:Bounds x="428" y="167" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="367" y="199" width="74" height="11" />
+          <dc:Bounds x="367" y="206" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="tinjau_di" bpmnElement="tinjau">
@@ -112,53 +138,67 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ditolak_di" bpmnElement="ditolak">
-        <dc:Bounds x="828" y="160" width="36" height="36" />
+        <dc:Bounds x="828" y="167" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="851" y="199" width="74" height="23" />
+          <dc:Bounds x="851" y="206" width="74" height="23" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_komen_di" bpmnElement="d_komen">
+        <dc:Bounds x="971" y="160" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="973" y="215" width="46" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-dosen-mulai_di" bpmnElement="m-dosen-mulai">
-        <di:waypoint x="78" y="270" />
+        <di:waypoint x="78" y="280" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="167" width="68" height="23" />
+          <dc:Bounds x="83" y="172" width="68" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-dosen_di" bpmnElement="m-tolak-dosen">
-        <di:waypoint x="446" y="196" />
-        <di:waypoint x="446" y="270" />
+        <di:waypoint x="446" y="203" />
+        <di:waypoint x="446" y="280" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="367" y="254" width="74" height="11" />
+          <dc:Bounds x="367" y="264" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tinjau-dosen_di" bpmnElement="m-tinjau-dosen">
         <di:waypoint x="496" y="78" />
         <di:waypoint x="516" y="78" />
-        <di:waypoint x="516" y="270" />
+        <di:waypoint x="516" y="280" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="521" y="230" width="46" height="35" />
+          <dc:Bounds x="521" y="240" width="46" height="35" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-dosen-hasil_di" bpmnElement="m-dosen-hasil">
-        <di:waypoint x="596" y="270" />
+        <di:waypoint x="596" y="280" />
         <di:waypoint x="596" y="110" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="602" y="178" width="56" height="23" />
+          <dc:Bounds x="602" y="183" width="56" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-selesai-dosen_di" bpmnElement="m-selesai-dosen">
         <di:waypoint x="1264" y="88" />
-        <di:waypoint x="1264" y="270" />
+        <di:waypoint x="1264" y="280" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1203" y="168" width="56" height="23" />
+          <dc:Bounds x="1203" y="173" width="56" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-ditolak-dosen_di" bpmnElement="m-ditolak-dosen">
-        <di:waypoint x="846" y="196" />
-        <di:waypoint x="846" y="270" />
+        <di:waypoint x="846" y="203" />
+        <di:waypoint x="846" y="280" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="767" y="202" width="74" height="23" />
+          <dc:Bounds x="767" y="209" width="74" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="tandai-doa-1_di" bpmnElement="tandai-doa-1">
+        <di:waypoint x="896" y="108" />
+        <di:waypoint x="971" y="166" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="lencana-doa-2_di" bpmnElement="lencana-doa-2">
+        <di:waypoint x="996" y="110" />
+        <di:waypoint x="996" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
         <di:waypoint x="96" y="70" />
@@ -177,10 +217,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-izin-tolak_di" bpmnElement="f-izin-tolak">
         <di:waypoint x="321" y="95" />
-        <di:waypoint x="321" y="178" />
-        <di:waypoint x="428" y="178" />
+        <di:waypoint x="321" y="185" />
+        <di:waypoint x="428" y="185" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="329" y="163" width="28" height="11" />
+          <dc:Bounds x="329" y="170" width="28" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-tinjau-hasil_di" bpmnElement="f-tinjau-hasil">
@@ -200,10 +240,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-sesuai-ditolak_di" bpmnElement="f-sesuai-ditolak">
         <di:waypoint x="721" y="95" />
-        <di:waypoint x="721" y="178" />
-        <di:waypoint x="828" y="178" />
+        <di:waypoint x="721" y="185" />
+        <di:waypoint x="828" y="185" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="729" y="163" width="28" height="11" />
+          <dc:Bounds x="729" y="170" width="28" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-tandai-lencana_di" bpmnElement="f-tandai-lencana">

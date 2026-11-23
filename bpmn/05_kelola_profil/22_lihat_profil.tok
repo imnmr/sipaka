@@ -1,6 +1,10 @@
 tok 1.0 "Lihat Profil (Kelola Profil)"
 
 pool p "Lihat Profil" process=lihat_profil
+  store d_poin "Poin Reputasi"
+  store d_lencana "Lencana"
+  store d_thread "Thread Diskusi"
+  store d_komen "Komentar"
   start mulai "Permintaan profil diterima" message="Permintaan buka profil"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -27,6 +31,11 @@ flow pisah -> poin -> gabung
 flow pisah -> lencana -> gabung
 flow pisah -> riwayat -> gabung
 flow gabung -> selesai
+
+reads poin d_poin
+reads lencana d_lencana
+reads r3 d_thread
+reads r3 d_komen
 
 message user -> mulai "Permintaan buka profil"
 message tolak -> user "Akses ditolak"

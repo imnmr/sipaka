@@ -1,6 +1,7 @@
 tok 1.0 "Tampilkan Popup Istilah (Glosarium Latin)"
 
 pool p "Tampilkan Popup Istilah" process=tampilkan_popup_istilah
+  store d_istilah "Istilah Latin"
   start mulai "Klik istilah Latin diterima" message="Klik istilah Latin"
   service cari "Cari Definisi Istilah"
   xor ada "Definisi ditemukan?"
@@ -18,6 +19,8 @@ flow ada -> kosong "tidak" default
 flow susun -> tampil -> gabung
 flow kosong -> gabung
 flow gabung -> selesai
+
+reads cari d_istilah
 
 message user -> mulai "Klik istilah Latin"
 message tampil -> user "Popup definisi istilah"

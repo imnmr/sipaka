@@ -1,6 +1,7 @@
 tok 1.0 "Cari dengan AI (Asisten Riset AI)"
 
 pool p "Cari dengan AI" process=cari_dengan_ai
+  store d_uu "Undang-Undang"
   start mulai "Pertanyaan bebas diterima" message="Pertanyaan atau kasus dalam bahasa sehari-hari"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -23,6 +24,8 @@ flow tafsir -> filter -> ai -> berhasil
 flow berhasil -> urut "ya" when="aiBerhasil"
 flow berhasil -> gagal "tidak" default
 flow urut -> hasil -> selesai
+
+reads urut d_uu
 
 message user -> mulai "Pertanyaan atau kasus dalam bahasa sehari-hari"
 message tolak -> user "Akses ditolak"

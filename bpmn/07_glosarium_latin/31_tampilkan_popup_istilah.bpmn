@@ -3,6 +3,7 @@
   <bpmn:message id="Message_Klik_istilah_Latin" name="Klik istilah Latin" />
   <bpmn:message id="Message_Popup_definisi_istilah" name="Popup definisi istilah" />
   <bpmn:message id="Message_Pesan_definisi_belum_tersedia" name="Pesan definisi belum tersedia" />
+  <bpmn:dataStore id="d_istilah-store" name="Istilah Latin" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Tampilkan Popup Istilah" processRef="tampilkan_popup_istilah" />
     <bpmn:participant id="user" name="Pengguna" />
@@ -14,7 +15,19 @@
     <bpmn:startEvent id="mulai" name="Klik istilah Latin diterima">
       <bpmn:messageEventDefinition id="mulai-def" messageRef="Message_Klik_istilah_Latin" />
     </bpmn:startEvent>
-    <bpmn:serviceTask id="cari" name="Cari Definisi Istilah" />
+    <bpmn:serviceTask id="cari" name="Cari Definisi Istilah">
+      <bpmn:ioSpecification id="cari-io">
+        <bpmn:dataInput id="cari-in-1" name="Istilah Latin" />
+        <bpmn:inputSet id="cari-inputs">
+          <bpmn:dataInputRefs>cari-in-1</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="cari-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="cari-dia-1">
+        <bpmn:sourceRef>d_istilah</bpmn:sourceRef>
+        <bpmn:targetRef>cari-in-1</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="ada" name="Definisi ditemukan?" default="f-ada-kosong" />
     <bpmn:serviceTask id="susun" name="Susun Popup Istilah" />
     <bpmn:sendTask id="tampil" name="Kirim popup definisi istilah" messageRef="Message_Popup_definisi_istilah" />
@@ -31,6 +44,7 @@
     <bpmn:sequenceFlow id="f-tampil-gabung" sourceRef="tampil" targetRef="gabung" />
     <bpmn:sequenceFlow id="f-kosong-gabung" sourceRef="kosong" targetRef="gabung" />
     <bpmn:sequenceFlow id="f-gabung-selesai" sourceRef="gabung" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_istilah" name="Istilah Latin" dataStoreRef="d_istilah-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
@@ -73,11 +87,17 @@
           <dc:Bounds x="777" y="93" width="74" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_istilah_di" bpmnElement="d_istilah">
+        <dc:Bounds x="171" y="175" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="230" width="74" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
         <di:waypoint x="78" y="310" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="187" width="102" height="11" />
+          <dc:Bounds x="83" y="294" width="102" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tampil-user_di" bpmnElement="m-tampil-user">
@@ -93,6 +113,10 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="362" y="246" width="80" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="cari-dia-1_di" bpmnElement="cari-dia-1">
+        <di:waypoint x="196" y="175" />
+        <di:waypoint x="196" y="110" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-cari_di" bpmnElement="f-mulai-cari">
         <di:waypoint x="96" y="70" />

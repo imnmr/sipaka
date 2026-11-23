@@ -1,6 +1,7 @@
 tok 1.0 "Buat Thread Diskusi (Forum Diskusi Kasus)"
 
 pool p "Buat Thread Diskusi" process=buat_thread_diskusi
+  store d_thread "Thread Diskusi"
   start mulai "Judul dan isi thread diterima" message="Judul dan isi thread"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -33,6 +34,8 @@ flow ok -> simpan "ya" when="threadValid"
 flow ok -> pesan "tidak" default
 flow pesan -> perbaiki -> valid
 flow simpan -> poin -> selesai
+
+writes simpan d_thread
 
 message user -> mulai "Judul dan isi thread"
 message tolak -> user "Akses ditolak"

@@ -3,6 +3,8 @@
   <bpmn:message id="Message_Jawaban_AI_dan_alasan_kesalahan" name="Jawaban AI dan alasan kesalahan" />
   <bpmn:message id="Message_Akses_ditolak" name="Akses ditolak" />
   <bpmn:message id="Message_Konfirmasi_laporan_diterima" name="Konfirmasi laporan diterima" />
+  <bpmn:dataStore id="d_lapai-store" name="Laporan Kesalahan AI" />
+  <bpmn:dataStore id="d_cache-store" name="Cache Respons AI" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Laporkan Jawaban AI Keliru" processRef="laporkan_jawaban_ai_keliru" />
     <bpmn:participant id="user" name="Pengguna" />
@@ -19,9 +21,45 @@
     <bpmn:endEvent id="tolak" name="Akses ditolak">
       <bpmn:messageEventDefinition id="tolak-def" messageRef="Message_Akses_ditolak" />
     </bpmn:endEvent>
-    <bpmn:serviceTask id="kirim" name="Kirim Laporan Kesalahan" />
-    <bpmn:serviceTask id="tandai" name="Tandai Jawaban untuk Ditinjau" />
-    <bpmn:serviceTask id="cache" name="Nonaktifkan respons keliru dari cache" />
+    <bpmn:serviceTask id="kirim" name="Kirim Laporan Kesalahan">
+      <bpmn:ioSpecification id="kirim-io">
+        <bpmn:dataOutput id="kirim-out-1" name="Laporan Kesalahan AI" />
+        <bpmn:inputSet id="kirim-inputs" />
+        <bpmn:outputSet id="kirim-outputs">
+          <bpmn:dataOutputRefs>kirim-out-1</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="kirim-doa-1">
+        <bpmn:sourceRef>kirim-out-1</bpmn:sourceRef>
+        <bpmn:targetRef>d_lapai</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="tandai" name="Tandai Jawaban untuk Ditinjau">
+      <bpmn:ioSpecification id="tandai-io">
+        <bpmn:dataOutput id="tandai-out-2" name="Laporan Kesalahan AI" />
+        <bpmn:inputSet id="tandai-inputs" />
+        <bpmn:outputSet id="tandai-outputs">
+          <bpmn:dataOutputRefs>tandai-out-2</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="tandai-doa-2">
+        <bpmn:sourceRef>tandai-out-2</bpmn:sourceRef>
+        <bpmn:targetRef>d_lapai</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="cache" name="Nonaktifkan respons keliru dari cache">
+      <bpmn:ioSpecification id="cache-io">
+        <bpmn:dataOutput id="cache-out-3" name="Cache Respons AI" />
+        <bpmn:inputSet id="cache-inputs" />
+        <bpmn:outputSet id="cache-outputs">
+          <bpmn:dataOutputRefs>cache-out-3</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="cache-doa-3">
+        <bpmn:sourceRef>cache-out-3</bpmn:sourceRef>
+        <bpmn:targetRef>d_cache</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:endEvent id="selesai" name="Laporan terkirim">
       <bpmn:messageEventDefinition id="selesai-def" messageRef="Message_Konfirmasi_laporan_diterima" />
     </bpmn:endEvent>
@@ -34,14 +72,16 @@
     <bpmn:sequenceFlow id="f-kirim-tandai" sourceRef="kirim" targetRef="tandai" />
     <bpmn:sequenceFlow id="f-tandai-cache" sourceRef="tandai" targetRef="cache" />
     <bpmn:sequenceFlow id="f-cache-selesai" sourceRef="cache" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_lapai" name="Laporan Kesalahan AI" dataStoreRef="d_lapai-store" />
+    <bpmn:dataStoreReference id="d_cache" name="Cache Respons AI" dataStoreRef="d_cache-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="920" height="230" />
+        <dc:Bounds x="0" y="0" width="920" height="240" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="user_di" bpmnElement="user" isHorizontal="true">
-        <dc:Bounds x="0" y="270" width="920" height="70" />
+        <dc:Bounds x="0" y="280" width="920" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -59,9 +99,9 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="tolak_di" bpmnElement="tolak">
-        <dc:Bounds x="428" y="160" width="36" height="36" />
+        <dc:Bounds x="428" y="167" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="451" y="199" width="74" height="11" />
+          <dc:Bounds x="367" y="206" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="kirim_di" bpmnElement="kirim">
@@ -79,26 +119,50 @@
           <dc:Bounds x="869" y="91" width="46" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_lapai_di" bpmnElement="d_lapai">
+        <dc:Bounds x="571" y="160" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="548" y="215" width="96" height="23" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_cache_di" bpmnElement="d_cache">
+        <dc:Bounds x="721" y="160" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="701" y="215" width="90" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
-        <di:waypoint x="78" y="270" />
+        <di:waypoint x="78" y="280" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="167" width="90" height="23" />
+          <dc:Bounds x="83" y="172" width="90" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-user_di" bpmnElement="m-tolak-user">
-        <di:waypoint x="446" y="196" />
-        <di:waypoint x="446" y="270" />
+        <di:waypoint x="446" y="203" />
+        <di:waypoint x="446" y="280" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="367" y="202" width="74" height="11" />
+          <dc:Bounds x="451" y="230" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-selesai-user_di" bpmnElement="m-selesai-user">
         <di:waypoint x="864" y="88" />
-        <di:waypoint x="864" y="270" />
+        <di:waypoint x="864" y="280" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="758" y="242" width="102" height="23" />
+          <dc:Bounds x="758" y="252" width="102" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="kirim-doa-1_di" bpmnElement="kirim-doa-1">
+        <di:waypoint x="496" y="108" />
+        <di:waypoint x="571" y="166" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="tandai-doa-2_di" bpmnElement="tandai-doa-2">
+        <di:waypoint x="596" y="110" />
+        <di:waypoint x="596" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="cache-doa-3_di" bpmnElement="cache-doa-3">
+        <di:waypoint x="746" y="110" />
+        <di:waypoint x="746" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
         <di:waypoint x="96" y="70" />
@@ -117,10 +181,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-izin-tolak_di" bpmnElement="f-izin-tolak">
         <di:waypoint x="321" y="95" />
-        <di:waypoint x="321" y="178" />
-        <di:waypoint x="428" y="178" />
+        <di:waypoint x="321" y="185" />
+        <di:waypoint x="428" y="185" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="329" y="163" width="28" height="11" />
+          <dc:Bounds x="329" y="170" width="28" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-kirim-tandai_di" bpmnElement="f-kirim-tandai">

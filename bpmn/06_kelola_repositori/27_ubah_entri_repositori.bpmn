@@ -6,6 +6,7 @@
   <bpmn:message id="Message_Konfirmasi_entri_diperbarui" name="Konfirmasi entri diperbarui" />
   <bpmn:message id="Message_Pesan_kesalahan_isi_entri" name="Pesan kesalahan isi entri" />
   <bpmn:message id="Message_Isi_entri_diperbaiki" name="Isi entri diperbaiki" />
+  <bpmn:dataStore id="d_entri-store" name="Entri Repositori" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Ubah Entri Repositori" processRef="ubah_entri_repositori" />
     <bpmn:participant id="user" name="Pengguna" />
@@ -31,7 +32,19 @@
     </bpmn:endEvent>
     <bpmn:serviceTask id="valid" name="Validasi isi entri" />
     <bpmn:exclusiveGateway id="ok" name="Isi entri valid?" default="f-ok-pesan" />
-    <bpmn:serviceTask id="simpan" name="Ubah Entri Repositori" />
+    <bpmn:serviceTask id="simpan" name="Ubah Entri Repositori">
+      <bpmn:ioSpecification id="simpan-io">
+        <bpmn:dataOutput id="simpan-out-1" name="Entri Repositori" />
+        <bpmn:inputSet id="simpan-inputs" />
+        <bpmn:outputSet id="simpan-outputs">
+          <bpmn:dataOutputRefs>simpan-out-1</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="simpan-doa-1">
+        <bpmn:sourceRef>simpan-out-1</bpmn:sourceRef>
+        <bpmn:targetRef>d_entri</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:endEvent id="selesai" name="Entri diperbarui">
       <bpmn:messageEventDefinition id="selesai-def" messageRef="Message_Konfirmasi_entri_diperbarui" />
     </bpmn:endEvent>
@@ -55,14 +68,15 @@
     <bpmn:sequenceFlow id="f-pesan-perbaiki" sourceRef="pesan" targetRef="perbaiki" />
     <bpmn:sequenceFlow id="f-perbaiki-valid" sourceRef="perbaiki" targetRef="valid" />
     <bpmn:sequenceFlow id="f-simpan-selesai" sourceRef="simpan" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_entri" name="Entri Repositori" dataStoreRef="d_entri-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="1030" height="270" />
+        <dc:Bounds x="0" y="0" width="1030" height="370" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="user_di" bpmnElement="user" isHorizontal="true">
-        <dc:Bounds x="0" y="310" width="1030" height="70" />
+        <dc:Bounds x="0" y="410" width="1030" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -112,7 +126,7 @@
       <bpmndi:BPMNShape id="selesai_di" bpmnElement="selesai">
         <dc:Bounds x="928" y="52" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="851" y="91" width="90" height="11" />
+          <dc:Bounds x="901" y="38" width="90" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="pesan_di" bpmnElement="pesan">
@@ -121,47 +135,58 @@
       <bpmndi:BPMNShape id="perbaiki_di" bpmnElement="perbaiki">
         <dc:Bounds x="896" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_entri_di" bpmnElement="d_entri">
+        <dc:Bounds x="771" y="290" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="751" y="345" width="90" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
-        <di:waypoint x="78" y="310" />
+        <di:waypoint x="78" y="410" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="187" width="68" height="23" />
+          <dc:Bounds x="83" y="237" width="68" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-user_di" bpmnElement="m-tolak-user">
         <di:waypoint x="421" y="218" />
-        <di:waypoint x="421" y="310" />
+        <di:waypoint x="421" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="426" y="252" width="74" height="11" />
+          <dc:Bounds x="426" y="302" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-bukan-user_di" bpmnElement="m-bukan-user">
         <di:waypoint x="546" y="218" />
-        <di:waypoint x="546" y="310" />
+        <di:waypoint x="546" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="551" y="252" width="96" height="11" />
+          <dc:Bounds x="551" y="302" width="96" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-selesai-user_di" bpmnElement="m-selesai-user">
         <di:waypoint x="946" y="88" />
-        <di:waypoint x="946" y="310" />
+        <di:waypoint x="946" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="885" y="270" width="56" height="35" />
+          <dc:Bounds x="952" y="370" width="56" height="35" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-pesan-user_di" bpmnElement="m-pesan-user">
-        <di:waypoint x="796" y="240" />
-        <di:waypoint x="796" y="310" />
+        <di:waypoint x="846" y="208" />
+        <di:waypoint x="878" y="208" />
+        <di:waypoint x="878" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="684" y="246" width="108" height="23" />
+          <dc:Bounds x="766" y="382" width="108" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-user-perbaiki_di" bpmnElement="m-user-perbaiki">
-        <di:waypoint x="966" y="310" />
-        <di:waypoint x="966" y="240" />
+        <di:waypoint x="926" y="410" />
+        <di:waypoint x="926" y="240" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="972" y="282" width="56" height="23" />
+          <dc:Bounds x="932" y="313" width="56" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="simpan-doa-1_di" bpmnElement="simpan-doa-1">
+        <di:waypoint x="796" y="110" />
+        <di:waypoint x="796" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
         <di:waypoint x="96" y="70" />

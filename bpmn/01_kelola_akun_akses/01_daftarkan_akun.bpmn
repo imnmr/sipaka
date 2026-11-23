@@ -4,6 +4,7 @@
   <bpmn:message id="Message_Konfirmasi_akun_dibuat" name="Konfirmasi akun dibuat" />
   <bpmn:message id="Message_Pesan_kesalahan_validasi" name="Pesan kesalahan validasi" />
   <bpmn:message id="Message_Data_registrasi_diperbaiki" name="Data registrasi diperbaiki" />
+  <bpmn:dataStore id="d_akun-store" name="Akun Pengguna" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Daftarkan Akun" processRef="daftarkan_akun" />
     <bpmn:participant id="calon" name="Calon Pengguna" />
@@ -16,9 +17,33 @@
     <bpmn:startEvent id="mulai" name="Data registrasi diterima">
       <bpmn:messageEventDefinition id="mulai-def" messageRef="Message_Data_registrasi" />
     </bpmn:startEvent>
-    <bpmn:serviceTask id="val" name="Validasi Data Registrasi" />
+    <bpmn:serviceTask id="val" name="Validasi Data Registrasi">
+      <bpmn:ioSpecification id="val-io">
+        <bpmn:dataInput id="val-in-1" name="Akun Pengguna" />
+        <bpmn:inputSet id="val-inputs">
+          <bpmn:dataInputRefs>val-in-1</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="val-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="val-dia-1">
+        <bpmn:sourceRef>d_akun</bpmn:sourceRef>
+        <bpmn:targetRef>val-in-1</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="valid" name="Data valid dan belum terdaftar?" default="f-valid-pesan" />
-    <bpmn:serviceTask id="buat" name="Buat Akun Pengguna" />
+    <bpmn:serviceTask id="buat" name="Buat Akun Pengguna">
+      <bpmn:ioSpecification id="buat-io">
+        <bpmn:dataOutput id="buat-out-2" name="Akun Pengguna" />
+        <bpmn:inputSet id="buat-inputs" />
+        <bpmn:outputSet id="buat-outputs">
+          <bpmn:dataOutputRefs>buat-out-2</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="buat-doa-2">
+        <bpmn:sourceRef>buat-out-2</bpmn:sourceRef>
+        <bpmn:targetRef>d_akun</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:callActivity id="peran" name="Tetapkan Peran Pengguna" calledElement="kelola_peran_pengguna">
       <bpmn:documentation>Langkah 'Tetapkan Peran Pengguna' pada proses Kelola Peran Pengguna (peran awal akun baru)</bpmn:documentation>
     </bpmn:callActivity>
@@ -37,6 +62,7 @@
     <bpmn:sequenceFlow id="f-ulang-val" sourceRef="ulang" targetRef="val" />
     <bpmn:sequenceFlow id="f-buat-peran" sourceRef="buat" targetRef="peran" />
     <bpmn:sequenceFlow id="f-peran-sukses" sourceRef="peran" targetRef="sukses" />
+    <bpmn:dataStoreReference id="d_akun" name="Akun Pengguna" dataStoreRef="d_akun-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
@@ -79,11 +105,17 @@
       <bpmndi:BPMNShape id="ulang_di" bpmnElement="ulang">
         <dc:Bounds x="546" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_akun_di" bpmnElement="d_akun">
+        <dc:Bounds x="171" y="175" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="230" width="74" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-calon-mulai_di" bpmnElement="m-calon-mulai">
         <di:waypoint x="78" y="310" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="187" width="84" height="11" />
+          <dc:Bounds x="83" y="294" width="84" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-sukses-calon_di" bpmnElement="m-sukses-calon">
@@ -106,6 +138,14 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="601" y="282" width="84" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="val-dia-1_di" bpmnElement="val-dia-1">
+        <di:waypoint x="196" y="175" />
+        <di:waypoint x="196" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="buat-doa-2_di" bpmnElement="buat-doa-2">
+        <di:waypoint x="396" y="96" />
+        <di:waypoint x="221" y="187" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-val_di" bpmnElement="f-mulai-val">
         <di:waypoint x="96" y="70" />

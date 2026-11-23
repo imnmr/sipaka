@@ -1,6 +1,8 @@
 tok 1.0 "Masuk (Kelola Akun & Akses)"
 
 pool p "Masuk" process=masuk
+  store d_akun "Akun Pengguna"
+  store d_sesi "Sesi"
   start mulai "Kredensial diterima" message="Kredensial login"
   service verif "Verifikasi Kredensial"
   xor benar "Kredensial benar?"
@@ -21,6 +23,9 @@ flow gagal -> batas
 flow batas -> ulang "ya" when="percobaan < batasPercobaan"
 flow batas -> kunci "tidak" default
 flow ulang -> verif
+
+reads verif d_akun
+writes sesi d_sesi
 
 message user -> mulai "Kredensial login"
 message sukses -> user "Sesi dan beranda"

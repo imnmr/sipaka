@@ -1,6 +1,7 @@
 tok 1.0 "Impor Dokumen UU (Kelola Konten Hukum)"
 
 pool p "Impor Dokumen UU" process=impor_dokumen_uu
+  store d_uu "Undang-Undang"
   start mulai "Berkas PDF UU diterima" message="Berkas PDF UU"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -38,6 +39,9 @@ flow metaok -> terbit "ya" when="metadataValid"
 flow metaok -> salah "tidak" default
 flow salah -> koreksi -> valid
 flow terbit -> selesai
+
+reads valid d_uu
+writes terbit d_uu
 
 message admin -> mulai "Berkas PDF UU"
 message tolak -> admin "Akses ditolak"

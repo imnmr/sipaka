@@ -1,6 +1,7 @@
 tok 1.0 "Baca Teks Undang-Undang (Pelacak Dokumen Hukum)"
 
 pool p "Baca Teks Undang-Undang" process=baca_teks_undang_undang
+  store d_uu "Undang-Undang"
   start mulai "Permintaan teks UU diterima" message="Permintaan buka teks UU"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -40,6 +41,9 @@ flow tunggu -> tutup
 flow rujuk -> rujukan -> loop
 flow istilah -> popup -> loop
 flow tutup -> selesai
+
+reads teks d_uu
+reads rujukan d_uu
 
 message user -> mulai "Permintaan buka teks UU"
 message tolak -> user "Akses ditolak"

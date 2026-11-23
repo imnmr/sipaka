@@ -1,6 +1,7 @@
 tok 1.0 "Atur Visibilitas Entri (Kelola Repositori)"
 
 pool p "Atur Visibilitas Entri" process=atur_visibilitas_entri
+  store d_entri "Entri Repositori"
   start mulai "Pengaturan visibilitas diterima" message="Entri dan pilihan visibilitas"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -18,6 +19,8 @@ flow izin -> tolak "tidak" default
 flow pemilik -> simpan "ya" when="pemilik"
 flow pemilik -> bukan "tidak" default
 flow simpan -> selesai
+
+writes simpan d_entri
 
 message user -> mulai "Entri dan pilihan visibilitas"
 message tolak -> user "Akses ditolak"

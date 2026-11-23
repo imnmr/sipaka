@@ -1,6 +1,7 @@
 tok 1.0 "Hapus Entri Repositori (Kelola Repositori)"
 
 pool p "Hapus Entri Repositori" process=hapus_entri_repositori
+  store d_entri "Entri Repositori"
   start mulai "Permintaan hapus entri diterima" message="Permintaan hapus entri"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -27,6 +28,8 @@ flow tunggu -> ya
 flow tunggu -> tidak
 flow ya -> hapus -> selesai
 flow tidak -> batal
+
+writes hapus d_entri
 
 message user -> mulai "Permintaan hapus entri"
 message tolak -> user "Akses ditolak"

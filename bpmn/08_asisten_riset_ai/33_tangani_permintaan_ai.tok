@@ -1,6 +1,9 @@
 tok 1.0 "Tangani Permintaan AI (Asisten Riset AI)"
 
 pool p "Tangani Permintaan AI" process=tangani_permintaan_ai
+  store d_kuota "Kuota Penggunaan AI"
+  store d_cache "Cache Respons AI"
+  store d_uu "Undang-Undang"
   start mulai "Permintaan AI diterima dari fitur pemanggil"
   service kuota "Periksa Kuota Penggunaan AI"
   xor kuotaok "Kuota penggunaan masih tersedia?"
@@ -30,6 +33,12 @@ flow berhasil -> simpan "ya" when="responsBerhasil"
 flow berhasil -> gagal "tidak" default
 flow simpan -> gabung
 flow gabung -> disclaimer -> selesai
+
+reads kuota d_kuota
+writes kuota d_kuota
+reads cache d_cache
+reads prompt d_uu
+writes simpan d_cache
 
 message kirim -> ai "Prompt"
 message ai -> terima "Respons"

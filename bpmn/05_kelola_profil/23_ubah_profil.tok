@@ -1,6 +1,7 @@
 tok 1.0 "Ubah Profil (Kelola Profil)"
 
 pool p "Ubah Profil" process=ubah_profil
+  store d_profil "Profil Pengguna"
   start mulai "Perubahan profil diterima" message="Data profil baru"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -22,6 +23,8 @@ flow ok -> simpan "ya" when="profilValid"
 flow ok -> pesan "tidak" default
 flow pesan -> perbaiki -> valid
 flow simpan -> selesai
+
+writes simpan d_profil
 
 message user -> mulai "Data profil baru"
 message tolak -> user "Akses ditolak"

@@ -4,6 +4,7 @@
   <bpmn:message id="Message_Akses_ditolak" name="Akses ditolak" />
   <bpmn:message id="Message_Daftar_entri_repositori" name="Daftar entri repositori" />
   <bpmn:message id="Message_Pesan_tidak_ada_entri" name="Pesan tidak ada entri" />
+  <bpmn:dataStore id="d_entri-store" name="Entri Repositori" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Jelajahi Repositori" processRef="jelajahi_repositori" />
     <bpmn:participant id="user" name="Pengguna" />
@@ -21,7 +22,19 @@
     <bpmn:endEvent id="tolak" name="Akses ditolak">
       <bpmn:messageEventDefinition id="tolak-def" messageRef="Message_Akses_ditolak" />
     </bpmn:endEvent>
-    <bpmn:serviceTask id="saring" name="Saring Entri Repositori" />
+    <bpmn:serviceTask id="saring" name="Saring Entri Repositori">
+      <bpmn:ioSpecification id="saring-io">
+        <bpmn:dataInput id="saring-in-1" name="Entri Repositori" />
+        <bpmn:inputSet id="saring-inputs">
+          <bpmn:dataInputRefs>saring-in-1</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="saring-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="saring-dia-1">
+        <bpmn:sourceRef>d_entri</bpmn:sourceRef>
+        <bpmn:targetRef>saring-in-1</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="ada" name="Ada entri yang cocok?" default="f-ada-kosong" />
     <bpmn:sendTask id="tampil" name="Tampilkan daftar entri (milik sendiri dan yang dibagikan)" messageRef="Message_Daftar_entri_repositori" />
     <bpmn:endEvent id="selesai" name="Daftar entri terkirim" />
@@ -40,14 +53,15 @@
     <bpmn:sequenceFlow id="f-ada-kosong" name="tidak" sourceRef="ada" targetRef="kosong" />
     <bpmn:sequenceFlow id="f-tampil-selesai" sourceRef="tampil" targetRef="selesai" />
     <bpmn:sequenceFlow id="f-kosong-nihil" sourceRef="kosong" targetRef="nihil" />
+    <bpmn:dataStoreReference id="d_entri" name="Entri Repositori" dataStoreRef="d_entri-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="870" height="270" />
+        <dc:Bounds x="0" y="0" width="870" height="370" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="user_di" bpmnElement="user" isHorizontal="true">
-        <dc:Bounds x="0" y="310" width="870" height="70" />
+        <dc:Bounds x="0" y="410" width="870" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -67,7 +81,7 @@
       <bpmndi:BPMNShape id="tolak_di" bpmnElement="tolak">
         <dc:Bounds x="428" y="182" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="367" y="221" width="74" height="11" />
+          <dc:Bounds x="451" y="169" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="saring_di" bpmnElement="saring">
@@ -97,34 +111,45 @@
           <dc:Bounds x="772" y="223" width="84" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_entri_di" bpmnElement="d_entri">
+        <dc:Bounds x="421" y="290" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="328" y="310" width="90" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
-        <di:waypoint x="78" y="310" />
+        <di:waypoint x="78" y="410" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="187" width="90" height="23" />
+          <dc:Bounds x="83" y="237" width="90" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-user_di" bpmnElement="m-tolak-user">
-        <di:waypoint x="446" y="218" />
-        <di:waypoint x="446" y="310" />
+        <di:waypoint x="462" y="208" />
+        <di:waypoint x="478" y="208" />
+        <di:waypoint x="478" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="451" y="252" width="74" height="11" />
+          <dc:Bounds x="475" y="196" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tampil-user_di" bpmnElement="m-tampil-user">
         <di:waypoint x="746" y="78" />
         <di:waypoint x="766" y="78" />
-        <di:waypoint x="766" y="310" />
+        <di:waypoint x="766" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="771" y="282" width="68" height="23" />
+          <dc:Bounds x="771" y="382" width="68" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-kosong-user_di" bpmnElement="m-kosong-user">
         <di:waypoint x="696" y="240" />
-        <di:waypoint x="696" y="310" />
+        <di:waypoint x="696" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="607" y="282" width="84" height="23" />
+          <dc:Bounds x="607" y="314" width="84" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="saring-dia-1_di" bpmnElement="saring-dia-1">
+        <di:waypoint x="446" y="290" />
+        <di:waypoint x="446" y="110" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
         <di:waypoint x="96" y="70" />

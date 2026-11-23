@@ -1,6 +1,7 @@
 tok 1.0 "Jelajahi Diskusi (Forum Diskusi Kasus)"
 
 pool p "Jelajahi Diskusi" process=jelajahi_diskusi
+  store d_thread "Thread Diskusi"
   start mulai "Pilihan kategori diterima" message="Pilihan kategori hukum"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -22,6 +23,9 @@ flow ada -> daftar "ya" when="jumlahDiskusi > 0"
 flow ada -> kosong "tidak" default
 flow daftar -> selesai
 flow kosong -> nihil
+
+reads saring d_thread
+reads daftar d_thread
 
 message user -> mulai "Pilihan kategori hukum"
 message tolak -> user "Akses ditolak"

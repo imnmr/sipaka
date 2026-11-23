@@ -1,6 +1,7 @@
 tok 1.0 "Kelola Glosarium (Glosarium Latin)"
 
 pool p "Kelola Glosarium" process=kelola_glosarium
+  store d_istilah "Istilah Latin"
   start mulai "Permintaan kelola glosarium diterima" message="Aksi dan data istilah glosarium"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -41,6 +42,11 @@ flow tidak -> batal
 flow tambah -> gabung
 flow ubah -> gabung
 flow gabung -> selesai
+
+reads valid d_istilah
+writes tambah d_istilah
+writes ubah d_istilah
+writes hapus d_istilah
 
 message admin -> mulai "Aksi dan data istilah glosarium"
 message tolak -> admin "Akses ditolak"

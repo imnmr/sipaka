@@ -2,6 +2,9 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions" name="Tangani Permintaan AI (Asisten Riset AI)" targetNamespace="http://bpmn.io/schema/bpmn" exporter="tok" exporterVersion="1.0">
   <bpmn:message id="Message_Prompt" name="Prompt" />
   <bpmn:message id="Message_Respons" name="Respons" />
+  <bpmn:dataStore id="d_kuota-store" name="Kuota Penggunaan AI" />
+  <bpmn:dataStore id="d_cache-store" name="Cache Respons AI" />
+  <bpmn:dataStore id="d_uu-store" name="Undang-Undang" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Tangani Permintaan AI" processRef="tangani_permintaan_ai" />
     <bpmn:participant id="ai" name="Layanan AI (penyedia eksternal)" />
@@ -10,17 +13,72 @@
   </bpmn:collaboration>
   <bpmn:process id="tangani_permintaan_ai" name="Tangani Permintaan AI (Asisten Riset AI)" isExecutable="false">
     <bpmn:startEvent id="mulai" name="Permintaan AI diterima dari fitur pemanggil" />
-    <bpmn:serviceTask id="kuota" name="Periksa Kuota Penggunaan AI" />
+    <bpmn:serviceTask id="kuota" name="Periksa Kuota Penggunaan AI">
+      <bpmn:ioSpecification id="kuota-io">
+        <bpmn:dataInput id="kuota-in-1" name="Kuota Penggunaan AI" />
+        <bpmn:dataOutput id="kuota-out-2" name="Kuota Penggunaan AI" />
+        <bpmn:inputSet id="kuota-inputs">
+          <bpmn:dataInputRefs>kuota-in-1</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="kuota-outputs">
+          <bpmn:dataOutputRefs>kuota-out-2</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="kuota-dia-1">
+        <bpmn:sourceRef>d_kuota</bpmn:sourceRef>
+        <bpmn:targetRef>kuota-in-1</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+      <bpmn:dataOutputAssociation id="kuota-doa-2">
+        <bpmn:sourceRef>kuota-out-2</bpmn:sourceRef>
+        <bpmn:targetRef>d_kuota</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="kuotaok" name="Kuota penggunaan masih tersedia?" default="f-kuotaok-habis" />
     <bpmn:endEvent id="habis" name="Ditolak: kuota penggunaan AI habis" />
-    <bpmn:serviceTask id="cache" name="Ambil Respons AI dari Cache" />
+    <bpmn:serviceTask id="cache" name="Ambil Respons AI dari Cache">
+      <bpmn:ioSpecification id="cache-io">
+        <bpmn:dataInput id="cache-in-3" name="Cache Respons AI" />
+        <bpmn:inputSet id="cache-inputs">
+          <bpmn:dataInputRefs>cache-in-3</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="cache-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="cache-dia-3">
+        <bpmn:sourceRef>d_cache</bpmn:sourceRef>
+        <bpmn:targetRef>cache-in-3</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="ada" name="Respons ada di cache?" default="f-ada-prompt" />
-    <bpmn:serviceTask id="prompt" name="Susun Prompt Konteks" />
+    <bpmn:serviceTask id="prompt" name="Susun Prompt Konteks">
+      <bpmn:ioSpecification id="prompt-io">
+        <bpmn:dataInput id="prompt-in-4" name="Undang-Undang" />
+        <bpmn:inputSet id="prompt-inputs">
+          <bpmn:dataInputRefs>prompt-in-4</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="prompt-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="prompt-dia-4">
+        <bpmn:sourceRef>d_uu</bpmn:sourceRef>
+        <bpmn:targetRef>prompt-in-4</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
     <bpmn:sendTask id="kirim" name="Kirim prompt ke layanan AI" messageRef="Message_Prompt" />
     <bpmn:receiveTask id="terima" name="Terima respons dari layanan AI" messageRef="Message_Respons" />
     <bpmn:exclusiveGateway id="berhasil" name="Layanan AI merespons dengan benar?" default="f-berhasil-gagal" />
     <bpmn:endEvent id="gagal" name="Gagal: layanan AI tidak tersedia" />
-    <bpmn:serviceTask id="simpan" name="Simpan Respons AI ke Cache" />
+    <bpmn:serviceTask id="simpan" name="Simpan Respons AI ke Cache">
+      <bpmn:ioSpecification id="simpan-io">
+        <bpmn:dataOutput id="simpan-out-5" name="Cache Respons AI" />
+        <bpmn:inputSet id="simpan-inputs" />
+        <bpmn:outputSet id="simpan-outputs">
+          <bpmn:dataOutputRefs>simpan-out-5</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="simpan-doa-5">
+        <bpmn:sourceRef>simpan-out-5</bpmn:sourceRef>
+        <bpmn:targetRef>d_cache</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="gabung" />
     <bpmn:serviceTask id="disclaimer" name="Sertakan Disclaimer AI" />
     <bpmn:endEvent id="selesai" name="Respons AI siap ditampilkan" />
@@ -45,14 +103,17 @@
     <bpmn:sequenceFlow id="f-simpan-gabung" sourceRef="simpan" targetRef="gabung" />
     <bpmn:sequenceFlow id="f-gabung-disclaimer" sourceRef="gabung" targetRef="disclaimer" />
     <bpmn:sequenceFlow id="f-disclaimer-selesai" sourceRef="disclaimer" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_kuota" name="Kuota Penggunaan AI" dataStoreRef="d_kuota-store" />
+    <bpmn:dataStoreReference id="d_cache" name="Cache Respons AI" dataStoreRef="d_cache-store" />
+    <bpmn:dataStoreReference id="d_uu" name="Undang-Undang" dataStoreRef="d_uu-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="1670" height="230" />
+        <dc:Bounds x="0" y="0" width="1670" height="340" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ai_di" bpmnElement="ai" isHorizontal="true">
-        <dc:Bounds x="0" y="270" width="1670" height="70" />
+        <dc:Bounds x="0" y="380" width="1670" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -70,9 +131,9 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="habis_di" bpmnElement="habis">
-        <dc:Bounds x="428" y="160" width="36" height="36" />
+        <dc:Bounds x="428" y="167" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="392" y="201" width="108" height="23" />
+          <dc:Bounds x="334" y="206" width="108" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="cache_di" bpmnElement="cache">
@@ -96,13 +157,13 @@
       <bpmndi:BPMNShape id="berhasil_di" bpmnElement="berhasil" isMarkerVisible="true">
         <dc:Bounds x="1096" y="45" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1060" y="98" width="56" height="47" />
+          <dc:Bounds x="1127" y="98" width="56" height="47" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="gagal_di" bpmnElement="gagal">
-        <dc:Bounds x="1228" y="160" width="36" height="36" />
+        <dc:Bounds x="1228" y="167" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1198" y="201" width="96" height="23" />
+          <dc:Bounds x="1198" y="208" width="96" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="simpan_di" bpmnElement="simpan">
@@ -120,19 +181,57 @@
           <dc:Bounds x="1572" y="93" width="84" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_kuota_di" bpmnElement="d_kuota">
+        <dc:Bounds x="171" y="160" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="142" y="215" width="108" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_cache_di" bpmnElement="d_cache">
+        <dc:Bounds x="421" y="260" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="401" y="315" width="90" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_uu_di" bpmnElement="d_uu">
+        <dc:Bounds x="671" y="160" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="594" y="180" width="74" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-kirim-ai_di" bpmnElement="m-kirim-ai">
         <di:waypoint x="846" y="110" />
-        <di:waypoint x="846" y="270" />
+        <di:waypoint x="846" y="380" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="852" y="178" width="34" height="11" />
+          <dc:Bounds x="852" y="233" width="34" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-ai-terima_di" bpmnElement="m-ai-terima">
-        <di:waypoint x="996" y="270" />
+        <di:waypoint x="996" y="380" />
         <di:waypoint x="996" y="110" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1001" y="178" width="40" height="11" />
+          <dc:Bounds x="1001" y="233" width="40" height="11" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="kuota-dia-1_di" bpmnElement="kuota-dia-1">
+        <di:waypoint x="196" y="160" />
+        <di:waypoint x="196" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="kuota-doa-2_di" bpmnElement="kuota-doa-2">
+        <di:waypoint x="196" y="110" />
+        <di:waypoint x="196" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="cache-dia-3_di" bpmnElement="cache-dia-3">
+        <di:waypoint x="446" y="260" />
+        <di:waypoint x="446" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="prompt-dia-4_di" bpmnElement="prompt-dia-4">
+        <di:waypoint x="696" y="160" />
+        <di:waypoint x="696" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="simpan-doa-5_di" bpmnElement="simpan-doa-5">
+        <di:waypoint x="1196" y="83" />
+        <di:waypoint x="471" y="278" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-kuota_di" bpmnElement="f-mulai-kuota">
         <di:waypoint x="96" y="70" />
@@ -151,10 +250,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-kuotaok-habis_di" bpmnElement="f-kuotaok-habis">
         <di:waypoint x="321" y="95" />
-        <di:waypoint x="321" y="178" />
-        <di:waypoint x="428" y="178" />
+        <di:waypoint x="321" y="185" />
+        <di:waypoint x="428" y="185" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="329" y="163" width="28" height="11" />
+          <dc:Bounds x="329" y="170" width="28" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-cache-ada_di" bpmnElement="f-cache-ada">
@@ -198,10 +297,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-berhasil-gagal_di" bpmnElement="f-berhasil-gagal">
         <di:waypoint x="1121" y="95" />
-        <di:waypoint x="1121" y="178" />
-        <di:waypoint x="1228" y="178" />
+        <di:waypoint x="1121" y="185" />
+        <di:waypoint x="1228" y="185" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1129" y="163" width="28" height="11" />
+          <dc:Bounds x="1129" y="170" width="28" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-simpan-gabung_di" bpmnElement="f-simpan-gabung">

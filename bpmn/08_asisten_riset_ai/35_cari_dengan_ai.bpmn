@@ -4,6 +4,7 @@
   <bpmn:message id="Message_Akses_ditolak" name="Akses ditolak" />
   <bpmn:message id="Message_Pesan_pencarian_AI_gagal" name="Pesan pencarian AI gagal" />
   <bpmn:message id="Message_Hasil_pencarian_AI" name="Hasil pencarian AI" />
+  <bpmn:dataStore id="d_uu-store" name="Undang-Undang" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Cari dengan AI" processRef="cari_dengan_ai" />
     <bpmn:participant id="user" name="Pengguna" />
@@ -30,7 +31,19 @@
     <bpmn:endEvent id="gagal" name="Pencarian AI gagal">
       <bpmn:messageEventDefinition id="gagal-def" messageRef="Message_Pesan_pencarian_AI_gagal" />
     </bpmn:endEvent>
-    <bpmn:serviceTask id="urut" name="Urutkan Hasil Pencarian AI" />
+    <bpmn:serviceTask id="urut" name="Urutkan Hasil Pencarian AI">
+      <bpmn:ioSpecification id="urut-io">
+        <bpmn:dataInput id="urut-in-1" name="Undang-Undang" />
+        <bpmn:inputSet id="urut-inputs">
+          <bpmn:dataInputRefs>urut-in-1</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="urut-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="urut-dia-1">
+        <bpmn:sourceRef>d_uu</bpmn:sourceRef>
+        <bpmn:targetRef>urut-in-1</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
     <bpmn:sendTask id="hasil" name="Kirim hasil pencarian AI" messageRef="Message_Hasil_pencarian_AI" />
     <bpmn:endEvent id="selesai" name="Hasil pencarian AI terkirim" />
     <bpmn:sequenceFlow id="f-mulai-auth" sourceRef="mulai" targetRef="auth" />
@@ -48,14 +61,15 @@
     <bpmn:sequenceFlow id="f-berhasil-gagal" name="tidak" sourceRef="berhasil" targetRef="gagal" />
     <bpmn:sequenceFlow id="f-urut-hasil" sourceRef="urut" targetRef="hasil" />
     <bpmn:sequenceFlow id="f-hasil-selesai" sourceRef="hasil" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_uu" name="Undang-Undang" dataStoreRef="d_uu-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="1320" height="230" />
+        <dc:Bounds x="0" y="0" width="1320" height="330" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="user_di" bpmnElement="user" isHorizontal="true">
-        <dc:Bounds x="0" y="270" width="1320" height="70" />
+        <dc:Bounds x="0" y="370" width="1320" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -75,7 +89,7 @@
       <bpmndi:BPMNShape id="tolak_di" bpmnElement="tolak">
         <dc:Bounds x="428" y="160" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="451" y="199" width="74" height="11" />
+          <dc:Bounds x="367" y="199" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="tafsir_di" bpmnElement="tafsir">
@@ -96,7 +110,7 @@
       <bpmndi:BPMNShape id="gagal_di" bpmnElement="gagal">
         <dc:Bounds x="978" y="160" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1001" y="199" width="102" height="11" />
+          <dc:Bounds x="1001" y="147" width="102" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="urut_di" bpmnElement="urut">
@@ -111,33 +125,44 @@
           <dc:Bounds x="1213" y="93" width="102" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_uu_di" bpmnElement="d_uu">
+        <dc:Bounds x="971" y="246" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="959" y="301" width="74" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
-        <di:waypoint x="78" y="270" />
+        <di:waypoint x="78" y="370" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="167" width="102" height="35" />
+          <dc:Bounds x="83" y="217" width="102" height="35" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-user_di" bpmnElement="m-tolak-user">
         <di:waypoint x="446" y="196" />
-        <di:waypoint x="446" y="270" />
+        <di:waypoint x="446" y="370" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="367" y="202" width="74" height="11" />
+          <dc:Bounds x="451" y="271" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-gagal-user_di" bpmnElement="m-gagal-user">
-        <di:waypoint x="996" y="196" />
-        <di:waypoint x="996" y="270" />
+        <di:waypoint x="1012" y="186" />
+        <di:waypoint x="1034" y="186" />
+        <di:waypoint x="1034" y="370" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="890" y="202" width="102" height="23" />
+          <dc:Bounds x="1039" y="192" width="102" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-hasil-user_di" bpmnElement="m-hasil-user">
         <di:waypoint x="1146" y="110" />
-        <di:waypoint x="1146" y="270" />
+        <di:waypoint x="1146" y="370" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1151" y="178" width="102" height="11" />
+          <dc:Bounds x="1151" y="228" width="102" height="11" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="urut-dia-1_di" bpmnElement="urut-dia-1">
+        <di:waypoint x="996" y="246" />
+        <di:waypoint x="996" y="110" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
         <di:waypoint x="96" y="70" />

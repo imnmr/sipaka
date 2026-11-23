@@ -1,6 +1,8 @@
 tok 1.0 "Daftarkan Amandemen (Kelola Konten Hukum)"
 
 pool p "Daftarkan Amandemen" process=daftarkan_amandemen
+  store d_riw "Riwayat Perubahan UU"
+  store d_uu "Undang-Undang"
   start mulai "UU induk dan UU pengubah diterima" message="UU induk dan UU pengubah"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -35,6 +37,11 @@ flow tunggu -> setuju
 flow tunggu -> koreksi
 flow setuju -> status -> selesai
 flow koreksi -> susun
+
+writes tautkan d_riw
+reads susun d_riw
+writes susun d_uu
+writes status d_uu
 
 message admin -> mulai "UU induk dan UU pengubah"
 message tolak -> admin "Akses ditolak"

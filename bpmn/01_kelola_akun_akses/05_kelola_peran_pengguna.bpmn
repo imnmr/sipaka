@@ -3,6 +3,8 @@
   <bpmn:message id="Message_Permintaan_ubah_peran" name="Permintaan ubah peran" />
   <bpmn:message id="Message_Akses_ditolak" name="Akses ditolak" />
   <bpmn:message id="Message_Konfirmasi_perubahan_peran" name="Konfirmasi perubahan peran" />
+  <bpmn:dataStore id="d_peran-store" name="Peran Pengguna" />
+  <bpmn:dataStore id="d_sesi-store" name="Sesi" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Kelola Peran Pengguna" processRef="kelola_peran_pengguna" />
     <bpmn:participant id="admin" name="Admin" />
@@ -20,10 +22,46 @@
       <bpmn:messageEventDefinition id="tolak-def" messageRef="Message_Akses_ditolak" />
     </bpmn:endEvent>
     <bpmn:exclusiveGateway id="aksi" name="Aksi yang diminta?" default="f-aksi-cabut" />
-    <bpmn:serviceTask id="tetapkan" name="Tetapkan Peran Pengguna" />
-    <bpmn:serviceTask id="cabut" name="Cabut Peran Pengguna" />
+    <bpmn:serviceTask id="tetapkan" name="Tetapkan Peran Pengguna">
+      <bpmn:ioSpecification id="tetapkan-io">
+        <bpmn:dataOutput id="tetapkan-out-1" name="Peran Pengguna" />
+        <bpmn:inputSet id="tetapkan-inputs" />
+        <bpmn:outputSet id="tetapkan-outputs">
+          <bpmn:dataOutputRefs>tetapkan-out-1</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="tetapkan-doa-1">
+        <bpmn:sourceRef>tetapkan-out-1</bpmn:sourceRef>
+        <bpmn:targetRef>d_peran</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="cabut" name="Cabut Peran Pengguna">
+      <bpmn:ioSpecification id="cabut-io">
+        <bpmn:dataOutput id="cabut-out-2" name="Peran Pengguna" />
+        <bpmn:inputSet id="cabut-inputs" />
+        <bpmn:outputSet id="cabut-outputs">
+          <bpmn:dataOutputRefs>cabut-out-2</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="cabut-doa-2">
+        <bpmn:sourceRef>cabut-out-2</bpmn:sourceRef>
+        <bpmn:targetRef>d_peran</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="gabung" />
-    <bpmn:serviceTask id="sinkron" name="Perbarui hak akses pada sesi aktif pengguna" />
+    <bpmn:serviceTask id="sinkron" name="Perbarui hak akses pada sesi aktif pengguna">
+      <bpmn:ioSpecification id="sinkron-io">
+        <bpmn:dataOutput id="sinkron-out-3" name="Sesi" />
+        <bpmn:inputSet id="sinkron-inputs" />
+        <bpmn:outputSet id="sinkron-outputs">
+          <bpmn:dataOutputRefs>sinkron-out-3</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataOutputAssociation id="sinkron-doa-3">
+        <bpmn:sourceRef>sinkron-out-3</bpmn:sourceRef>
+        <bpmn:targetRef>d_sesi</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:endEvent id="selesai" name="Peran pengguna diperbarui">
       <bpmn:messageEventDefinition id="selesai-def" messageRef="Message_Konfirmasi_perubahan_peran" />
     </bpmn:endEvent>
@@ -41,14 +79,16 @@
     <bpmn:sequenceFlow id="f-cabut-gabung" sourceRef="cabut" targetRef="gabung" />
     <bpmn:sequenceFlow id="f-gabung-sinkron" sourceRef="gabung" targetRef="sinkron" />
     <bpmn:sequenceFlow id="f-sinkron-selesai" sourceRef="sinkron" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_peran" name="Peran Pengguna" dataStoreRef="d_peran-store" />
+    <bpmn:dataStoreReference id="d_sesi" name="Sesi" dataStoreRef="d_sesi-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="970" height="270" />
+        <dc:Bounds x="0" y="0" width="970" height="370" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="admin_di" bpmnElement="admin" isHorizontal="true">
-        <dc:Bounds x="0" y="310" width="970" height="70" />
+        <dc:Bounds x="0" y="410" width="970" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -95,26 +135,50 @@
           <dc:Bounds x="853" y="91" width="56" height="35" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_peran_di" bpmnElement="d_peran">
+        <dc:Bounds x="521" y="290" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="506" y="345" width="80" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_sesi_di" bpmnElement="d_sesi">
+        <dc:Bounds x="771" y="175" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="784" y="230" width="24" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-admin-mulai_di" bpmnElement="m-admin-mulai">
-        <di:waypoint x="78" y="310" />
+        <di:waypoint x="78" y="410" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="187" width="84" height="23" />
+          <dc:Bounds x="83" y="237" width="84" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-admin_di" bpmnElement="m-tolak-admin">
         <di:waypoint x="421" y="218" />
-        <di:waypoint x="421" y="310" />
+        <di:waypoint x="421" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="426" y="252" width="74" height="11" />
+          <dc:Bounds x="426" y="302" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-selesai-admin_di" bpmnElement="m-selesai-admin">
         <di:waypoint x="914" y="88" />
-        <di:waypoint x="914" y="310" />
+        <di:waypoint x="914" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="825" y="282" width="84" height="23" />
+          <dc:Bounds x="825" y="382" width="84" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="tetapkan-doa-1_di" bpmnElement="tetapkan-doa-1">
+        <di:waypoint x="546" y="110" />
+        <di:waypoint x="546" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="cabut-doa-2_di" bpmnElement="cabut-doa-2">
+        <di:waypoint x="546" y="240" />
+        <di:waypoint x="546" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sinkron-doa-3_di" bpmnElement="sinkron-doa-3">
+        <di:waypoint x="796" y="110" />
+        <di:waypoint x="796" y="175" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
         <di:waypoint x="96" y="70" />

@@ -1,6 +1,8 @@
 tok 1.0 "Lacak Amandemen (Pelacak Dokumen Hukum)"
 
 pool p "Lacak Amandemen" process=lacak_amandemen
+  store d_riw "Riwayat Perubahan UU"
+  store d_uu "Undang-Undang"
   start mulai "Permintaan lacak amandemen diterima" message="Permintaan lacak amandemen"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -63,6 +65,14 @@ flow tahun -> versi -> loop
 flow teks -> sidebar -> loop
 flow graf -> grafrel -> loop
 flow tutup -> selesai
+
+reads l2 d_riw
+reads w2 d_riw
+reads w3 d_riw
+reads versi d_uu
+reads s2 d_riw
+reads b2 d_uu
+reads g2 d_riw
 
 message user -> mulai "Permintaan lacak amandemen"
 message tolak -> user "Akses ditolak"

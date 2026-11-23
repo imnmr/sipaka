@@ -1,6 +1,7 @@
 tok 1.0 "Ubah Entri Repositori (Kelola Repositori)"
 
 pool p "Ubah Entri Repositori" process=ubah_entri_repositori
+  store d_entri "Entri Repositori"
   start mulai "Perubahan entri diterima" message="Entri dan perubahannya"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -26,6 +27,8 @@ flow ok -> simpan "ya" when="isiValid"
 flow ok -> pesan "tidak" default
 flow pesan -> perbaiki -> valid
 flow simpan -> selesai
+
+writes simpan d_entri
 
 message user -> mulai "Entri dan perubahannya"
 message tolak -> user "Akses ditolak"

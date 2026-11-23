@@ -1,6 +1,7 @@
 tok 1.0 "Deteksi Istilah Latin (Glosarium Latin)"
 
 pool p "Deteksi Istilah Latin" process=deteksi_istilah_latin
+  store d_istilah "Istilah Latin"
   start mulai "Teks UU atau thread siap ditampilkan"
   service pindai "Pindai Teks untuk Istilah Glosarium"
   xor ada "Ditemukan istilah Latin?"
@@ -13,5 +14,7 @@ flow mulai -> pindai -> ada
 flow ada -> sorot "ya" when="adaIstilah"
 flow ada -> nihil "tidak" default
 flow sorot -> selesai
+
+reads pindai d_istilah
 
 

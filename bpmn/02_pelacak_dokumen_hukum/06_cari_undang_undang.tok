@@ -1,6 +1,7 @@
 tok 1.0 "Cari Undang-Undang (Pelacak Dokumen Hukum)"
 
 pool p "Cari Undang-Undang" process=cari_undang_undang
+  store d_uu "Undang-Undang"
   start mulai "Kueri pencarian diterima" message="Kueri dan parameter pencarian"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -31,6 +32,8 @@ flow tunggu -> ubah
 flow tunggu -> tutup
 flow ubah -> urai
 flow tutup -> kosong
+
+reads filter d_uu
 
 message user -> mulai "Kueri dan parameter pencarian"
 message tolak -> user "Akses ditolak"

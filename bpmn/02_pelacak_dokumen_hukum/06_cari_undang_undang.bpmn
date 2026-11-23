@@ -6,6 +6,7 @@
   <bpmn:message id="Message_Pesan_hasil_tidak_ditemukan" name="Pesan hasil tidak ditemukan" />
   <bpmn:message id="Message_Kueri_pencarian_baru" name="Kueri pencarian baru" />
   <bpmn:message id="Message_Tutup_pencarian" name="Tutup pencarian" />
+  <bpmn:dataStore id="d_uu-store" name="Undang-Undang" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Cari Undang-Undang" processRef="cari_undang_undang" />
     <bpmn:participant id="user" name="Pengguna" />
@@ -26,7 +27,19 @@
       <bpmn:messageEventDefinition id="tolak-def" messageRef="Message_Akses_ditolak" />
     </bpmn:endEvent>
     <bpmn:serviceTask id="urai" name="Urai Kueri Pencarian" />
-    <bpmn:serviceTask id="filter" name="Terapkan Filter Pencarian" />
+    <bpmn:serviceTask id="filter" name="Terapkan Filter Pencarian">
+      <bpmn:ioSpecification id="filter-io">
+        <bpmn:dataInput id="filter-in-1" name="Undang-Undang" />
+        <bpmn:inputSet id="filter-inputs">
+          <bpmn:dataInputRefs>filter-in-1</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="filter-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="filter-dia-1">
+        <bpmn:sourceRef>d_uu</bpmn:sourceRef>
+        <bpmn:targetRef>filter-in-1</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
     <bpmn:serviceTask id="urut" name="Urutkan Hasil Pencarian" />
     <bpmn:exclusiveGateway id="ada" name="Ada hasil yang cocok?" default="f-ada-nihil" />
     <bpmn:sendTask id="tampil" name="Tampilkan Hasil Pencarian" messageRef="Message_Daftar_hasil_pencarian" />
@@ -59,6 +72,7 @@
     <bpmn:sequenceFlow id="f-tunggu-tutup" sourceRef="tunggu" targetRef="tutup" />
     <bpmn:sequenceFlow id="f-ubah-urai" sourceRef="ubah" targetRef="urai" />
     <bpmn:sequenceFlow id="f-tutup-kosong" sourceRef="tutup" targetRef="kosong" />
+    <bpmn:dataStoreReference id="d_uu" name="Undang-Undang" dataStoreRef="d_uu-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
@@ -137,6 +151,12 @@
           <dc:Bounds x="1252" y="331" width="96" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_uu_di" bpmnElement="d_uu">
+        <dc:Bounds x="571" y="175" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="559" y="230" width="74" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
         <di:waypoint x="78" y="400" />
         <di:waypoint x="78" y="88" />
@@ -180,6 +200,10 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1157" y="372" width="52" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="filter-dia-1_di" bpmnElement="filter-dia-1">
+        <di:waypoint x="596" y="175" />
+        <di:waypoint x="596" y="110" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
         <di:waypoint x="96" y="70" />

@@ -7,6 +7,7 @@
   <bpmn:message id="Message_Klik_rujukan_pasal" name="Klik rujukan pasal" />
   <bpmn:message id="Message_Klik_istilah_Latin" name="Klik istilah Latin" />
   <bpmn:message id="Message_Tutup_teks_UU" name="Tutup teks UU" />
+  <bpmn:dataStore id="d_uu-store" name="Undang-Undang" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Baca Teks Undang-Undang" processRef="baca_teks_undang_undang" />
     <bpmn:participant id="user" name="Pengguna" />
@@ -27,7 +28,19 @@
     <bpmn:endEvent id="tolak" name="Akses ditolak">
       <bpmn:messageEventDefinition id="tolak-def" messageRef="Message_Akses_ditolak" />
     </bpmn:endEvent>
-    <bpmn:sendTask id="teks" name="Tampilkan Teks Konsolidasi" messageRef="Message_Teks_konsolidasi_UU" />
+    <bpmn:sendTask id="teks" name="Tampilkan Teks Konsolidasi" messageRef="Message_Teks_konsolidasi_UU">
+      <bpmn:ioSpecification id="teks-io">
+        <bpmn:dataInput id="teks-in-1" name="Undang-Undang" />
+        <bpmn:inputSet id="teks-inputs">
+          <bpmn:dataInputRefs>teks-in-1</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="teks-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="teks-dia-1">
+        <bpmn:sourceRef>d_uu</bpmn:sourceRef>
+        <bpmn:targetRef>teks-in-1</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:sendTask>
     <bpmn:parallelGateway id="pisah" />
     <bpmn:callActivity id="anotasi" name="Tampilkan Anotasi Pasal" calledElement="anotasi_teks_undang_undang">
       <bpmn:documentation>Langkah 'Tampilkan Anotasi Pasal' pada proses Anotasi Teks Undang-Undang</bpmn:documentation>
@@ -52,7 +65,19 @@
     <bpmn:intermediateCatchEvent id="tutup" name="Pengguna menutup teks UU">
       <bpmn:messageEventDefinition id="tutup-def" messageRef="Message_Tutup_teks_UU" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:serviceTask id="rujukan" name="Tautkan Rujukan Antarpasal" />
+    <bpmn:serviceTask id="rujukan" name="Tautkan Rujukan Antarpasal">
+      <bpmn:ioSpecification id="rujukan-io">
+        <bpmn:dataInput id="rujukan-in-2" name="Undang-Undang" />
+        <bpmn:inputSet id="rujukan-inputs">
+          <bpmn:dataInputRefs>rujukan-in-2</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="rujukan-outputs" />
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="rujukan-dia-2">
+        <bpmn:sourceRef>d_uu</bpmn:sourceRef>
+        <bpmn:targetRef>rujukan-in-2</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
     <bpmn:callActivity id="popup" name="Tampilkan Popup Istilah" calledElement="tampilkan_popup_istilah" />
     <bpmn:endEvent id="selesai" name="Selesai membaca" />
     <bpmn:sequenceFlow id="f-mulai-auth" sourceRef="mulai" targetRef="auth" />
@@ -78,6 +103,7 @@
     <bpmn:sequenceFlow id="f-istilah-popup" sourceRef="istilah" targetRef="popup" />
     <bpmn:sequenceFlow id="f-popup-loop" sourceRef="popup" targetRef="loop" />
     <bpmn:sequenceFlow id="f-tutup-selesai" sourceRef="tutup" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_uu" name="Undang-Undang" dataStoreRef="d_uu-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
@@ -105,7 +131,7 @@
       <bpmndi:BPMNShape id="tolak_di" bpmnElement="tolak">
         <dc:Bounds x="428" y="217" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="367" y="256" width="74" height="11" />
+          <dc:Bounds x="367" y="204" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="teks_di" bpmnElement="teks">
@@ -177,6 +203,12 @@
           <dc:Bounds x="1430" y="423" width="84" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_uu_di" bpmnElement="d_uu">
+        <dc:Bounds x="421" y="375" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="344" y="395" width="74" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
         <di:waypoint x="78" y="510" />
         <di:waypoint x="78" y="88" />
@@ -185,10 +217,11 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-user_di" bpmnElement="m-tolak-user">
-        <di:waypoint x="446" y="253" />
-        <di:waypoint x="446" y="510" />
+        <di:waypoint x="462" y="243" />
+        <di:waypoint x="478" y="243" />
+        <di:waypoint x="478" y="510" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="367" y="494" width="74" height="11" />
+          <dc:Bounds x="399" y="494" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-teks-user_di" bpmnElement="m-teks-user">
@@ -200,10 +233,10 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-n2-user_di" bpmnElement="m-n2-user">
-        <di:waypoint x="812" y="280" />
-        <di:waypoint x="812" y="510" />
+        <di:waypoint x="832" y="280" />
+        <di:waypoint x="832" y="510" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="816" y="494" width="108" height="11" />
+          <dc:Bounds x="836" y="494" width="108" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-user-rujuk_di" bpmnElement="m-user-rujuk">
@@ -229,6 +262,10 @@
           <dc:Bounds x="1275" y="494" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="teks-dia-1_di" bpmnElement="teks-dia-1">
+        <di:waypoint x="446" y="375" />
+        <di:waypoint x="446" y="110" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-n1-n2_di" bpmnElement="f-n1-n2">
         <di:waypoint x="712" y="240" />
         <di:waypoint x="762" y="240" />
@@ -236,6 +273,10 @@
       <bpmndi:BPMNEdge id="f-n2-n3_di" bpmnElement="f-n2-n3">
         <di:waypoint x="862" y="240" />
         <di:waypoint x="912" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="rujukan-dia-2_di" bpmnElement="rujukan-dia-2">
+        <di:waypoint x="471" y="392" />
+        <di:waypoint x="1422" y="86" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
         <di:waypoint x="96" y="70" />

@@ -1,6 +1,7 @@
 tok 1.0 "Upvote Komentar (Forum Diskusi Kasus)"
 
 pool p "Upvote Komentar" process=upvote_komentar
+  store d_upvote "Upvote"
   start mulai "Permintaan upvote diterima" message="Permintaan upvote"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -24,6 +25,9 @@ flow alih -> baru
 flow baru -> poin "ya" when="upvoteBaru"
 flow baru -> selesai2 "tidak" default
 flow poin -> selesai
+
+reads alih d_upvote
+writes alih d_upvote
 
 message user -> mulai "Permintaan upvote"
 message tolak -> user "Akses ditolak"

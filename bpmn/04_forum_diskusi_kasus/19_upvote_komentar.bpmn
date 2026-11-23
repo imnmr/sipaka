@@ -5,6 +5,7 @@
   <bpmn:message id="Message_Upvote_ditolak" name="Upvote ditolak" />
   <bpmn:message id="Message_Status_upvote" name="Status upvote" />
   <bpmn:message id="Message_Status_upvote_dicabut" name="Status upvote dicabut" />
+  <bpmn:dataStore id="d_upvote-store" name="Upvote" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Upvote Komentar" processRef="upvote_komentar" />
     <bpmn:participant id="user" name="Pengguna" />
@@ -27,7 +28,26 @@
     <bpmn:endEvent id="tolaksendiri" name="Upvote ditolak">
       <bpmn:messageEventDefinition id="tolaksendiri-def" messageRef="Message_Upvote_ditolak" />
     </bpmn:endEvent>
-    <bpmn:serviceTask id="alih" name="Alihkan Status Upvote" />
+    <bpmn:serviceTask id="alih" name="Alihkan Status Upvote">
+      <bpmn:ioSpecification id="alih-io">
+        <bpmn:dataInput id="alih-in-1" name="Upvote" />
+        <bpmn:dataOutput id="alih-out-2" name="Upvote" />
+        <bpmn:inputSet id="alih-inputs">
+          <bpmn:dataInputRefs>alih-in-1</bpmn:dataInputRefs>
+        </bpmn:inputSet>
+        <bpmn:outputSet id="alih-outputs">
+          <bpmn:dataOutputRefs>alih-out-2</bpmn:dataOutputRefs>
+        </bpmn:outputSet>
+      </bpmn:ioSpecification>
+      <bpmn:dataInputAssociation id="alih-dia-1">
+        <bpmn:sourceRef>d_upvote</bpmn:sourceRef>
+        <bpmn:targetRef>alih-in-1</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+      <bpmn:dataOutputAssociation id="alih-doa-2">
+        <bpmn:sourceRef>alih-out-2</bpmn:sourceRef>
+        <bpmn:targetRef>d_upvote</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="baru" name="Upvote ditambahkan (bukan dicabut)?" default="f-baru-selesai2" />
     <bpmn:callActivity id="poin" name="Beri Poin Reputasi" calledElement="kelola_reputasi">
       <bpmn:documentation>Langkah 'Beri Poin Reputasi' pada proses Kelola Reputasi (untuk penulis komentar)</bpmn:documentation>
@@ -54,14 +74,15 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="f-baru-selesai2" name="tidak" sourceRef="baru" targetRef="selesai2" />
     <bpmn:sequenceFlow id="f-poin-selesai" sourceRef="poin" targetRef="selesai" />
+    <bpmn:dataStoreReference id="d_upvote" name="Upvote" dataStoreRef="d_upvote-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="970" height="360" />
+        <dc:Bounds x="0" y="0" width="970" height="370" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="user_di" bpmnElement="user" isHorizontal="true">
-        <dc:Bounds x="0" y="400" width="970" height="70" />
+        <dc:Bounds x="0" y="410" width="970" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
         <dc:Bounds x="60" y="52" width="36" height="36" />
@@ -93,7 +114,7 @@
       <bpmndi:BPMNShape id="tolaksendiri_di" bpmnElement="tolaksendiri">
         <dc:Bounds x="528" y="52" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="551" y="91" width="80" height="11" />
+          <dc:Bounds x="506" y="93" width="80" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="alih_di" bpmnElement="alih">
@@ -115,45 +136,60 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="selesai2_di" bpmnElement="selesai2">
-        <dc:Bounds x="778" y="290" width="36" height="36" />
+        <dc:Bounds x="778" y="297" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="817" y="303" width="80" height="11" />
+          <dc:Bounds x="801" y="336" width="80" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_upvote_di" bpmnElement="d_upvote">
+        <dc:Bounds x="521" y="290" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="529" y="345" width="34" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
-        <di:waypoint x="78" y="400" />
+        <di:waypoint x="78" y="410" />
         <di:waypoint x="78" y="88" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="232" width="96" height="11" />
+          <dc:Bounds x="83" y="237" width="96" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-user_di" bpmnElement="m-tolak-user">
         <di:waypoint x="421" y="218" />
-        <di:waypoint x="421" y="400" />
+        <di:waypoint x="421" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="426" y="297" width="74" height="11" />
+          <dc:Bounds x="426" y="302" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolaksendiri-user_di" bpmnElement="m-tolaksendiri-user">
-        <di:waypoint x="546" y="88" />
-        <di:waypoint x="546" y="400" />
+        <di:waypoint x="562" y="78" />
+        <di:waypoint x="584" y="78" />
+        <di:waypoint x="584" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="551" y="384" width="80" height="11" />
+          <dc:Bounds x="578" y="66" width="80" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-selesai-user_di" bpmnElement="m-selesai-user">
         <di:waypoint x="914" y="218" />
-        <di:waypoint x="914" y="400" />
+        <di:waypoint x="914" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="835" y="384" width="74" height="11" />
+          <dc:Bounds x="835" y="394" width="74" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-selesai2-user_di" bpmnElement="m-selesai2-user">
-        <di:waypoint x="796" y="326" />
-        <di:waypoint x="796" y="400" />
+        <di:waypoint x="796" y="333" />
+        <di:waypoint x="796" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="717" y="332" width="74" height="23" />
+          <dc:Bounds x="717" y="339" width="74" height="23" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="alih-dia-1_di" bpmnElement="alih-dia-1">
+        <di:waypoint x="546" y="290" />
+        <di:waypoint x="546" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="alih-doa-2_di" bpmnElement="alih-doa-2">
+        <di:waypoint x="546" y="240" />
+        <di:waypoint x="546" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
         <di:waypoint x="96" y="70" />
@@ -207,10 +243,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-baru-selesai2_di" bpmnElement="f-baru-selesai2">
         <di:waypoint x="671" y="225" />
-        <di:waypoint x="671" y="308" />
-        <di:waypoint x="778" y="308" />
+        <di:waypoint x="671" y="315" />
+        <di:waypoint x="778" y="315" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="679" y="293" width="28" height="11" />
+          <dc:Bounds x="679" y="300" width="28" height="11" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-poin-selesai_di" bpmnElement="f-poin-selesai">

@@ -1,6 +1,7 @@
 tok 1.0 "Lihat Detail Undang-Undang (Pelacak Dokumen Hukum)"
 
 pool p "Lihat Detail Undang-Undang" process=lihat_detail_undang_undang
+  store d_uu "Undang-Undang"
   start mulai "Permintaan detail UU diterima" message="Permintaan detail UU"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
@@ -28,6 +29,10 @@ flow tunggu -> unduh
 flow tunggu -> tutup
 flow unduh -> pdf -> terunduh
 flow tutup -> selesai
+
+reads meta d_uu
+reads status d_uu
+reads pdf d_uu
 
 message user -> mulai "Permintaan detail UU"
 message tolak -> user "Akses ditolak"
