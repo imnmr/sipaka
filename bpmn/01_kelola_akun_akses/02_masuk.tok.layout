@@ -1,0 +1,46 @@
+tok-layout 1
+p 160 80 780 390
+mulai 220 152 36 36
+mulai/label 210 126 56 27
+verif 306 130 100 80
+benar 456 145 50 50
+benar/label 487 198 56 27
+sesi 556 130 100 80
+sukses 713 152 36 36
+sukses/label 685 193 92 27
+gagal 556 260 100 80
+batas 706 275 50 50
+batas/label 665 243 92 27
+ulang 806 260 100 80
+d_akun 331 275 50 50
+d_akun/label 319 330 74 27
+d_sesi 405 275 50 50
+d_sesi/label 418 330 24 14
+kunci 713 397 36 36
+kunci/label 652 436 74 27
+f-mulai-verif 256 170 306 170
+f-ulang-verif 856 260 856 100 356 100 356 130
+f-verif-benar 406 170 456 170
+f-benar-sesi 506 170 556 170
+f-benar-sesi/label 514 155 12 14
+f-benar-gagal 481 195 481 300 556 300
+f-benar-gagal/label 489 285 28 14
+f-sesi-sukses 656 170 713 170
+f-gagal-batas 656 300 706 300
+f-batas-ulang 756 300 806 300
+f-batas-ulang/label 780 284 12 14
+f-batas-kunci 731 325 731 397
+f-batas-kunci/label 697 356 28 14
+user 160 510 780 70
+m-user-mulai 238 510 238 188
+m-user-mulai/label 236 489 98 14
+verif-dia-1 356 275 356 210
+sesi-doa-2 558 206 455 282
+m-sukses-user 747 178 763 178 763 510
+m-sukses-user/label 765 369 52 27
+m-gagal-user 606 340 606 510
+m-gagal-user/label 511 482 90 27
+m-user-ulang 856 510 856 340
+m-user-ulang/label 861 482 56 27
+m-kunci-user 731 433 731 510
+m-kunci-user/label 658 482 68 27

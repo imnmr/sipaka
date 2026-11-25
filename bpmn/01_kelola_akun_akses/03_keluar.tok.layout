@@ -1,0 +1,27 @@
+tok-layout 1
+p 160 80 770 260
+mulai 220 152 36 36
+mulai/label 210 114 56 40
+aktif 306 145 50 50
+aktif/label 283 200 96 14
+akhiri 406 130 100 80
+hapus 556 130 100 80
+arah 706 130 100 80
+selesai 856 152 36 36
+selesai/label 832 193 84 27
+d_sesi 431 260 50 50
+d_sesi/label 444 315 24 14
+f-mulai-aktif 256 170 306 170
+f-aktif-akhiri 356 170 406 170
+f-aktif-akhiri/label 364 155 12 14
+f-aktif-hapus 331 145 331 100 606 100 606 130
+f-aktif-hapus/label 338 105 28 14
+f-akhiri-hapus 506 178 556 178
+f-hapus-arah 656 170 706 170
+f-arah-selesai 806 170 856 170
+user 160 380 770 70
+m-user-mulai 238 380 238 188
+m-user-mulai/label 243 272 96 14
+akhiri-doa-1 456 210 456 260
+m-arah-user 756 210 756 380
+m-arah-user/label 761 283 74 27

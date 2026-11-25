@@ -1,0 +1,77 @@
+tok-layout 1
+p 160 80 1280 760
+mulai 220 132 36 36
+mulai/label 210 103 57 27
+auth 306 110 100 80
+izin 456 125 50 50
+izin/label 436 107 90 14
+aksi 556 125 50 50
+aksi/label 548 101 66 14
+tolak 463 262 36 36
+tolak/label 402 301 74 14
+tampil 656 110 100 80
+tulis 656 220 100 80
+buat 1100 220 100 80
+ubahisi 656 340 100 80
+ubah 1100 340 100 80
+tanda 656 460 100 80
+gabung 1255 595 50 50
+minta 656 580 100 80
+tunggu 905 595 50 50
+hapus 1100 580 100 80
+selesai 1342 602 36 36
+selesai/label 1337 570 46 27
+batal 1262 702 36 36
+batal/label 1234 742 91 27
+tidak 1132 702 36 36
+tidak/label 1099 672 101 27
+ya 1012 602 36 36
+ya/label 977 574 106 27
+f-mulai-auth 256 150 306 150
+f-auth-izin 406 150 456 150
+f-izin-aksi 506 150 556 150
+f-izin-aksi/label 514 135 12 14
+f-izin-tolak 481 175 481 262
+f-izin-tolak/label 486 191 28 14
+f-aksi-tulis 581 175 581 260 656 260
+f-aksi-tulis/label 586 229 40 27
+f-aksi-ubahisi 581 175 581 380 656 380
+f-aksi-ubahisi/label 585 349 42 27
+f-aksi-minta 581 175 581 620 656 620
+f-aksi-minta/label 586 589 40 27
+f-aksi-tampil 606 150 656 150
+f-aksi-tampil/label 594 156 50 27
+f-aksi-tanda 581 175 581 500 656 500
+f-aksi-tanda/label 584 468 51 27
+f-ubah-gabung 1200 380 1280 380 1280 595
+f-tampil-gabung 756 150 1280 150 1280 595
+f-tanda-gabung 756 500 1280 500 1280 595
+Flow_0ypasfw 1200 260 1280 260 1280 595
+f-gabung-selesai 1305 620 1342 620
+f-tulis-buat 756 260 1100 260
+f-ubahisi-ubah 756 380 1100 380
+f-hapus-gabung 1200 620 1255 620
+f-minta-tunggu 756 620 905 620
+f-tunggu-ya 955 620 1012 620
+f-tunggu-tidak 930 645 930 720 1132 720
+f-ya-hapus 1048 620 1100 620
+f-tidak-batal 1168 720 1262 720
+user 160 880 1280 70
+m-user-mulai 238 880 238 168
+m-user-mulai/label 243 512 80 27
+m-tolak-user 481 298 481 880
+m-tolak-user/label 402 855 74 14
+m-minta-user 706 660 706 880
+m-minta-user/label 615 848 90 27
+m-user-ubahisi 800 880 800 388 756 388
+m-user-ubahisi/label 757 397 40 40
+m-user-tidak 1150 880 1150 738
+m-user-tidak/label 1155 855 62 14
+m-user-ya 1030 880 1030 638
+m-user-ya/label 1032 848 61 27
+m-tampil-user 756 158 870 158 870 880
+m-tampil-user/label 791 164 74 14
+m-user-tulis 835 880 835 268 756 268
+m-user-tulis/label 771 273 59 27
+m-selesai-user 1360 638 1360 880
+m-selesai-user/label 1254 855 102 14

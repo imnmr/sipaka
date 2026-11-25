@@ -1,0 +1,36 @@
+tok-layout 1
+p 160 80 770 270
+mulai 220 132 36 36
+mulai/label 239 171 56 40
+val 306 110 100 80
+valid 456 125 50 50
+valid/label 429 94 103 27
+buat 556 110 100 80
+peran 706 110 100 80
+sukses 856 132 36 36
+sukses/label 879 171 46 40
+pesan 556 240 100 80
+ulang 706 240 100 80
+d_akun 331 255 50 50
+d_akun/label 319 310 74 27
+f-mulai-val 256 150 306 150
+f-ulang-val 756 240 756 210 356 210 356 190
+f-val-valid 406 150 456 150
+f-valid-buat 506 150 556 150
+f-valid-buat/label 514 134 12 14
+f-valid-pesan 481 175 481 280 556 280
+f-valid-pesan/label 489 265 28 14
+f-buat-peran 656 150 706 150
+f-peran-sukses 806 150 856 150
+f-pesan-ulang 656 280 706 280
+calon 160 390 770 70
+m-calon-mulai 238 390 238 168
+m-calon-mulai/label 243 371 84 14
+val-dia-1 356 255 356 190
+buat-doa-2 556 176 381 267
+m-sukses-calon 874 168 874 390
+m-sukses-calon/label 813 258 56 40
+m-pesan-calon 606 320 606 390
+m-pesan-calon/label 607 362 99 27
+m-calon-ulang 756 390 756 320
+m-calon-ulang/label 761 360 84 27

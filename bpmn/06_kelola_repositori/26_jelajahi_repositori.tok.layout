@@ -1,0 +1,43 @@
+tok-layout 1
+p 160 80 870 370
+mulai 220 132 36 36
+mulai/label 193 101 90 27
+auth 306 110 100 80
+izin 456 125 50 50
+izin/label 453 96 56 27
+saring 556 110 100 80
+ada 706 125 50 50
+ada/label 700 96 62 27
+tampil 806 110 100 80
+selesai 956 132 36 36
+selesai/label 940 173 68 27
+kosong 806 240 100 80
+nihil 956 262 36 36
+nihil/label 932 303 84 27
+tolak 463 262 36 36
+tolak/label 383 273 74 14
+d_entri 581 255 50 50
+d_entri/label 561 313 90 14
+f-mulai-auth 256 150 306 150
+f-auth-izin 406 150 456 150
+f-izin-saring 506 150 556 150
+f-izin-saring/label 514 135 12 14
+f-izin-tolak 481 175 481 262
+f-izin-tolak/label 475 186 28 14
+f-saring-ada 656 150 706 150
+f-ada-tampil 756 150 806 150
+f-ada-tampil/label 764 135 12 14
+f-ada-kosong 731 175 731 280 806 280
+f-ada-kosong/label 739 265 28 14
+f-tampil-selesai 906 150 956 150
+f-kosong-nihil 906 280 956 280
+user 160 490 870 70
+saring-dia-1 606 255 606 190
+m-user-mulai 238 490 238 168
+m-user-mulai/label 238 457 90 27
+m-tolak-user 481 298 481 490
+m-tolak-user/label 485 463 74 14
+m-tampil-user 906 158 926 158 926 490
+m-tampil-user/label 929 456 68 27
+m-kosong-user 856 320 856 490
+m-kosong-user/label 781 456 72 27

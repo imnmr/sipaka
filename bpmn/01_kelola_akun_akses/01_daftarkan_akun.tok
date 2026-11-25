@@ -1,7 +1,6 @@
-tok 1.0 "Daftarkan Akun (Kelola Akun & Akses)"
+tok 0.5 "Daftarkan Akun (Kelola Akun & Akses)"
 
 pool p "Daftarkan Akun" process=daftarkan_akun
-  store d_akun "Akun Pengguna"
   start mulai "Data registrasi diterima" message="Data registrasi"
   service val "Validasi Data Registrasi"
   xor valid "Data valid dan belum terdaftar?"
@@ -10,19 +9,21 @@ pool p "Daftarkan Akun" process=daftarkan_akun
   end sukses "Akun berhasil dibuat" message="Konfirmasi akun dibuat"
   send pesan "Tampilkan pesan kesalahan validasi" message="Pesan kesalahan validasi"
   receive ulang "Terima data registrasi yang diperbaiki" message="Data registrasi diperbaiki"
+  store d_akun "Akun Pengguna"
 
 pool calon "Calon Pengguna"
 
-flow mulai -> val -> valid
+flow mulai -> val
+flow ulang -> val -> valid
 flow valid -> buat "ya" when="dataValid"
 flow valid -> pesan "tidak" default
-flow pesan -> ulang -> val
 flow buat -> peran -> sukses
-
-reads val d_akun
-writes buat d_akun
+flow pesan -> ulang
 
 message calon -> mulai "Data registrasi"
 message sukses -> calon "Konfirmasi akun dibuat"
 message pesan -> calon "Pesan kesalahan validasi"
 message calon -> ulang "Data registrasi diperbaiki"
+
+reads val d_akun
+writes buat d_akun

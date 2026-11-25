@@ -1,11 +1,9 @@
-tok 1.0 "Verifikasi Argumen (Forum Diskusi Kasus)"
+tok 0.5 "Verifikasi Argumen (Forum Diskusi Kasus)"
 
 pool p "Verifikasi Argumen" process=verifikasi_argumen
-  store d_komen "Komentar"
   start mulai "Permintaan verifikasi diterima" message="Argumen yang dipilih"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan (peran dosen/ahli)?"
-  end tolak "Akses ditolak" message="Akses ditolak"
   send tinjau "Tinjau Argumen Hukum" message="Argumen untuk ditinjau"
   receive hasil "Terima keputusan verifikasi" message="Keputusan verifikasi"
   xor sesuai "Argumen sesuai hukum?"
@@ -13,7 +11,9 @@ pool p "Verifikasi Argumen" process=verifikasi_argumen
   service lencana "Lampirkan Lencana Verifikasi"
   call poin "Beri Poin Reputasi" process=kelola_reputasi doc="Langkah 'Beri Poin Reputasi' pada proses Kelola Reputasi (untuk penulis argumen)"
   end selesai "Argumen terverifikasi" message="Konfirmasi verifikasi"
+  end tolak "Akses ditolak" message="Akses ditolak"
   end ditolak "Argumen tidak diverifikasi" message="Argumen tidak diverifikasi"
+  store d_komen "Komentar"
 
 pool dosen "Dosen/Ahli"
 
@@ -25,12 +25,12 @@ flow sesuai -> tandai "ya" when="argumenSesuai"
 flow sesuai -> ditolak "tidak" default
 flow tandai -> lencana -> poin -> selesai
 
-writes tandai d_komen
-writes lencana d_komen
-
 message dosen -> mulai "Argumen yang dipilih"
 message tolak -> dosen "Akses ditolak"
 message tinjau -> dosen "Argumen untuk ditinjau"
 message dosen -> hasil "Keputusan verifikasi"
 message selesai -> dosen "Konfirmasi verifikasi"
 message ditolak -> dosen "Argumen tidak diverifikasi"
+
+writes tandai d_komen
+writes lencana d_komen

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions" name="Daftarkan Akun (Kelola Akun &amp; Akses)" targetNamespace="http://bpmn.io/schema/bpmn" exporter="tok" exporterVersion="1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions" name="Daftarkan Akun (Kelola Akun &amp; Akses)" targetNamespace="http://bpmn.io/schema/bpmn" exporter="tok" exporterVersion="0.5">
   <bpmn:message id="Message_Data_registrasi" name="Data registrasi" />
   <bpmn:message id="Message_Konfirmasi_akun_dibuat" name="Konfirmasi akun dibuat" />
   <bpmn:message id="Message_Pesan_kesalahan_validasi" name="Pesan kesalahan validasi" />
@@ -53,140 +53,140 @@
     <bpmn:sendTask id="pesan" name="Tampilkan pesan kesalahan validasi" messageRef="Message_Pesan_kesalahan_validasi" />
     <bpmn:receiveTask id="ulang" name="Terima data registrasi yang diperbaiki" messageRef="Message_Data_registrasi_diperbaiki" />
     <bpmn:sequenceFlow id="f-mulai-val" sourceRef="mulai" targetRef="val" />
+    <bpmn:sequenceFlow id="f-ulang-val" sourceRef="ulang" targetRef="val" />
     <bpmn:sequenceFlow id="f-val-valid" sourceRef="val" targetRef="valid" />
     <bpmn:sequenceFlow id="f-valid-buat" name="ya" sourceRef="valid" targetRef="buat">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">dataValid</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="f-valid-pesan" name="tidak" sourceRef="valid" targetRef="pesan" />
-    <bpmn:sequenceFlow id="f-pesan-ulang" sourceRef="pesan" targetRef="ulang" />
-    <bpmn:sequenceFlow id="f-ulang-val" sourceRef="ulang" targetRef="val" />
     <bpmn:sequenceFlow id="f-buat-peran" sourceRef="buat" targetRef="peran" />
     <bpmn:sequenceFlow id="f-peran-sukses" sourceRef="peran" targetRef="sukses" />
+    <bpmn:sequenceFlow id="f-pesan-ulang" sourceRef="pesan" targetRef="ulang" />
     <bpmn:dataStoreReference id="d_akun" name="Akun Pengguna" dataStoreRef="d_akun-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="770" height="270" />
+        <dc:Bounds x="160" y="80" width="770" height="270" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="calon_di" bpmnElement="calon" isHorizontal="true">
-        <dc:Bounds x="0" y="310" width="770" height="70" />
+        <dc:Bounds x="160" y="390" width="770" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
-        <dc:Bounds x="60" y="52" width="36" height="36" />
+        <dc:Bounds x="220" y="132" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="84" y="91" width="56" height="35" />
+          <dc:Bounds x="239" y="171" width="56" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="val_di" bpmnElement="val">
-        <dc:Bounds x="146" y="30" width="100" height="80" />
+        <dc:Bounds x="306" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="valid_di" bpmnElement="valid" isMarkerVisible="true">
-        <dc:Bounds x="296" y="45" width="50" height="50" />
+        <dc:Bounds x="456" y="125" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="293" y="7" width="56" height="35" />
+          <dc:Bounds x="429" y="94" width="103" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="buat_di" bpmnElement="buat">
-        <dc:Bounds x="396" y="30" width="100" height="80" />
+        <dc:Bounds x="556" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="peran_di" bpmnElement="peran">
-        <dc:Bounds x="546" y="30" width="100" height="80" />
+        <dc:Bounds x="706" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sukses_di" bpmnElement="sukses">
-        <dc:Bounds x="696" y="52" width="36" height="36" />
+        <dc:Bounds x="856" y="132" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="719" y="91" width="46" height="35" />
+          <dc:Bounds x="879" y="171" width="46" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="pesan_di" bpmnElement="pesan">
-        <dc:Bounds x="396" y="160" width="100" height="80" />
+        <dc:Bounds x="556" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ulang_di" bpmnElement="ulang">
-        <dc:Bounds x="546" y="160" width="100" height="80" />
+        <dc:Bounds x="706" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="d_akun_di" bpmnElement="d_akun">
-        <dc:Bounds x="171" y="175" width="50" height="50" />
+        <dc:Bounds x="331" y="255" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="159" y="230" width="74" height="11" />
+          <dc:Bounds x="319" y="310" width="74" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-calon-mulai_di" bpmnElement="m-calon-mulai">
-        <di:waypoint x="78" y="310" />
-        <di:waypoint x="78" y="88" />
+        <di:waypoint x="238" y="390" />
+        <di:waypoint x="238" y="168" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="294" width="84" height="11" />
+          <dc:Bounds x="243" y="371" width="84" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-sukses-calon_di" bpmnElement="m-sukses-calon">
-        <di:waypoint x="714" y="88" />
-        <di:waypoint x="714" y="310" />
+        <di:waypoint x="874" y="168" />
+        <di:waypoint x="874" y="390" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="653" y="94" width="56" height="35" />
+          <dc:Bounds x="813" y="258" width="56" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-pesan-calon_di" bpmnElement="m-pesan-calon">
-        <di:waypoint x="446" y="240" />
-        <di:waypoint x="446" y="310" />
+        <di:waypoint x="606" y="320" />
+        <di:waypoint x="606" y="390" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="451" y="246" width="84" height="23" />
+          <dc:Bounds x="607" y="362" width="99" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-calon-ulang_di" bpmnElement="m-calon-ulang">
-        <di:waypoint x="596" y="310" />
-        <di:waypoint x="596" y="240" />
+        <di:waypoint x="756" y="390" />
+        <di:waypoint x="756" y="320" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="601" y="282" width="84" height="23" />
+          <dc:Bounds x="761" y="360" width="84" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="val-dia-1_di" bpmnElement="val-dia-1">
-        <di:waypoint x="196" y="175" />
-        <di:waypoint x="196" y="110" />
+        <di:waypoint x="356" y="255" />
+        <di:waypoint x="356" y="190" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="buat-doa-2_di" bpmnElement="buat-doa-2">
-        <di:waypoint x="396" y="96" />
-        <di:waypoint x="221" y="187" />
+        <di:waypoint x="556" y="176" />
+        <di:waypoint x="381" y="267" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-val_di" bpmnElement="f-mulai-val">
-        <di:waypoint x="96" y="70" />
-        <di:waypoint x="146" y="70" />
+        <di:waypoint x="256" y="150" />
+        <di:waypoint x="306" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f-ulang-val_di" bpmnElement="f-ulang-val">
+        <di:waypoint x="756" y="240" />
+        <di:waypoint x="756" y="210" />
+        <di:waypoint x="356" y="210" />
+        <di:waypoint x="356" y="190" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-val-valid_di" bpmnElement="f-val-valid">
-        <di:waypoint x="246" y="70" />
-        <di:waypoint x="296" y="70" />
+        <di:waypoint x="406" y="150" />
+        <di:waypoint x="456" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-valid-buat_di" bpmnElement="f-valid-buat">
-        <di:waypoint x="346" y="70" />
-        <di:waypoint x="396" y="70" />
+        <di:waypoint x="506" y="150" />
+        <di:waypoint x="556" y="150" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="354" y="55" width="12" height="11" />
+          <dc:Bounds x="514" y="134" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-valid-pesan_di" bpmnElement="f-valid-pesan">
-        <di:waypoint x="321" y="95" />
-        <di:waypoint x="321" y="200" />
-        <di:waypoint x="396" y="200" />
+        <di:waypoint x="481" y="175" />
+        <di:waypoint x="481" y="280" />
+        <di:waypoint x="556" y="280" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="329" y="185" width="28" height="11" />
+          <dc:Bounds x="489" y="265" width="28" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="f-pesan-ulang_di" bpmnElement="f-pesan-ulang">
-        <di:waypoint x="496" y="200" />
-        <di:waypoint x="546" y="200" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="f-ulang-val_di" bpmnElement="f-ulang-val">
-        <di:waypoint x="596" y="160" />
-        <di:waypoint x="596" y="130" />
-        <di:waypoint x="196" y="130" />
-        <di:waypoint x="196" y="110" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-buat-peran_di" bpmnElement="f-buat-peran">
-        <di:waypoint x="496" y="70" />
-        <di:waypoint x="546" y="70" />
+        <di:waypoint x="656" y="150" />
+        <di:waypoint x="706" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-peran-sukses_di" bpmnElement="f-peran-sukses">
-        <di:waypoint x="646" y="70" />
-        <di:waypoint x="696" y="70" />
+        <di:waypoint x="806" y="150" />
+        <di:waypoint x="856" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f-pesan-ulang_di" bpmnElement="f-pesan-ulang">
+        <di:waypoint x="656" y="280" />
+        <di:waypoint x="706" y="280" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

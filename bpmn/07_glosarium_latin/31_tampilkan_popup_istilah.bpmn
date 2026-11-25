@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions" name="Tampilkan Popup Istilah (Glosarium Latin)" targetNamespace="http://bpmn.io/schema/bpmn" exporter="tok" exporterVersion="1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions" name="Tampilkan Popup Istilah (Glosarium Latin)" targetNamespace="http://bpmn.io/schema/bpmn" exporter="tok" exporterVersion="0.5">
   <bpmn:message id="Message_Klik_istilah_Latin" name="Klik istilah Latin" />
   <bpmn:message id="Message_Popup_definisi_istilah" name="Popup definisi istilah" />
   <bpmn:message id="Message_Pesan_definisi_belum_tersedia" name="Pesan definisi belum tersedia" />
@@ -49,114 +49,114 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="870" height="270" />
+        <dc:Bounds x="160" y="80" width="870" height="270" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="user_di" bpmnElement="user" isHorizontal="true">
-        <dc:Bounds x="0" y="310" width="870" height="70" />
+        <dc:Bounds x="160" y="390" width="870" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
-        <dc:Bounds x="60" y="52" width="36" height="36" />
+        <dc:Bounds x="220" y="132" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="44" y="14" width="68" height="35" />
+          <dc:Bounds x="193" y="102" width="90" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="cari_di" bpmnElement="cari">
-        <dc:Bounds x="146" y="30" width="100" height="80" />
+        <dc:Bounds x="306" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ada_di" bpmnElement="ada" isMarkerVisible="true">
-        <dc:Bounds x="296" y="45" width="50" height="50" />
+        <dc:Bounds x="456" y="125" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="327" y="98" width="56" height="23" />
+          <dc:Bounds x="446" y="98" width="69" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="susun_di" bpmnElement="susun">
-        <dc:Bounds x="396" y="30" width="100" height="80" />
+        <dc:Bounds x="556" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="tampil_di" bpmnElement="tampil">
-        <dc:Bounds x="546" y="30" width="100" height="80" />
+        <dc:Bounds x="706" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="kosong_di" bpmnElement="kosong">
-        <dc:Bounds x="396" y="160" width="100" height="80" />
+        <dc:Bounds x="556" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="gabung_di" bpmnElement="gabung" isMarkerVisible="true">
-        <dc:Bounds x="696" y="45" width="50" height="50" />
+        <dc:Bounds x="856" y="125" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="selesai_di" bpmnElement="selesai">
-        <dc:Bounds x="796" y="52" width="36" height="36" />
+        <dc:Bounds x="956" y="132" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="777" y="93" width="74" height="23" />
+          <dc:Bounds x="937" y="173" width="74" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="d_istilah_di" bpmnElement="d_istilah">
-        <dc:Bounds x="171" y="175" width="50" height="50" />
+        <dc:Bounds x="331" y="255" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="159" y="230" width="74" height="11" />
+          <dc:Bounds x="319" y="310" width="74" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
-        <di:waypoint x="78" y="310" />
-        <di:waypoint x="78" y="88" />
+        <di:waypoint x="238" y="390" />
+        <di:waypoint x="238" y="168" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="294" width="102" height="11" />
+          <dc:Bounds x="227" y="367" width="111" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tampil-user_di" bpmnElement="m-tampil-user">
-        <di:waypoint x="596" y="110" />
-        <di:waypoint x="596" y="310" />
+        <di:waypoint x="756" y="190" />
+        <di:waypoint x="756" y="390" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="512" y="116" width="80" height="23" />
+          <dc:Bounds x="672" y="360" width="80" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-kosong-user_di" bpmnElement="m-kosong-user">
-        <di:waypoint x="446" y="240" />
-        <di:waypoint x="446" y="310" />
+        <di:waypoint x="606" y="320" />
+        <di:waypoint x="606" y="390" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="362" y="246" width="80" height="23" />
+          <dc:Bounds x="522" y="360" width="80" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="cari-dia-1_di" bpmnElement="cari-dia-1">
-        <di:waypoint x="196" y="175" />
-        <di:waypoint x="196" y="110" />
+        <di:waypoint x="356" y="255" />
+        <di:waypoint x="356" y="190" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-cari_di" bpmnElement="f-mulai-cari">
-        <di:waypoint x="96" y="70" />
-        <di:waypoint x="146" y="70" />
+        <di:waypoint x="256" y="150" />
+        <di:waypoint x="306" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-cari-ada_di" bpmnElement="f-cari-ada">
-        <di:waypoint x="246" y="70" />
-        <di:waypoint x="296" y="70" />
+        <di:waypoint x="406" y="150" />
+        <di:waypoint x="456" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-ada-susun_di" bpmnElement="f-ada-susun">
-        <di:waypoint x="346" y="70" />
-        <di:waypoint x="396" y="70" />
+        <di:waypoint x="506" y="150" />
+        <di:waypoint x="556" y="150" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="354" y="55" width="12" height="11" />
+          <dc:Bounds x="514" y="134" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-ada-kosong_di" bpmnElement="f-ada-kosong">
-        <di:waypoint x="321" y="95" />
-        <di:waypoint x="321" y="200" />
-        <di:waypoint x="396" y="200" />
+        <di:waypoint x="481" y="175" />
+        <di:waypoint x="481" y="280" />
+        <di:waypoint x="556" y="280" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="329" y="185" width="28" height="11" />
+          <dc:Bounds x="486" y="188" width="28" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-susun-tampil_di" bpmnElement="f-susun-tampil">
-        <di:waypoint x="496" y="70" />
-        <di:waypoint x="546" y="70" />
+        <di:waypoint x="656" y="150" />
+        <di:waypoint x="706" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-tampil-gabung_di" bpmnElement="f-tampil-gabung">
-        <di:waypoint x="646" y="70" />
-        <di:waypoint x="696" y="70" />
+        <di:waypoint x="806" y="150" />
+        <di:waypoint x="856" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-kosong-gabung_di" bpmnElement="f-kosong-gabung">
-        <di:waypoint x="496" y="200" />
-        <di:waypoint x="721" y="200" />
-        <di:waypoint x="721" y="95" />
+        <di:waypoint x="656" y="280" />
+        <di:waypoint x="881" y="280" />
+        <di:waypoint x="881" y="175" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-gabung-selesai_di" bpmnElement="f-gabung-selesai">
-        <di:waypoint x="746" y="70" />
-        <di:waypoint x="796" y="70" />
+        <di:waypoint x="906" y="150" />
+        <di:waypoint x="956" y="150" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

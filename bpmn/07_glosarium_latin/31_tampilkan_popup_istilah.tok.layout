@@ -1,0 +1,33 @@
+tok-layout 1
+p 160 80 870 270
+mulai 220 132 36 36
+mulai/label 193 102 90 27
+cari 306 110 100 80
+ada 456 125 50 50
+ada/label 446 98 69 27
+susun 556 110 100 80
+tampil 706 110 100 80
+kosong 556 240 100 80
+gabung 856 125 50 50
+selesai 956 132 36 36
+selesai/label 937 173 74 27
+d_istilah 331 255 50 50
+d_istilah/label 319 310 74 14
+f-mulai-cari 256 150 306 150
+f-cari-ada 406 150 456 150
+f-ada-susun 506 150 556 150
+f-ada-susun/label 514 134 12 14
+f-ada-kosong 481 175 481 280 556 280
+f-ada-kosong/label 486 188 28 14
+f-susun-tampil 656 150 706 150
+f-tampil-gabung 806 150 856 150
+f-kosong-gabung 656 280 881 280 881 175
+f-gabung-selesai 906 150 956 150
+user 160 390 870 70
+m-user-mulai 238 390 238 168
+m-user-mulai/label 227 367 111 14
+cari-dia-1 356 255 356 190
+m-tampil-user 756 190 756 390
+m-tampil-user/label 672 360 80 27
+m-kosong-user 606 320 606 390
+m-kosong-user/label 522 360 80 27

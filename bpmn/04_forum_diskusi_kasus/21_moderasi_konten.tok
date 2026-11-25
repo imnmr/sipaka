@@ -1,13 +1,9 @@
-tok 1.0 "Moderasi Konten (Forum Diskusi Kasus)"
+tok 0.5 "Moderasi Konten (Forum Diskusi Kasus)"
 
 pool p "Moderasi Konten" process=moderasi_konten
-  store d_lapkon "Laporan Konten"
-  store d_thread "Thread Diskusi"
-  store d_komen "Komentar"
   start mulai "Laporan konten diterima" message="Laporan konten bermasalah"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
-  end tolak "Akses ditolak" message="Akses ditolak"
   service lapor "Laporkan Konten"
   send tinjau "Tinjau Konten Dilaporkan" message="Konten dilaporkan untuk ditinjau"
   receive keputusan "Terima keputusan moderator" message="Keputusan moderator"
@@ -17,8 +13,13 @@ pool p "Moderasi Konten" process=moderasi_konten
   service abaikan "Tutup laporan tanpa tindakan"
   xor gabung
   end selesai "Laporan telah ditindaklanjuti" message="Hasil tindak lanjut laporan"
+  end tolak "Akses ditolak" message="Akses ditolak"
+  store d_thread "Thread Diskusi"
+  store d_lapkon "Laporan Konten"
+  store d_komen "Komentar"
 
 pool user "Pengguna"
+
 pool admin "Admin"
 
 flow mulai -> auth -> izin
@@ -28,17 +29,16 @@ flow lapor -> tinjau -> keputusan -> auth2 -> melanggar
 flow melanggar -> hapus "ya" when="melanggar"
 flow melanggar -> abaikan "tidak" default
 flow hapus -> gabung
-flow abaikan -> gabung
-flow gabung -> selesai
-
-writes lapor d_lapkon
-reads tinjau d_lapkon
-writes hapus d_thread
-writes hapus d_komen
-writes abaikan d_lapkon
+flow abaikan -> gabung -> selesai
 
 message user -> mulai "Laporan konten bermasalah"
 message tolak -> user "Akses ditolak"
 message tinjau -> admin "Konten dilaporkan untuk ditinjau"
 message admin -> keputusan "Keputusan moderator"
 message selesai -> user "Hasil tindak lanjut laporan"
+
+writes lapor d_lapkon
+reads tinjau d_lapkon
+writes hapus d_thread
+writes hapus d_komen
+writes abaikan d_lapkon

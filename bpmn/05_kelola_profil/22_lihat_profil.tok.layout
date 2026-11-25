@@ -1,0 +1,63 @@
+tok-layout 1
+p 160 80 1360 560
+mulai 220 132 36 36
+mulai/label 200 102 76 27
+auth 306 110 100 80
+izin 456 125 50 50
+izin/label 436 109 90 14
+pisah 556 125 50 50
+poin 670 110 100 80
+lencana 670 240 100 80
+gabung 1346 125 50 50
+selesai 1446 132 36 36
+selesai/label 1424 173 80 27
+d_poin 835 175 50 50
+d_poin/label 823 233 74 14
+d_lencana 835 295 50 50
+d_lencana/label 832 348 55 14
+tolak 463 262 36 36
+tolak/label 379 273 74 14
+d_komen 1015 545 50 50
+d_komen/label 1013 599 53 14
+d_thread 905 545 50 50
+d_thread/label 890 599 80 14
+riwayat 670 370 640 150
+r1 700 432 36 36
+r1/label 681 473 74 27
+r2 786 410 100 80
+r3 936 410 100 80
+r5 1086 410 100 80
+r4 1236 432 36 36
+r4/label 1214 473 80 14
+f-r1-r2 736 450 786 450
+f-r2-r3 886 450 936 450
+f-r3-r5 1036 450 1086 450
+f-r5-r4 1186 450 1236 450
+f-mulai-auth 256 150 306 150
+f-auth-izin 406 150 456 150
+f-izin-pisah 506 150 556 150
+f-izin-pisah/label 514 135 12 14
+f-izin-tolak 481 175 481 262
+f-izin-tolak/label 486 188 28 14
+f-pisah-poin 606 150 670 150
+f-poin-gabung 770 150 1346 150
+f-pisah-lencana 606 150 630 150 630 280 670 280
+f-lencana-gabung 770 280 1371 280 1371 175
+f-pisah-riwayat 606 150 630 150 630 445 670 445
+f-riwayat-gabung 1310 445 1371 445 1371 175
+f-gabung-selesai 1396 150 1446 150
+user 160 680 1360 70
+r3-dia-3 941 545 967 490
+r3-dia-4 1029 545 1004 490
+m-user-mulai 238 680 238 168
+m-user-mulai/label 243 576 67 27
+m-tolak-user 481 298 481 680
+m-tolak-user/label 403 583 74 14
+m-poin-user 720 190 720 220 560 220 560 680
+m-poin-user/label 505 576 55 27
+m-lencana-user 720 320 720 350 610 350 610 680
+m-lencana-user/label 613 576 55 27
+m-r5-user 1136 490 1136 680
+m-r5-user/label 1141 583 96 14
+poin-dia-1 835 191 770 168
+lencana-dia-2 835 313 770 294

@@ -1,26 +1,25 @@
-tok 1.0 "Anotasi Teks Undang-Undang (Pelacak Dokumen Hukum)"
+tok 0.5 "Anotasi Teks Undang-Undang (Pelacak Dokumen Hukum)"
 
 pool p "Anotasi Teks Undang-Undang" process=anotasi_teks_undang_undang
-  store d_anot "Anotasi"
-  start mulai "Permintaan anotasi diterima" message="Pasal dan aksi anotasi"
+  start mulai "Permintaan diterima" message="Pasal dan aksi anotasi"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
-  end tolak "Akses ditolak" message="Akses ditolak"
   xor aksi "Aksi anotasi?"
+  end tolak "Akses ditolak" message="Akses ditolak"
+  send tampil "Tampilkan Anotasi Pasal" message="Anotasi pasal"
   receive tulis "Terima isi catatan baru" message="Isi catatan baru"
   service buat "Buat Anotasi"
   receive ubahisi "Terima isi catatan yang diubah" message="Isi catatan diubah"
   service ubah "Ubah Anotasi"
-  send minta "Minta konfirmasi penghapusan catatan" message="Permintaan konfirmasi hapus"
-  eventgw tunggu
-  catch ya "Pengguna mengonfirmasi hapus" message="Konfirmasi hapus"
-  catch tidak "Pengguna membatalkan hapus" message="Batal hapus"
-  service hapus "Hapus Anotasi"
-  send tampil "Tampilkan Anotasi Pasal" message="Anotasi pasal"
   service tanda "Beri Penanda Pasal"
   xor gabung
+  send minta "Minta konfirmasi penghapusan catatan" message="Permintaan konfirmasi hapus"
+  eventgw tunggu
+  service hapus "Hapus Anotasi"
   end selesai "Anotasi diproses" message="Konfirmasi anotasi"
   end batal "Penghapusan dibatalkan"
+  catch tidak "Pengguna membatalkan hapus" message="Batal hapus"
+  catch ya "Pengguna mengonfirmasi hapus" message="Konfirmasi hapus"
 
 pool user "Pengguna"
 
@@ -30,24 +29,21 @@ flow izin -> tolak "tidak" default
 flow aksi -> tulis "buat catatan" when="aksi = \"buat\""
 flow aksi -> ubahisi "ubah catatan" when="aksi = \"ubah\""
 flow aksi -> minta "hapus catatan" when="aksi = \"hapus\""
+flow aksi -> tanda "beri penanda" when="aksi = \"tanda\""
 flow aksi -> tampil "lihat catatan" when="aksi = \"lihat\""
-flow aksi -> tanda "beri penanda" default
-flow tulis -> buat -> gabung
-flow ubahisi -> ubah -> gabung
+flow ubah -> gabung
+flow tampil -> gabung
+flow tanda -> gabung
+flow buat -> gabung id=Flow_0ypasfw
+flow gabung -> selesai
+flow tulis -> buat
+flow ubahisi -> ubah
+flow hapus -> gabung
 flow minta -> tunggu
 flow tunggu -> ya
 flow tunggu -> tidak
-flow ya -> hapus -> gabung
+flow ya -> hapus
 flow tidak -> batal
-flow tampil -> gabung
-flow tanda -> gabung
-flow gabung -> selesai
-
-writes buat d_anot
-writes ubah d_anot
-writes hapus d_anot
-reads tampil d_anot
-writes tanda d_anot
 
 message user -> mulai "Pasal dan aksi anotasi"
 message tolak -> user "Akses ditolak"

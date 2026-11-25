@@ -1,0 +1,76 @@
+tok-layout 1
+p 160 85 1560 545
+mulai 220 212 36 36
+mulai/label 210 174 57 27
+auth 306 190 100 80
+izin 456 205 50 50
+izin/label 453 174 56 27
+teks 556 190 100 80
+pisah 706 205 50 50
+tolak 463 377 36 36
+tolak/label 383 388 74 14
+latin 806 520 100 80
+anotasi 806 190 100 80
+istilah 1496 432 36 36
+istilah/label 1464 403 99 27
+popup 1582 410 100 80
+navigasi 806 320 340 150
+n1 836 382 36 36
+n1/label 814 423 80 14
+n2 922 360 100 80
+n3 1072 382 36 36
+n3/label 1050 423 80 27
+f-n1-n2 872 400 922 400
+f-n2-n3 1022 400 1072 400
+gabung 1196 205 50 50
+loop 1296 205 50 50
+tunggu 1396 205 50 50
+rujuk 1496 212 36 36
+rujuk/label 1461 182 106 27
+tutup 1496 542 36 36
+tutup/label 1441 581 68 40
+rujukan 1582 190 100 80
+selesai 1614 542 36 36
+selesai/label 1590 583 84 27
+d_uu 973 111 50 50
+d_uu/label 949 167 97 14
+f-mulai-auth 256 230 306 230
+f-auth-izin 406 230 456 230
+f-izin-teks 506 230 556 230
+f-izin-teks/label 514 215 12 14
+f-izin-tolak 481 255 481 377
+f-izin-tolak/label 486 271 28 14
+f-teks-pisah 656 230 706 230
+f-pisah-anotasi 756 230 806 230
+f-pisah-navigasi 731 255 731 395 806 395
+f-pisah-latin 731 255 731 560 806 560
+f-latin-gabung 906 560 1221 560 1221 255
+f-anotasi-gabung 906 230 1196 230
+f-tunggu-istilah 1421 255 1421 450 1496 450
+f-istilah-popup 1532 450 1582 450
+f-popup-loop 1632 410 1632 290 1321 290 1321 255
+f-navigasi-gabung 1146 395 1221 395 1221 255
+f-gabung-loop 1246 230 1296 230
+f-loop-tunggu 1346 230 1396 230
+f-rujukan-loop 1632 190 1632 170 1321 170 1321 205
+f-tunggu-rujuk 1446 230 1496 230
+f-tunggu-tutup 1421 255 1421 560 1496 560
+f-rujuk-rujukan 1532 230 1582 230
+f-tutup-selesai 1532 560 1614 560
+user 160 670 1560 70
+teks-dia-1 973 142 656 218
+rujukan-dia-2 1023 140 1582 223
+m-user-mulai 238 670 238 248
+m-user-mulai/label 243 447 84 27
+m-tolak-user 481 413 481 670
+m-tolak-user/label 402 655 74 14
+m-teks-user 606 270 606 670
+m-teks-user/label 610 655 108 14
+m-n2-user 972 440 972 670
+m-n2-user/label 976 654 108 14
+m-user-rujuk 1300 670 1300 350 1514 350 1514 248
+m-user-rujuk/label 1298 355 102 14
+m-user-istilah 1340 670 1340 510 1514 510 1514 468
+m-user-istilah/label 1341 516 69 27
+m-user-tutup 1514 670 1514 578
+m-user-tutup/label 1435 654 74 14

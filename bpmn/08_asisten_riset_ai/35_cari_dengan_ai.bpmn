@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions" name="Cari dengan AI (Asisten Riset AI)" targetNamespace="http://bpmn.io/schema/bpmn" exporter="tok" exporterVersion="1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions" name="Cari dengan AI (Asisten Riset AI)" targetNamespace="http://bpmn.io/schema/bpmn" exporter="tok" exporterVersion="0.5">
   <bpmn:message id="Message_Pertanyaan_atau_kasus_dalam_bahasa_sehari_hari" name="Pertanyaan atau kasus dalam bahasa sehari-hari" />
   <bpmn:message id="Message_Akses_ditolak" name="Akses ditolak" />
   <bpmn:message id="Message_Pesan_pencarian_AI_gagal" name="Pesan pencarian AI gagal" />
@@ -19,18 +19,12 @@
     </bpmn:startEvent>
     <bpmn:callActivity id="auth" name="Otorisasi Akses" calledElement="otorisasi_akses" />
     <bpmn:exclusiveGateway id="izin" name="Akses diizinkan?" default="f-izin-tolak" />
-    <bpmn:endEvent id="tolak" name="Akses ditolak">
-      <bpmn:messageEventDefinition id="tolak-def" messageRef="Message_Akses_ditolak" />
-    </bpmn:endEvent>
     <bpmn:serviceTask id="tafsir" name="Tafsirkan Kueri Pengguna" />
     <bpmn:callActivity id="filter" name="Terapkan Filter Pencarian" calledElement="cari_undang_undang">
       <bpmn:documentation>Langkah 'Terapkan Filter Pencarian' pada proses Cari Undang-Undang</bpmn:documentation>
     </bpmn:callActivity>
     <bpmn:callActivity id="ai" name="Tangani Permintaan AI" calledElement="tangani_permintaan_ai" />
     <bpmn:exclusiveGateway id="berhasil" name="Respons AI berhasil?" default="f-berhasil-gagal" />
-    <bpmn:endEvent id="gagal" name="Pencarian AI gagal">
-      <bpmn:messageEventDefinition id="gagal-def" messageRef="Message_Pesan_pencarian_AI_gagal" />
-    </bpmn:endEvent>
     <bpmn:serviceTask id="urut" name="Urutkan Hasil Pencarian AI">
       <bpmn:ioSpecification id="urut-io">
         <bpmn:dataInput id="urut-in-1" name="Undang-Undang" />
@@ -46,6 +40,12 @@
     </bpmn:serviceTask>
     <bpmn:sendTask id="hasil" name="Kirim hasil pencarian AI" messageRef="Message_Hasil_pencarian_AI" />
     <bpmn:endEvent id="selesai" name="Hasil pencarian AI terkirim" />
+    <bpmn:endEvent id="tolak" name="Akses ditolak">
+      <bpmn:messageEventDefinition id="tolak-def" messageRef="Message_Akses_ditolak" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="gagal" name="Pencarian AI gagal">
+      <bpmn:messageEventDefinition id="gagal-def" messageRef="Message_Pesan_pencarian_AI_gagal" />
+    </bpmn:endEvent>
     <bpmn:sequenceFlow id="f-mulai-auth" sourceRef="mulai" targetRef="auth" />
     <bpmn:sequenceFlow id="f-auth-izin" sourceRef="auth" targetRef="izin" />
     <bpmn:sequenceFlow id="f-izin-tafsir" name="ya" sourceRef="izin" targetRef="tafsir">
@@ -66,161 +66,158 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="1320" height="330" />
+        <dc:Bounds x="160" y="80" width="1320" height="260" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="user_di" bpmnElement="user" isHorizontal="true">
-        <dc:Bounds x="0" y="370" width="1320" height="70" />
+        <dc:Bounds x="160" y="380" width="1320" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
-        <dc:Bounds x="60" y="52" width="36" height="36" />
+        <dc:Bounds x="220" y="132" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="84" y="91" width="56" height="35" />
+          <dc:Bounds x="193" y="101" width="90" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="auth_di" bpmnElement="auth">
-        <dc:Bounds x="146" y="30" width="100" height="80" />
+        <dc:Bounds x="306" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="izin_di" bpmnElement="izin" isMarkerVisible="true">
-        <dc:Bounds x="296" y="45" width="50" height="50" />
+        <dc:Bounds x="456" y="125" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="327" y="98" width="56" height="23" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="tolak_di" bpmnElement="tolak">
-        <dc:Bounds x="428" y="160" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="367" y="199" width="74" height="11" />
+          <dc:Bounds x="453" y="96" width="56" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="tafsir_di" bpmnElement="tafsir">
-        <dc:Bounds x="396" y="30" width="100" height="80" />
+        <dc:Bounds x="556" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="filter_di" bpmnElement="filter">
-        <dc:Bounds x="546" y="30" width="100" height="80" />
+        <dc:Bounds x="706" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ai_di" bpmnElement="ai">
-        <dc:Bounds x="696" y="30" width="100" height="80" />
+        <dc:Bounds x="856" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="berhasil_di" bpmnElement="berhasil" isMarkerVisible="true">
-        <dc:Bounds x="846" y="45" width="50" height="50" />
+        <dc:Bounds x="1006" y="125" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="877" y="98" width="56" height="23" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="gagal_di" bpmnElement="gagal">
-        <dc:Bounds x="978" y="160" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1001" y="147" width="102" height="11" />
+          <dc:Bounds x="987" y="96" width="88" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="urut_di" bpmnElement="urut">
-        <dc:Bounds x="946" y="30" width="100" height="80" />
+        <dc:Bounds x="1106" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="hasil_di" bpmnElement="hasil">
-        <dc:Bounds x="1096" y="30" width="100" height="80" />
+        <dc:Bounds x="1256" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="selesai_di" bpmnElement="selesai">
-        <dc:Bounds x="1246" y="52" width="36" height="36" />
+        <dc:Bounds x="1406" y="132" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1213" y="93" width="102" height="23" />
+          <dc:Bounds x="1373" y="173" width="102" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="tolak_di" bpmnElement="tolak">
+        <dc:Bounds x="463" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="383" y="263" width="74" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="gagal_di" bpmnElement="gagal">
+        <dc:Bounds x="1013" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="903" y="263" width="102" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="d_uu_di" bpmnElement="d_uu">
-        <dc:Bounds x="971" y="246" width="50" height="50" />
+        <dc:Bounds x="1131" y="245" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="959" y="301" width="74" height="11" />
+          <dc:Bounds x="1119" y="300" width="74" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
-        <di:waypoint x="78" y="370" />
-        <di:waypoint x="78" y="88" />
+        <di:waypoint x="238" y="380" />
+        <di:waypoint x="238" y="168" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="217" width="102" height="35" />
+          <dc:Bounds x="243" y="250" width="102" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-tolak-user_di" bpmnElement="m-tolak-user">
-        <di:waypoint x="446" y="196" />
-        <di:waypoint x="446" y="370" />
+        <di:waypoint x="481" y="288" />
+        <di:waypoint x="481" y="380" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="451" y="271" width="74" height="11" />
+          <dc:Bounds x="486" y="360" width="74" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-gagal-user_di" bpmnElement="m-gagal-user">
-        <di:waypoint x="1012" y="186" />
-        <di:waypoint x="1034" y="186" />
-        <di:waypoint x="1034" y="370" />
+        <di:waypoint x="1031" y="288" />
+        <di:waypoint x="1031" y="380" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1039" y="192" width="102" height="23" />
+          <dc:Bounds x="1033" y="353" width="102" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-hasil-user_di" bpmnElement="m-hasil-user">
-        <di:waypoint x="1146" y="110" />
-        <di:waypoint x="1146" y="370" />
+        <di:waypoint x="1306" y="190" />
+        <di:waypoint x="1306" y="380" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1151" y="228" width="102" height="11" />
+          <dc:Bounds x="1309" y="360" width="102" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="urut-dia-1_di" bpmnElement="urut-dia-1">
-        <di:waypoint x="996" y="246" />
-        <di:waypoint x="996" y="110" />
+        <di:waypoint x="1156" y="245" />
+        <di:waypoint x="1156" y="190" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-auth_di" bpmnElement="f-mulai-auth">
-        <di:waypoint x="96" y="70" />
-        <di:waypoint x="146" y="70" />
+        <di:waypoint x="256" y="150" />
+        <di:waypoint x="306" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-auth-izin_di" bpmnElement="f-auth-izin">
-        <di:waypoint x="246" y="70" />
-        <di:waypoint x="296" y="70" />
+        <di:waypoint x="406" y="150" />
+        <di:waypoint x="456" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-izin-tafsir_di" bpmnElement="f-izin-tafsir">
-        <di:waypoint x="346" y="70" />
-        <di:waypoint x="396" y="70" />
+        <di:waypoint x="506" y="150" />
+        <di:waypoint x="556" y="150" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="354" y="55" width="12" height="11" />
+          <dc:Bounds x="514" y="135" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-izin-tolak_di" bpmnElement="f-izin-tolak">
-        <di:waypoint x="321" y="95" />
-        <di:waypoint x="321" y="178" />
-        <di:waypoint x="428" y="178" />
+        <di:waypoint x="481" y="175" />
+        <di:waypoint x="481" y="252" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="329" y="163" width="28" height="11" />
+          <dc:Bounds x="485" y="187" width="28" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-tafsir-filter_di" bpmnElement="f-tafsir-filter">
-        <di:waypoint x="496" y="70" />
-        <di:waypoint x="546" y="70" />
+        <di:waypoint x="656" y="150" />
+        <di:waypoint x="706" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-filter-ai_di" bpmnElement="f-filter-ai">
-        <di:waypoint x="646" y="70" />
-        <di:waypoint x="696" y="70" />
+        <di:waypoint x="806" y="150" />
+        <di:waypoint x="856" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-ai-berhasil_di" bpmnElement="f-ai-berhasil">
-        <di:waypoint x="796" y="70" />
-        <di:waypoint x="846" y="70" />
+        <di:waypoint x="956" y="150" />
+        <di:waypoint x="1006" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-berhasil-urut_di" bpmnElement="f-berhasil-urut">
-        <di:waypoint x="896" y="70" />
-        <di:waypoint x="946" y="70" />
+        <di:waypoint x="1056" y="150" />
+        <di:waypoint x="1106" y="150" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="904" y="55" width="12" height="11" />
+          <dc:Bounds x="1064" y="135" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-berhasil-gagal_di" bpmnElement="f-berhasil-gagal">
-        <di:waypoint x="871" y="95" />
-        <di:waypoint x="871" y="178" />
-        <di:waypoint x="978" y="178" />
+        <di:waypoint x="1031" y="175" />
+        <di:waypoint x="1031" y="252" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="879" y="163" width="28" height="11" />
+          <dc:Bounds x="1036" y="187" width="28" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-urut-hasil_di" bpmnElement="f-urut-hasil">
-        <di:waypoint x="1046" y="70" />
-        <di:waypoint x="1096" y="70" />
+        <di:waypoint x="1206" y="150" />
+        <di:waypoint x="1256" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-hasil-selesai_di" bpmnElement="f-hasil-selesai">
-        <di:waypoint x="1196" y="70" />
-        <di:waypoint x="1246" y="70" />
+        <di:waypoint x="1356" y="150" />
+        <di:waypoint x="1406" y="150" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

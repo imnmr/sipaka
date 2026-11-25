@@ -1,8 +1,6 @@
-tok 1.0 "Kelola Reputasi (Kelola Profil)"
+tok 0.5 "Kelola Reputasi (Kelola Profil)"
 
 pool p "Kelola Reputasi" process=kelola_reputasi
-  store d_poin "Poin Reputasi"
-  store d_lencana "Lencana"
   start mulai "Aktivitas berpoin terjadi (thread, komentar, upvote, verifikasi)"
   service hitung "Hitung Nilai Poin"
   service tambah "Tambahkan poin ke total reputasi penulis"
@@ -11,7 +9,8 @@ pool p "Kelola Reputasi" process=kelola_reputasi
   service beri "Berikan Lencana Prestasi"
   end selesai "Reputasi diperbarui dan lencana diberikan"
   end tetap "Reputasi diperbarui tanpa lencana baru"
-
+  store d_poin "Poin Reputasi"
+  store d_lencana "Lencana"
 
 flow mulai -> hitung -> tambah -> evaluasi -> layak
 flow layak -> beri "ya" when="layakLencana"
@@ -23,5 +22,3 @@ writes tambah d_poin
 reads evaluasi d_poin
 reads evaluasi d_lencana
 writes beri d_lencana
-
-

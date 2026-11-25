@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions" name="Tangani Permintaan AI (Asisten Riset AI)" targetNamespace="http://bpmn.io/schema/bpmn" exporter="tok" exporterVersion="1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions" name="Tangani Permintaan AI (Asisten Riset AI)" targetNamespace="http://bpmn.io/schema/bpmn" exporter="tok" exporterVersion="0.5">
   <bpmn:message id="Message_Prompt" name="Prompt" />
   <bpmn:message id="Message_Respons" name="Respons" />
   <bpmn:dataStore id="d_kuota-store" name="Kuota Penggunaan AI" />
-  <bpmn:dataStore id="d_cache-store" name="Cache Respons AI" />
   <bpmn:dataStore id="d_uu-store" name="Undang-Undang" />
+  <bpmn:dataStore id="d_cache-store" name="Cache Respons AI" />
   <bpmn:collaboration id="collaboration">
     <bpmn:participant id="p" name="Tangani Permintaan AI" processRef="tangani_permintaan_ai" />
     <bpmn:participant id="ai" name="Layanan AI (penyedia eksternal)" />
@@ -34,7 +34,6 @@
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="kuotaok" name="Kuota penggunaan masih tersedia?" default="f-kuotaok-habis" />
-    <bpmn:endEvent id="habis" name="Ditolak: kuota penggunaan AI habis" />
     <bpmn:serviceTask id="cache" name="Ambil Respons AI dari Cache">
       <bpmn:ioSpecification id="cache-io">
         <bpmn:dataInput id="cache-in-3" name="Cache Respons AI" />
@@ -65,7 +64,6 @@
     <bpmn:sendTask id="kirim" name="Kirim prompt ke layanan AI" messageRef="Message_Prompt" />
     <bpmn:receiveTask id="terima" name="Terima respons dari layanan AI" messageRef="Message_Respons" />
     <bpmn:exclusiveGateway id="berhasil" name="Layanan AI merespons dengan benar?" default="f-berhasil-gagal" />
-    <bpmn:endEvent id="gagal" name="Gagal: layanan AI tidak tersedia" />
     <bpmn:serviceTask id="simpan" name="Simpan Respons AI ke Cache">
       <bpmn:ioSpecification id="simpan-io">
         <bpmn:dataOutput id="simpan-out-5" name="Cache Respons AI" />
@@ -82,6 +80,8 @@
     <bpmn:exclusiveGateway id="gabung" />
     <bpmn:serviceTask id="disclaimer" name="Sertakan Disclaimer AI" />
     <bpmn:endEvent id="selesai" name="Respons AI siap ditampilkan" />
+    <bpmn:endEvent id="habis" name="Ditolak: kuota penggunaan AI habis" />
+    <bpmn:endEvent id="gagal" name="Gagal: layanan AI tidak tersedia" />
     <bpmn:sequenceFlow id="f-mulai-kuota" sourceRef="mulai" targetRef="kuota" />
     <bpmn:sequenceFlow id="f-kuota-kuotaok" sourceRef="kuota" targetRef="kuotaok" />
     <bpmn:sequenceFlow id="f-kuotaok-cache" name="ya" sourceRef="kuotaok" targetRef="cache">
@@ -104,216 +104,214 @@
     <bpmn:sequenceFlow id="f-gabung-disclaimer" sourceRef="gabung" targetRef="disclaimer" />
     <bpmn:sequenceFlow id="f-disclaimer-selesai" sourceRef="disclaimer" targetRef="selesai" />
     <bpmn:dataStoreReference id="d_kuota" name="Kuota Penggunaan AI" dataStoreRef="d_kuota-store" />
-    <bpmn:dataStoreReference id="d_cache" name="Cache Respons AI" dataStoreRef="d_cache-store" />
     <bpmn:dataStoreReference id="d_uu" name="Undang-Undang" dataStoreRef="d_uu-store" />
+    <bpmn:dataStoreReference id="d_cache" name="Cache Respons AI" dataStoreRef="d_cache-store" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="1670" height="340" />
+        <dc:Bounds x="160" y="80" width="1670" height="290" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ai_di" bpmnElement="ai" isHorizontal="true">
-        <dc:Bounds x="0" y="380" width="1670" height="70" />
+        <dc:Bounds x="160" y="410" width="1670" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
-        <dc:Bounds x="60" y="52" width="36" height="36" />
+        <dc:Bounds x="220" y="162" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="24" y="93" width="108" height="35" />
+          <dc:Bounds x="184" y="118" width="108" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="kuota_di" bpmnElement="kuota">
-        <dc:Bounds x="146" y="30" width="100" height="80" />
+        <dc:Bounds x="306" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="kuotaok_di" bpmnElement="kuotaok" isMarkerVisible="true">
-        <dc:Bounds x="296" y="45" width="50" height="50" />
+        <dc:Bounds x="456" y="155" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="327" y="98" width="56" height="47" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="habis_di" bpmnElement="habis">
-        <dc:Bounds x="428" y="167" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="334" y="206" width="108" height="23" />
+          <dc:Bounds x="422" y="126" width="117" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="cache_di" bpmnElement="cache">
-        <dc:Bounds x="396" y="30" width="100" height="80" />
+        <dc:Bounds x="556" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ada_di" bpmnElement="ada" isMarkerVisible="true">
-        <dc:Bounds x="546" y="45" width="50" height="50" />
+        <dc:Bounds x="706" y="155" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="512" y="100" width="118" height="11" />
+          <dc:Bounds x="672" y="210" width="118" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="prompt_di" bpmnElement="prompt">
-        <dc:Bounds x="646" y="30" width="100" height="80" />
+        <dc:Bounds x="806" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="kirim_di" bpmnElement="kirim">
-        <dc:Bounds x="796" y="30" width="100" height="80" />
+        <dc:Bounds x="956" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="terima_di" bpmnElement="terima">
-        <dc:Bounds x="946" y="30" width="100" height="80" />
+        <dc:Bounds x="1106" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="berhasil_di" bpmnElement="berhasil" isMarkerVisible="true">
-        <dc:Bounds x="1096" y="45" width="50" height="50" />
+        <dc:Bounds x="1256" y="155" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1127" y="98" width="56" height="47" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="gagal_di" bpmnElement="gagal">
-        <dc:Bounds x="1228" y="167" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1198" y="208" width="96" height="23" />
+          <dc:Bounds x="1221" y="126" width="119" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="simpan_di" bpmnElement="simpan">
-        <dc:Bounds x="1196" y="30" width="100" height="80" />
+        <dc:Bounds x="1356" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="gabung_di" bpmnElement="gabung" isMarkerVisible="true">
-        <dc:Bounds x="1346" y="45" width="50" height="50" />
+        <dc:Bounds x="1506" y="155" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="disclaimer_di" bpmnElement="disclaimer">
-        <dc:Bounds x="1446" y="30" width="100" height="80" />
+        <dc:Bounds x="1606" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="selesai_di" bpmnElement="selesai">
-        <dc:Bounds x="1596" y="52" width="36" height="36" />
+        <dc:Bounds x="1756" y="162" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1572" y="93" width="84" height="23" />
+          <dc:Bounds x="1732" y="203" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="habis_di" bpmnElement="habis">
+        <dc:Bounds x="463" y="277" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="427" y="318" width="108" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="gagal_di" bpmnElement="gagal">
+        <dc:Bounds x="1263" y="277" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1233" y="318" width="96" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="d_kuota_di" bpmnElement="d_kuota">
-        <dc:Bounds x="171" y="160" width="50" height="50" />
+        <dc:Bounds x="331" y="270" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="142" y="215" width="108" height="11" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="d_cache_di" bpmnElement="d_cache">
-        <dc:Bounds x="421" y="260" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="401" y="315" width="90" height="11" />
+          <dc:Bounds x="302" y="325" width="108" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="d_uu_di" bpmnElement="d_uu">
-        <dc:Bounds x="671" y="160" width="50" height="50" />
+        <dc:Bounds x="831" y="270" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="594" y="180" width="74" height="11" />
+          <dc:Bounds x="800" y="325" width="111" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d_cache_di" bpmnElement="d_cache">
+        <dc:Bounds x="581" y="270" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="561" y="325" width="90" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-kirim-ai_di" bpmnElement="m-kirim-ai">
-        <di:waypoint x="846" y="110" />
-        <di:waypoint x="846" y="380" />
+        <di:waypoint x="1006" y="220" />
+        <di:waypoint x="1006" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="852" y="233" width="34" height="11" />
+          <dc:Bounds x="1011" y="387" width="48" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-ai-terima_di" bpmnElement="m-ai-terima">
-        <di:waypoint x="996" y="380" />
-        <di:waypoint x="996" y="110" />
+        <di:waypoint x="1156" y="410" />
+        <di:waypoint x="1156" y="220" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1001" y="233" width="40" height="11" />
+          <dc:Bounds x="1160" y="387" width="54" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="kuota-dia-1_di" bpmnElement="kuota-dia-1">
-        <di:waypoint x="196" y="160" />
-        <di:waypoint x="196" y="110" />
+        <di:waypoint x="356" y="270" />
+        <di:waypoint x="356" y="220" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="kuota-doa-2_di" bpmnElement="kuota-doa-2">
-        <di:waypoint x="196" y="110" />
-        <di:waypoint x="196" y="160" />
+        <di:waypoint x="356" y="220" />
+        <di:waypoint x="356" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="cache-dia-3_di" bpmnElement="cache-dia-3">
-        <di:waypoint x="446" y="260" />
-        <di:waypoint x="446" y="110" />
+        <di:waypoint x="606" y="270" />
+        <di:waypoint x="606" y="220" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="prompt-dia-4_di" bpmnElement="prompt-dia-4">
-        <di:waypoint x="696" y="160" />
-        <di:waypoint x="696" y="110" />
+        <di:waypoint x="856" y="270" />
+        <di:waypoint x="856" y="220" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="simpan-doa-5_di" bpmnElement="simpan-doa-5">
-        <di:waypoint x="1196" y="83" />
-        <di:waypoint x="471" y="278" />
+        <di:waypoint x="1356" y="187" />
+        <di:waypoint x="631" y="291" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-kuota_di" bpmnElement="f-mulai-kuota">
-        <di:waypoint x="96" y="70" />
-        <di:waypoint x="146" y="70" />
+        <di:waypoint x="256" y="180" />
+        <di:waypoint x="306" y="180" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-kuota-kuotaok_di" bpmnElement="f-kuota-kuotaok">
-        <di:waypoint x="246" y="70" />
-        <di:waypoint x="296" y="70" />
+        <di:waypoint x="406" y="180" />
+        <di:waypoint x="456" y="180" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-kuotaok-cache_di" bpmnElement="f-kuotaok-cache">
-        <di:waypoint x="346" y="70" />
-        <di:waypoint x="396" y="70" />
+        <di:waypoint x="506" y="180" />
+        <di:waypoint x="556" y="180" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="354" y="55" width="12" height="11" />
+          <dc:Bounds x="514" y="165" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-kuotaok-habis_di" bpmnElement="f-kuotaok-habis">
-        <di:waypoint x="321" y="95" />
-        <di:waypoint x="321" y="185" />
-        <di:waypoint x="428" y="185" />
+        <di:waypoint x="481" y="205" />
+        <di:waypoint x="481" y="277" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="329" y="170" width="28" height="11" />
+          <dc:Bounds x="486" y="217" width="28" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-cache-ada_di" bpmnElement="f-cache-ada">
-        <di:waypoint x="496" y="70" />
-        <di:waypoint x="546" y="70" />
+        <di:waypoint x="656" y="180" />
+        <di:waypoint x="706" y="180" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-ada-gabung_di" bpmnElement="f-ada-gabung">
-        <di:waypoint x="571" y="45" />
-        <di:waypoint x="571" y="25" />
-        <di:waypoint x="1371" y="25" />
-        <di:waypoint x="1371" y="45" />
+        <di:waypoint x="731" y="155" />
+        <di:waypoint x="731" y="110" />
+        <di:waypoint x="1531" y="110" />
+        <di:waypoint x="1531" y="155" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="579" y="10" width="12" height="11" />
+          <dc:Bounds x="739" y="116" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-ada-prompt_di" bpmnElement="f-ada-prompt">
-        <di:waypoint x="596" y="70" />
-        <di:waypoint x="646" y="70" />
+        <di:waypoint x="756" y="180" />
+        <di:waypoint x="806" y="180" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="604" y="55" width="28" height="11" />
+          <dc:Bounds x="764" y="165" width="28" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-prompt-kirim_di" bpmnElement="f-prompt-kirim">
-        <di:waypoint x="746" y="70" />
-        <di:waypoint x="796" y="70" />
+        <di:waypoint x="906" y="180" />
+        <di:waypoint x="956" y="180" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-kirim-terima_di" bpmnElement="f-kirim-terima">
-        <di:waypoint x="896" y="70" />
-        <di:waypoint x="946" y="70" />
+        <di:waypoint x="1056" y="180" />
+        <di:waypoint x="1106" y="180" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-terima-berhasil_di" bpmnElement="f-terima-berhasil">
-        <di:waypoint x="1046" y="70" />
-        <di:waypoint x="1096" y="70" />
+        <di:waypoint x="1206" y="180" />
+        <di:waypoint x="1256" y="180" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-berhasil-simpan_di" bpmnElement="f-berhasil-simpan">
-        <di:waypoint x="1146" y="70" />
-        <di:waypoint x="1196" y="70" />
+        <di:waypoint x="1306" y="180" />
+        <di:waypoint x="1356" y="180" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1154" y="55" width="12" height="11" />
+          <dc:Bounds x="1314" y="165" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-berhasil-gagal_di" bpmnElement="f-berhasil-gagal">
-        <di:waypoint x="1121" y="95" />
-        <di:waypoint x="1121" y="185" />
-        <di:waypoint x="1228" y="185" />
+        <di:waypoint x="1281" y="205" />
+        <di:waypoint x="1281" y="277" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1129" y="170" width="28" height="11" />
+          <dc:Bounds x="1286" y="217" width="28" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-simpan-gabung_di" bpmnElement="f-simpan-gabung">
-        <di:waypoint x="1296" y="70" />
-        <di:waypoint x="1346" y="70" />
+        <di:waypoint x="1456" y="180" />
+        <di:waypoint x="1506" y="180" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-gabung-disclaimer_di" bpmnElement="f-gabung-disclaimer">
-        <di:waypoint x="1396" y="70" />
-        <di:waypoint x="1446" y="70" />
+        <di:waypoint x="1556" y="180" />
+        <di:waypoint x="1606" y="180" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-disclaimer-selesai_di" bpmnElement="f-disclaimer-selesai">
-        <di:waypoint x="1546" y="70" />
-        <di:waypoint x="1596" y="70" />
+        <di:waypoint x="1706" y="180" />
+        <di:waypoint x="1756" y="180" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

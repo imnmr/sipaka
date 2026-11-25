@@ -1,0 +1,81 @@
+tok-layout 1
+p 160 80 1470 620
+admin 160 740 1470 70
+mulai 220 132 36 36
+mulai/label 187 104 102 27
+auth 306 110 100 80
+izin 456 125 50 50
+izin/label 436 111 90 14
+aksi 556 125 50 50
+aksi/label 539 111 84 14
+valid 656 110 100 80
+ok 806 125 50 50
+ok/label 797 96 68 27
+tolak 463 262 36 36
+tolak/label 379 273 74 14
+minta 656 500 100 80
+pesan 906 310 100 80
+perbaiki 1056 310 100 80
+tunggu 931 515 50 50
+ya 1063 522 36 36
+ya/label 1027 493 108 27
+tidak 1063 630 36 36
+tidak/label 1031 602 100 27
+hapus 1181 500 100 80
+gabung 1331 515 50 50
+selesai 1431 522 36 36
+selesai/label 1421 492 56 27
+batal 1213 630 36 36
+batal/label 1191 671 80 27
+tambah 1056 110 100 80
+ubah 1056 210 100 80
+d_istilah 745 325 50 50
+d_istilah/label 733 380 74 14
+m-admin-mulai 238 740 238 168
+m-admin-mulai/label 243 442 96 27
+m-tolak-admin 481 298 481 740
+m-tolak-admin/label 486 449 74 14
+m-pesan-admin 956 390 956 420 810 420 810 740
+m-pesan-admin/label 723 449 84 40
+m-admin-perbaiki 880 740 880 470 1106 470 1106 390
+m-admin-perbaiki/label 880 568 68 27
+m-minta-admin 671 580 671 740
+m-minta-admin/label 676 710 90 27
+m-admin-ya 1000 740 1000 590 1081 590 1081 558
+m-admin-ya/label 938 710 59 27
+m-admin-tidak 1081 740 1081 666
+m-admin-tidak/label 1081 710 54 27
+m-selesai-admin 1449 558 1449 740
+m-selesai-admin/label 1327 710 124 27
+valid-dia-1 762 325 719 190
+hapus-doa-4 1181 519 795 360
+tambah-doa-2 1056 181 795 335
+ubah-doa-3 1056 265 795 343
+f-mulai-auth 256 150 306 150
+f-auth-izin 406 150 456 150
+f-izin-aksi 506 150 556 150
+f-izin-aksi/label 514 135 12 14
+f-izin-tolak 481 175 481 262
+f-izin-tolak/label 448 191 28 14
+f-aksi-valid 606 150 656 150
+f-aksi-valid/label 607 156 45 40
+f-aksi-minta 581 175 581 540 656 540
+f-aksi-minta/label 542 191 34 14
+f-perbaiki-valid 1106 390 1106 440 706 440 706 190
+f-valid-ok 756 150 806 150
+f-ok-tambah 856 150 1056 150
+f-ok-tambah/label 872 131 64 14
+f-ok-ubah 856 150 870 150 870 250 1056 250
+f-ok-ubah/label 875 231 46 14
+f-ok-pesan 831 175 831 350 906 350
+f-ok-pesan/label 836 331 28 14
+f-minta-tunggu 756 540 931 540
+f-pesan-perbaiki 1006 350 1056 350
+f-tunggu-ya 981 540 1063 540
+f-tunggu-tidak 956 565 956 648 1063 648
+f-ya-hapus 1099 540 1181 540
+f-tidak-batal 1099 648 1213 648
+f-hapus-gabung 1281 540 1331 540
+f-tambah-gabung 1156 150 1356 150 1356 515
+f-ubah-gabung 1156 250 1356 250 1356 515
+f-gabung-selesai 1381 540 1431 540

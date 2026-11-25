@@ -1,0 +1,47 @@
+tok-layout 1
+p 160 80 1020 370
+mulai 220 132 36 36
+mulai/label 200 103 75 27
+auth 306 110 100 80
+izin 456 125 50 50
+izin/label 453 96 56 27
+valid 556 110 100 80
+ok 706 125 50 50
+ok/label 700 96 62 27
+simpan 806 110 100 80
+poin 956 110 100 80
+selesai 1106 132 36 36
+selesai/label 1081 103 86 27
+pesan 806 240 100 80
+perbaiki 956 240 100 80
+tolak 463 262 36 36
+tolak/label 383 273 74 14
+d_komen 581 255 50 50
+d_komen/label 583 310 46 27
+f-mulai-auth 256 150 306 150
+f-auth-izin 406 150 456 150
+f-izin-valid 506 150 556 150
+f-izin-valid/label 514 135 12 14
+f-izin-tolak 481 175 481 262
+f-izin-tolak/label 486 188 28 14
+f-valid-ok 656 150 706 150
+f-ok-simpan 756 150 806 150
+f-ok-simpan/label 764 135 12 14
+f-ok-pesan 731 175 731 280 806 280
+f-ok-pesan/label 736 188 28 14
+f-pesan-perbaiki 906 280 956 280
+f-perbaiki-valid 1006 240 1006 210 606 210 606 190
+f-simpan-poin 906 150 956 150
+f-poin-selesai 1056 150 1106 150
+user 160 490 1020 70
+simpan-doa-1 806 176 631 267
+m-user-mulai 238 490 238 168
+m-user-mulai/label 242 468 68 14
+m-tolak-user 481 298 481 490
+m-tolak-user/label 402 468 74 14
+m-selesai-user 1124 168 1124 490
+m-selesai-user/label 1035 461 84 27
+m-pesan-user 856 320 856 490
+m-pesan-user/label 755 461 103 27
+m-user-perbaiki 1006 490 1006 320
+m-user-perbaiki/label 930 461 80 27

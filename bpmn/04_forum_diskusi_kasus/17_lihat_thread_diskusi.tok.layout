@@ -1,0 +1,64 @@
+tok-layout 1
+p 160 80 1320 400
+mulai 220 132 36 36
+mulai/label 190 103 96 27
+auth 306 110 100 80
+izin 456 125 50 50
+izin/label 453 96 56 27
+isi 556 110 100 80
+pisah 706 125 50 50
+urut 806 110 100 80
+gabung 956 125 50 50
+loop 1056 125 50 50
+tunggu 1156 125 50 50
+istilah 1256 132 36 36
+istilah/label 1219 103 109 27
+tutup 1256 262 36 36
+tutup/label 1230 233 88 27
+popup 1342 110 100 80
+selesai 1374 262 36 36
+selesai/label 1350 303 84 27
+tolak 463 262 36 36
+tolak/label 402 249 74 14
+d_komen 1056 255 50 50
+d_komen/label 1055 308 52 14
+latin 806 240 100 80
+lencana 806 370 100 80
+d_thread 581 255 50 50
+d_thread/label 499 275 80 14
+f-mulai-auth 256 150 306 150
+f-auth-izin 406 150 456 150
+f-izin-isi 506 150 556 150
+f-izin-isi/label 514 135 12 14
+f-izin-tolak 481 175 481 262
+f-izin-tolak/label 485 188 28 14
+f-isi-pisah 656 150 706 150
+f-pisah-urut 756 150 806 150
+f-urut-gabung 906 150 956 150
+f-pisah-lencana 731 175 731 410 806 410
+f-lencana-gabung 906 410 981 410 981 175
+f-pisah-latin 731 175 731 280 806 280
+f-latin-gabung 906 280 981 280 981 175
+f-gabung-loop 1006 150 1056 150
+f-loop-tunggu 1106 150 1156 150
+f-tunggu-istilah 1206 150 1256 150
+f-tunggu-tutup 1181 175 1181 280 1256 280
+f-istilah-popup 1292 150 1342 150
+f-popup-loop 1392 190 1392 220 1081 220 1081 175
+f-tutup-selesai 1292 280 1374 280
+user 160 520 1320 70
+isi-dia-1 606 255 606 190
+urut-dia-2 1056 266 906 179
+lencana-dia-3 1056 294 906 381
+m-user-mulai 238 520 238 168
+m-user-mulai/label 243 492 84 27
+m-tolak-user 481 298 481 520
+m-tolak-user/label 402 499 74 14
+m-isi-user 606 190 606 520
+m-isi-user/label 612 499 56 14
+m-lencana-user 856 450 856 520
+m-lencana-user/label 861 499 102 14
+m-user-istilah 1220 520 1220 200 1274 200 1274 168
+m-user-istilah/label 1119 499 102 14
+m-user-tutup 1274 520 1274 298
+m-user-tutup/label 1276 499 68 14

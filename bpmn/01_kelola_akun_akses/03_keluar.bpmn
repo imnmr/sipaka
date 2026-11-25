@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions" name="Keluar (Kelola Akun &amp; Akses)" targetNamespace="http://bpmn.io/schema/bpmn" exporter="tok" exporterVersion="1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions" name="Keluar (Kelola Akun &amp; Akses)" targetNamespace="http://bpmn.io/schema/bpmn" exporter="tok" exporterVersion="0.1">
   <bpmn:message id="Message_Permintaan_keluar" name="Permintaan keluar" />
   <bpmn:message id="Message_Halaman_masuk" name="Halaman masuk" />
   <bpmn:dataStore id="d_sesi-store" name="Sesi" />
@@ -15,15 +15,7 @@
     </bpmn:startEvent>
     <bpmn:exclusiveGateway id="aktif" name="Sesi masih aktif?" default="f-aktif-hapus" />
     <bpmn:serviceTask id="akhiri" name="Akhiri Sesi">
-      <bpmn:ioSpecification id="akhiri-io">
-        <bpmn:dataOutput id="akhiri-out-1" name="Sesi" />
-        <bpmn:inputSet id="akhiri-inputs" />
-        <bpmn:outputSet id="akhiri-outputs">
-          <bpmn:dataOutputRefs>akhiri-out-1</bpmn:dataOutputRefs>
-        </bpmn:outputSet>
-      </bpmn:ioSpecification>
       <bpmn:dataOutputAssociation id="akhiri-doa-1">
-        <bpmn:sourceRef>akhiri-out-1</bpmn:sourceRef>
         <bpmn:targetRef>d_sesi</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
@@ -43,93 +35,93 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="collaboration">
       <bpmndi:BPMNShape id="p_di" bpmnElement="p" isHorizontal="true">
-        <dc:Bounds x="0" y="0" width="770" height="240" />
+        <dc:Bounds x="160" y="80" width="770" height="260" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="user_di" bpmnElement="user" isHorizontal="true">
-        <dc:Bounds x="0" y="280" width="770" height="70" />
+        <dc:Bounds x="160" y="380" width="770" height="70" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="mulai_di" bpmnElement="mulai">
-        <dc:Bounds x="60" y="52" width="36" height="36" />
+        <dc:Bounds x="220" y="152" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="50" y="14" width="56" height="35" />
+          <dc:Bounds x="210" y="114" width="56" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="aktif_di" bpmnElement="aktif" isMarkerVisible="true">
-        <dc:Bounds x="146" y="45" width="50" height="50" />
+        <dc:Bounds x="306" y="145" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="123" y="100" width="96" height="11" />
+          <dc:Bounds x="283" y="200" width="96" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="akhiri_di" bpmnElement="akhiri">
-        <dc:Bounds x="246" y="30" width="100" height="80" />
+        <dc:Bounds x="406" y="130" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="hapus_di" bpmnElement="hapus">
-        <dc:Bounds x="396" y="30" width="100" height="80" />
+        <dc:Bounds x="556" y="130" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="arah_di" bpmnElement="arah">
-        <dc:Bounds x="546" y="30" width="100" height="80" />
+        <dc:Bounds x="706" y="130" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="selesai_di" bpmnElement="selesai">
-        <dc:Bounds x="696" y="52" width="36" height="36" />
+        <dc:Bounds x="856" y="152" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="672" y="93" width="84" height="23" />
+          <dc:Bounds x="832" y="193" width="84" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="d_sesi_di" bpmnElement="d_sesi">
-        <dc:Bounds x="271" y="160" width="50" height="50" />
+        <dc:Bounds x="431" y="260" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="284" y="215" width="24" height="11" />
+          <dc:Bounds x="444" y="315" width="24" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="m-user-mulai_di" bpmnElement="m-user-mulai">
-        <di:waypoint x="78" y="280" />
-        <di:waypoint x="78" y="88" />
+        <di:waypoint x="238" y="380" />
+        <di:waypoint x="238" y="188" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="83" y="172" width="96" height="11" />
+          <dc:Bounds x="243" y="272" width="96" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="m-arah-user_di" bpmnElement="m-arah-user">
-        <di:waypoint x="596" y="110" />
-        <di:waypoint x="596" y="280" />
+        <di:waypoint x="756" y="210" />
+        <di:waypoint x="756" y="380" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="601" y="183" width="74" height="11" />
+          <dc:Bounds x="761" y="283" width="74" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="akhiri-doa-1_di" bpmnElement="akhiri-doa-1">
-        <di:waypoint x="296" y="110" />
-        <di:waypoint x="296" y="160" />
+        <di:waypoint x="456" y="210" />
+        <di:waypoint x="456" y="260" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-mulai-aktif_di" bpmnElement="f-mulai-aktif">
-        <di:waypoint x="96" y="70" />
-        <di:waypoint x="146" y="70" />
+        <di:waypoint x="256" y="170" />
+        <di:waypoint x="306" y="170" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-aktif-akhiri_di" bpmnElement="f-aktif-akhiri">
-        <di:waypoint x="196" y="70" />
-        <di:waypoint x="246" y="70" />
+        <di:waypoint x="356" y="170" />
+        <di:waypoint x="406" y="170" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="204" y="55" width="12" height="11" />
+          <dc:Bounds x="364" y="155" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-aktif-hapus_di" bpmnElement="f-aktif-hapus">
-        <di:waypoint x="171" y="45" />
-        <di:waypoint x="171" y="18" />
-        <di:waypoint x="446" y="18" />
-        <di:waypoint x="446" y="30" />
+        <di:waypoint x="331" y="145" />
+        <di:waypoint x="331" y="100" />
+        <di:waypoint x="606" y="100" />
+        <di:waypoint x="606" y="130" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="179" y="3" width="28" height="11" />
+          <dc:Bounds x="338" y="105" width="28" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-akhiri-hapus_di" bpmnElement="f-akhiri-hapus">
-        <di:waypoint x="346" y="78" />
-        <di:waypoint x="396" y="78" />
+        <di:waypoint x="506" y="178" />
+        <di:waypoint x="556" y="178" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-hapus-arah_di" bpmnElement="f-hapus-arah">
-        <di:waypoint x="496" y="70" />
-        <di:waypoint x="546" y="70" />
+        <di:waypoint x="656" y="170" />
+        <di:waypoint x="706" y="170" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="f-arah-selesai_di" bpmnElement="f-arah-selesai">
-        <di:waypoint x="646" y="70" />
-        <di:waypoint x="696" y="70" />
+        <di:waypoint x="806" y="170" />
+        <di:waypoint x="856" y="170" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

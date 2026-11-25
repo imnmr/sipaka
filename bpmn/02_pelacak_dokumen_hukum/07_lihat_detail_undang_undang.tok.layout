@@ -1,0 +1,59 @@
+tok-layout 1
+p 160 80 1150 370
+mulai 220 132 36 36
+mulai/label 209 102 57 27
+auth 306 110 100 80
+izin 456 125 50 50
+izin/label 436 111 90 14
+pisah 556 125 50 50
+meta 656 110 100 80
+status 656 240 100 80
+gabung 806 125 50 50
+tunggu 906 125 50 50
+unduh 1006 132 36 36
+unduh/label 973 103 102 27
+pdf 1092 110 100 80
+terunduh 1242 132 36 36
+terunduh/label 1237 173 46 27
+d_uu 855 185 50 50
+d_uu/label 843 240 74 27
+tutup 913 262 36 36
+tutup/label 946 260 67 40
+selesai 913 352 36 36
+selesai/label 881 394 99 27
+tolak 463 262 36 36
+tolak/label 419 266 40 27
+f-mulai-auth 256 150 306 150
+f-auth-izin 406 150 456 150
+f-izin-pisah 506 150 556 150
+f-izin-pisah/label 514 135 12 14
+f-izin-tolak 481 175 481 262
+f-izin-tolak/label 486 190 28 14
+f-pisah-meta 606 150 656 150
+f-pisah-status 606 150 631 150 631 280 656 280
+f-meta-gabung 756 150 806 150
+f-status-gabung 756 280 831 280 831 175
+f-gabung-tunggu 856 150 906 150
+f-tunggu-unduh 956 150 1006 150
+f-tunggu-tutup 931 175 931 262
+f-unduh-pdf 1042 150 1092 150
+f-pdf-terunduh 1192 150 1242 150
+f-tutup-selesai 931 298 931 352
+user 160 490 1150 70
+m-user-mulai 238 490 238 168
+m-user-mulai/label 240 306 96 27
+meta-dia-1 855 201 756 167
+m-meta-user 706 190 706 220 546 220 546 490
+m-meta-user/label 547 225 62 27
+status-dia-2 855 220 756 260
+m-status-user 706 320 706 490
+m-status-user/label 599 464 102 27
+m-user-unduh 1024 490 1024 168
+m-user-unduh/label 1025 317 71 27
+pdf-dia-3 905 204 1092 161
+m-pdf-user 1142 190 1142 490
+m-pdf-user/label 1053 471 84 14
+m-user-tutup 870 490 870 280 913 280
+m-user-tutup/label 781 469 84 14
+m-tolak-user 481 298 481 490
+m-tolak-user/label 402 471 74 14

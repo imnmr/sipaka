@@ -1,0 +1,45 @@
+tok-layout 1
+p 160 80 970 370
+mulai 220 132 36 36
+mulai/label 244 171 56 53
+auth 306 110 100 80
+izin 456 125 50 50
+izin/label 436 103 90 14
+aksi 556 125 50 50
+aksi/label 530 180 102 14
+tetapkan 656 110 100 80
+gabung 806 125 50 50
+sinkron 906 110 100 80
+selesai 1056 132 36 36
+selesai/label 1013 171 56 40
+d_sesi 931 255 50 50
+d_sesi/label 944 310 24 14
+tolak 463 272 36 36
+tolak/label 385 283 74 14
+d_peran 681 235 50 50
+d_peran/label 736 255 89 14
+cabut 656 330 100 80
+f-mulai-auth 256 150 306 150
+f-auth-izin 406 150 456 150
+f-izin-aksi 506 150 556 150
+f-izin-aksi/label 514 135 12 14
+f-izin-tolak 481 175 481 272
+f-izin-tolak/label 485 232 28 14
+f-aksi-tetapkan 606 150 656 150
+f-aksi-tetapkan/label 607 129 46 14
+f-aksi-cabut 606 150 631 150 631 370 656 370
+f-aksi-cabut/label 595 256 28 14
+f-tetapkan-gabung 756 150 806 150
+f-cabut-gabung 756 370 831 370 831 175
+f-gabung-sinkron 856 150 906 150
+f-sinkron-selesai 1006 150 1056 150
+admin 160 490 970 70
+m-admin-mulai 238 490 238 168
+m-admin-mulai/label 243 457 84 27
+tetapkan-doa-1 706 190 706 235
+sinkron-doa-3 956 190 956 255
+m-selesai-admin 1074 168 1074 490
+m-selesai-admin/label 985 458 84 27
+m-tolak-admin 481 308 481 490
+m-tolak-admin/label 486 387 74 14
+cabut-doa-2 706 330 706 285

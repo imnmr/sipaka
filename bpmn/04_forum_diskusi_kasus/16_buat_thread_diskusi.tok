@@ -1,11 +1,9 @@
-tok 1.0 "Buat Thread Diskusi (Forum Diskusi Kasus)"
+tok 0.5 "Buat Thread Diskusi (Forum Diskusi Kasus)"
 
 pool p "Buat Thread Diskusi" process=buat_thread_diskusi
-  store d_thread "Thread Diskusi"
   start mulai "Judul dan isi thread diterima" message="Judul dan isi thread"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
-  end tolak "Akses ditolak" message="Akses ditolak"
   service tipe "Pilih Tipe Thread"
   service kategori "Tetapkan Kategori Hukum"
   xor tautan "Menautkan UU?"
@@ -19,6 +17,8 @@ pool p "Buat Thread Diskusi" process=buat_thread_diskusi
   end selesai "Thread diterbitkan" message="Konfirmasi thread terbit"
   send pesan "Kirim pesan kesalahan isi thread" message="Pesan kesalahan isi thread"
   receive perbaiki "Terima isi thread yang diperbaiki" message="Isi thread diperbaiki"
+  end tolak "Akses ditolak" message="Akses ditolak"
+  store d_thread "Thread Diskusi"
 
 pool user "Pengguna"
 
@@ -28,17 +28,17 @@ flow izin -> tolak "tidak" default
 flow tipe -> kategori -> tautan
 flow tautan -> cari "ya" when="tautkanUU"
 flow tautan -> gabung "tidak" default
-flow cari -> tautkan -> gabung
-flow gabung -> valid -> ok
+flow cari -> tautkan -> gabung -> valid
+flow perbaiki -> valid -> ok
 flow ok -> simpan "ya" when="threadValid"
 flow ok -> pesan "tidak" default
-flow pesan -> perbaiki -> valid
 flow simpan -> poin -> selesai
-
-writes simpan d_thread
+flow pesan -> perbaiki
 
 message user -> mulai "Judul dan isi thread"
 message tolak -> user "Akses ditolak"
 message selesai -> user "Konfirmasi thread terbit"
 message pesan -> user "Pesan kesalahan isi thread"
 message user -> perbaiki "Isi thread diperbaiki"
+
+writes simpan d_thread

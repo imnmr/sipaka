@@ -1,19 +1,16 @@
-tok 1.0 "Kelola Glosarium (Glosarium Latin)"
+tok 0.1 "Kelola Glosarium (Glosarium Latin)"
 
 pool p "Kelola Glosarium" process=kelola_glosarium
-  store d_istilah "Istilah Latin"
   start mulai "Permintaan kelola glosarium diterima" message="Aksi dan data istilah glosarium"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
-  end tolak "Akses ditolak" message="Akses ditolak"
   xor aksi "Aksi glosarium?"
   service valid "Validasi data istilah (tidak duplikat, definisi terisi)"
   xor ok "Data istilah valid?"
+  end tolak "Akses ditolak" message="Akses ditolak"
+  send minta "Minta konfirmasi penghapusan istilah" message="Permintaan konfirmasi hapus"
   send pesan "Kirim pesan kesalahan data istilah" message="Pesan kesalahan data istilah"
   receive perbaiki "Terima data istilah yang diperbaiki" message="Data istilah diperbaiki"
-  service tambah "Tambah Istilah Glosarium"
-  service ubah "Ubah Istilah Glosarium"
-  send minta "Minta konfirmasi penghapusan istilah" message="Permintaan konfirmasi hapus"
   eventgw tunggu
   catch ya "Admin mengonfirmasi hapus" message="Konfirmasi hapus"
   catch tidak "Admin membatalkan hapus" message="Batal hapus"
@@ -21,6 +18,9 @@ pool p "Kelola Glosarium" process=kelola_glosarium
   xor gabung
   end selesai "Glosarium diperbarui" message="Konfirmasi glosarium diperbarui"
   end batal "Penghapusan dibatalkan"
+  service tambah "Tambah Istilah Glosarium"
+  service ubah "Ubah Istilah Glosarium"
+  store d_istilah "Istilah Latin"
 
 pool admin "Admin"
 
@@ -29,24 +29,19 @@ flow izin -> aksi "ya" when="aksesDiizinkan"
 flow izin -> tolak "tidak" default
 flow aksi -> valid "tambah atau ubah" when="aksi = \"tambah\" or aksi = \"ubah\""
 flow aksi -> minta "hapus" default
-flow valid -> ok
+flow perbaiki -> valid -> ok
 flow ok -> tambah "ya, tambah" when="aksi = \"tambah\""
 flow ok -> ubah "ya, ubah" when="aksi = \"ubah\""
 flow ok -> pesan "tidak" default
-flow pesan -> perbaiki -> valid
 flow minta -> tunggu
+flow pesan -> perbaiki
 flow tunggu -> ya
 flow tunggu -> tidak
-flow ya -> hapus -> gabung
+flow ya -> hapus
 flow tidak -> batal
+flow hapus -> gabung
 flow tambah -> gabung
-flow ubah -> gabung
-flow gabung -> selesai
-
-reads valid d_istilah
-writes tambah d_istilah
-writes ubah d_istilah
-writes hapus d_istilah
+flow ubah -> gabung -> selesai
 
 message admin -> mulai "Aksi dan data istilah glosarium"
 message tolak -> admin "Akses ditolak"
@@ -56,3 +51,8 @@ message minta -> admin "Permintaan konfirmasi hapus"
 message admin -> ya "Konfirmasi hapus"
 message admin -> tidak "Batal hapus"
 message selesai -> admin "Konfirmasi glosarium diperbarui"
+
+reads valid d_istilah
+writes tambah d_istilah
+writes ubah d_istilah
+writes hapus d_istilah

@@ -1,0 +1,22 @@
+tok-layout 1
+p 160 80 660 240
+mulai 230 132 36 36
+mulai/label 194 102 108 27
+selesai 716 132 36 36
+selesai/label 683 173 102 27
+ada 466 125 50 50
+ada/label 443 95 95 27
+pindai 316 110 100 80
+sorot 566 110 100 80
+nihil 598 242 36 36
+nihil/label 568 283 96 27
+d_istilah 341 235 50 50
+d_istilah/label 329 290 74 14
+f-ada-nihil 491 175 491 260 598 260
+f-ada-nihil/label 499 245 28 14
+f-mulai-pindai 266 150 316 150
+f-pindai-ada 416 150 466 150
+f-ada-sorot 516 150 566 150
+f-ada-sorot/label 524 135 12 14
+f-sorot-selesai 666 150 716 150
+pindai-dia-1 366 235 366 190

@@ -1,39 +1,35 @@
-tok 1.0 "Cari Undang-Undang (Pelacak Dokumen Hukum)"
+tok 0.5 "Cari Undang-Undang (Pelacak Dokumen Hukum)"
 
 pool p "Cari Undang-Undang" process=cari_undang_undang
-  store d_uu "Undang-Undang"
   start mulai "Kueri pencarian diterima" message="Kueri dan parameter pencarian"
   call auth "Otorisasi Akses" process=otorisasi_akses
   xor izin "Akses diizinkan?"
-  end tolak "Akses ditolak" message="Akses ditolak"
   service urai "Urai Kueri Pencarian"
   service filter "Terapkan Filter Pencarian"
   service urut "Urutkan Hasil Pencarian"
   xor ada "Ada hasil yang cocok?"
+  end tolak "Akses ditolak" message="Akses ditolak"
+  send nihil "Tampilkan pesan hasil tidak ditemukan" message="Pesan hasil tidak ditemukan"
   send tampil "Tampilkan Hasil Pencarian" message="Daftar hasil pencarian"
   end dipilih "Hasil pencarian terkirim"
-  send nihil "Tampilkan pesan hasil tidak ditemukan" message="Pesan hasil tidak ditemukan"
+  catch tutup "Pengguna menutup pencarian" message="Tutup pencarian"
   eventgw tunggu
   catch ubah "Pengguna mengubah kueri" message="Kueri pencarian baru"
-  catch tutup "Pengguna menutup pencarian" message="Tutup pencarian"
   end kosong "Pencarian selesai tanpa hasil"
+  store d_uu "Undang-Undang"
 
 pool user "Pengguna"
 
 flow mulai -> auth -> izin
 flow izin -> urai "ya" when="aksesDiizinkan"
 flow izin -> tolak "tidak" default
-flow urai -> filter -> urut -> ada
+flow ubah -> urai -> filter -> urut -> ada
 flow ada -> tampil "ya" when="jumlahHasil > 0"
 flow ada -> nihil "tidak" default
-flow tampil -> dipilih
 flow nihil -> tunggu
+flow tampil -> dipilih
+flow tunggu -> tutup -> kosong
 flow tunggu -> ubah
-flow tunggu -> tutup
-flow ubah -> urai
-flow tutup -> kosong
-
-reads filter d_uu
 
 message user -> mulai "Kueri dan parameter pencarian"
 message tolak -> user "Akses ditolak"
@@ -41,3 +37,5 @@ message tampil -> user "Daftar hasil pencarian"
 message nihil -> user "Pesan hasil tidak ditemukan"
 message user -> ubah "Kueri pencarian baru"
 message user -> tutup "Tutup pencarian"
+
+reads filter d_uu
