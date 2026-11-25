@@ -42,7 +42,9 @@
 #show heading.where(level: 1): set block(above: 1.5em, below: 1em)
 #show heading.where(level: 1): set text(size: 16pt)
 #show heading.where(level: 1): it => {
-  counter(figure).update(0)
+  for kind in query(figure).map(f => f.kind).dedup() {
+    counter(figure.where(kind: kind)).update(0)
+  }
   it
 }
 
@@ -50,7 +52,7 @@
   gap: 1em,
   numbering: (..nums) => {
     let h = counter(heading).get().first()
-    numbering("1.1", h, ..nums.pos())
+    numbering("1.1", h, ..nums)
   }
 )
 #show figure.caption: it => [
@@ -245,41 +247,321 @@ Berikut merupakan keterangan dari tanda visual pada setiap elemen yang digunakan
 #pagebreak()
 
 #page(flipped: true)[
-  = _Business Process Model and Notation_ (BPMN)
+  #set figure(gap: 0em)
 
-  TODO
+  = _Business Process Model and Notation_ (BPMN)
 
   == Kelola Akun & Akses
 
-  TODO
+  === Daftarkan Akun
+
+  #figure(
+    image("bpmn/01_kelola_akun_akses/01_daftarkan_akun.svg"),
+    caption: [Alur BPMN untuk proses _Daftarkan Akun_.],
+    supplement: "Gambar",
+  )
+
+  === Masuk
+
+  #figure(
+    image("bpmn/01_kelola_akun_akses/02_masuk.svg"),
+    caption: [Alur BPMN untuk proses _Masuk_.],
+    supplement: "Gambar",
+  )
+
+  === Keluar
+
+  #figure(
+    image("bpmn/01_kelola_akun_akses/03_keluar.svg"),
+    caption: [Alur BPMN untuk proses _Keluar_.],
+    supplement: "Gambar",
+  )
+
+  === Otorisasi Akses
+
+  #figure(
+    image("bpmn/01_kelola_akun_akses/04_otorisasi_akses.svg"),
+    caption: [Alur BPMN untuk proses _Otorisasi Akses_.],
+    supplement: "Gambar",
+  )
+
+  === Kelola Peran Pengguna
+
+  #figure(
+    image("bpmn/01_kelola_akun_akses/05_kelola_peran_pengguna.svg"),
+    caption: [Alur BPMN untuk proses _Kelola Peran Pengguna_.],
+    supplement: "Gambar",
+  )
 
   == Pelacak Dokumen Hukum
 
-  TODO
+  === Cari Undang-Undang
+
+  #figure(
+    image("bpmn/02_pelacak_dokumen_hukum/06_cari_undang_undang.svg"),
+    caption: [Alur BPMN untuk proses _Cari Undang-Undang_.],
+    supplement: "Gambar",
+  )
+
+  === Lihat Detail Undang-Undang
+
+  #figure(
+    image("bpmn/02_pelacak_dokumen_hukum/07_lihat_detail_undang_undang.svg"),
+    caption: [Alur BPMN untuk proses _Lihat Detail Undang-Undang_.],
+    supplement: "Gambar",
+  )
+
+  === Baca Teks Undang-Undang
+
+  #figure(
+    image("bpmn/02_pelacak_dokumen_hukum/08_baca_teks_undang_undang.svg"),
+    caption: [Alur BPMN untuk proses _Baca Teks Undang-Undang_.],
+    supplement: "Gambar",
+  )
+
+  === Lacak Amandemen
+
+  #figure(
+    image("bpmn/02_pelacak_dokumen_hukum/09_lacak_amandemen.svg"),
+    caption: [Alur BPMN untuk proses _Lacak Amandemen_.],
+    supplement: "Gambar",
+  )
+
+  === Anotasi Teks Undang-Undang
+
+  #figure(
+    image("bpmn/02_pelacak_dokumen_hukum/10_anotasi_teks_undang_undang.svg"),
+    caption: [Alur BPMN untuk proses _Anotasi Teks Undang-Undang_.],
+    supplement: "Gambar",
+  )
 
   == Kelola Konten Hukum
 
-  TODO
+  === Impor Dokumen UU
+
+  #figure(
+    image("bpmn/03_kelola_konten_hukum/11_impor_dokumen_uu.svg"),
+    caption: [Alur BPMN untuk proses _Impor Dokumen UU_.],
+    supplement: "Gambar",
+  )
+
+  === Daftarkan Amandemen
+
+  #figure(
+    image("bpmn/03_kelola_konten_hukum/12_daftarkan_amandemen.svg"),
+    caption: [Alur BPMN untuk proses _Daftarkan Amandemen_.],
+    supplement: "Gambar",
+  )
+
+  === Ubah Metadata UU
+
+  #figure(
+    image("bpmn/03_kelola_konten_hukum/13_ubah_metadata_uu.svg"),
+    caption: [Alur BPMN untuk proses _Ubah Metadata UU_.],
+    supplement: "Gambar",
+  )
+
+  === Hapus Dokumen UU
+
+  #figure(
+    image("bpmn/03_kelola_konten_hukum/14_hapus_dokumen_uu.svg"),
+    caption: [Alur BPMN untuk proses _Hapus Dokumen UU_.],
+    supplement: "Gambar",
+  )
 
   == Forum Diskusi Kasus
 
-  TODO
+  === Jelajahi Diskusi
+
+  #figure(
+    image("bpmn/04_forum_diskusi_kasus/15_jelajahi_diskusi.svg"),
+    caption: [Alur BPMN untuk proses _Jelajahi Diskusi_.],
+    supplement: "Gambar",
+  )
+
+  === Buat _Thread_ Diskusi
+
+  #figure(
+    image("bpmn/04_forum_diskusi_kasus/16_buat_thread_diskusi.svg"),
+    caption: [Alur BPMN untuk proses _Buat _Thread_ Diskusi_.],
+    supplement: "Gambar",
+  )
+
+  === Lihat _Thread_ Diskusi
+
+  #figure(
+    image("bpmn/04_forum_diskusi_kasus/17_lihat_thread_diskusi.svg"),
+    caption: [Alur BPMN untuk proses _Lihat _Thread_ Diskusi_.],
+    supplement: "Gambar",
+  )
+
+  === Kirim Komentar
+
+  #figure(
+    image("bpmn/04_forum_diskusi_kasus/18_kirim_komentar.svg"),
+    caption: [Alur BPMN untuk proses _Kirim Komentar_.],
+    supplement: "Gambar",
+  )
+
+  === Upvote Komentar
+
+  #figure(
+    image("bpmn/04_forum_diskusi_kasus/19_upvote_komentar.svg"),
+    caption: [Alur BPMN untuk proses _Upvote Komentar_.],
+    supplement: "Gambar",
+  )
+
+  === Verifikasi Argumen
+
+  #figure(
+    image("bpmn/04_forum_diskusi_kasus/20_verifikasi_argumen.svg"),
+    caption: [Alur BPMN untuk proses _Verifikasi Argumen_.],
+    supplement: "Gambar",
+  )
+
+  === Moderasi Konten
+
+  #figure(
+    image("bpmn/04_forum_diskusi_kasus/21_moderasi_konten.svg"),
+    caption: [Alur BPMN untuk proses _Moderasi Konten_.],
+    supplement: "Gambar",
+  )
 
   == Kelola Profil
 
-  TODO
+  === Lihat Profil
+
+  #figure(
+    image("bpmn/05_kelola_profil/22_lihat_profil.svg"),
+    caption: [Alur BPMN untuk proses _Lihat Profil_.],
+    supplement: "Gambar",
+  )
+
+  === Ubah Profil
+
+  #figure(
+    image("bpmn/05_kelola_profil/23_ubah_profil.svg"),
+    caption: [Alur BPMN untuk proses _Ubah Profil_.],
+    supplement: "Gambar",
+  )
+
+  === Kelola Reputasi
+
+  #figure(
+    image("bpmn/05_kelola_profil/24_kelola_reputasi.svg"),
+    caption: [Alur BPMN untuk proses _Kelola Reputasi_.],
+    supplement: "Gambar",
+  )
 
   == Kelola Repositori
 
-  TODO
+  === Tambah Entri Repositori
+
+  #figure(
+    image("bpmn/06_kelola_repositori/25_tambah_entri_repositori.svg"),
+    caption: [Alur BPMN untuk proses _Tambah Entri Repositori_.],
+    supplement: "Gambar",
+  )
+
+  === Jelajahi Repositori
+
+  #figure(
+    image("bpmn/06_kelola_repositori/26_jelajahi_repositori.svg"),
+    caption: [Alur BPMN untuk proses _Jelajahi Repositori_.],
+    supplement: "Gambar",
+  )
+
+  === Ubah Entri Repositori
+
+  #figure(
+    image("bpmn/06_kelola_repositori/27_ubah_entri_repositori.svg"),
+    caption: [Alur BPMN untuk proses _Ubah Entri Repositori_.],
+    supplement: "Gambar",
+  )
+
+  === Hapus Entri Repositori
+
+  #figure(
+    image("bpmn/06_kelola_repositori/28_hapus_entri_repositori.svg"),
+    caption: [Alur BPMN untuk proses _Hapus Entri Repositori_.],
+    supplement: "Gambar",
+  )
+
+  === Atur Visibilitas Entri
+
+  #figure(
+    image("bpmn/06_kelola_repositori/29_atur_visibilitas_entri.svg"),
+    caption: [Alur BPMN untuk proses _Atur Visibilitas Entri_.],
+    supplement: "Gambar",
+  )
 
   == Glosarium Latin
 
-  TODO
+  === Deteksi Istilah Latin
+
+  #figure(
+    image("bpmn/07_glosarium_latin/30_deteksi_istilah_latin.svg"),
+    caption: [Alur BPMN untuk proses _Deteksi Istilah Latin_.],
+    supplement: "Gambar",
+  )
+
+  === Tampilkan Popup Istilah
+
+  #figure(
+    image("bpmn/07_glosarium_latin/31_tampilkan_popup_istilah.svg"),
+    caption: [Alur BPMN untuk proses _Tampilkan Popup Istilah_.],
+    supplement: "Gambar",
+  )
+
+  === Kelola Glosarium
+
+  #figure(
+    image("bpmn/07_glosarium_latin/32_kelola_glosarium.svg"),
+    caption: [Alur BPMN untuk proses _Kelola Glosarium_.],
+    supplement: "Gambar",
+  )
 
   == Asisten Riset AI
 
-  TODO
+  === Tangani Permintaan AI
+
+  #figure(
+    image("bpmn/08_asisten_riset_ai/33_tangani_permintaan_ai.svg"),
+    caption: [Alur BPMN untuk proses _Tangani Permintaan AI_.],
+    supplement: "Gambar",
+  )
+
+  === Jelaskan Undang-Undang
+
+  #figure(
+    image("bpmn/08_asisten_riset_ai/34_jelaskan_undang_undang.svg"),
+    caption: [Alur BPMN untuk proses _Jelaskan Undang-Undang_.],
+    supplement: "Gambar",
+  )
+
+  === Cari Dengan AI
+
+  #figure(
+    image("bpmn/08_asisten_riset_ai/35_cari_dengan_ai.svg"),
+    caption: [Alur BPMN untuk proses _Cari Dengan AI_.],
+    supplement: "Gambar",
+  )
+
+  === Temukan Kasus Serupa
+
+  #figure(
+    image("bpmn/08_asisten_riset_ai/36_temukan_kasus_serupa.svg"),
+    caption: [Alur BPMN untuk proses _Temukan Kasus Serupa_.],
+    supplement: "Gambar",
+  )
+
+  === Laporkan Jawaban AI Keliru
+
+  #figure(
+    image("bpmn/08_asisten_riset_ai/37_laporkan_jawaban_ai_keliru.svg"),
+    caption: [Alur BPMN untuk proses _Laporkan Jawaban AI Keliru_.],
+    supplement: "Gambar",
+  )
 ]
 
 = Skenario _Testing_
